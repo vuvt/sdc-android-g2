@@ -38,7 +38,7 @@ public class SplashActivity extends BaseActivity {
 			Intent intent = new Intent();
 			if (sharedPreferencesHelper.isFirstUse()) {
 				intent.setClass(SplashActivity.this, FirstUseActivity.class);
-				sharedPreferencesHelper.setFirstUse(false);
+				//sharedPreferencesHelper.setFirstUse(false);
 			} else {
 				intent.setClass(SplashActivity.this, MainActivity.class);
 			}
