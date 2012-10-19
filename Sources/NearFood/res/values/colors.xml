@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- title bar start -->
+    <color name="titlebar_background">#1491D4</color>
+    <color name="titlebar_text">#ffffffff</color>
+    <color name="titlebar_separator">#40ffffff</color>
+    <!-- title bar end -->
+
+
+    <!-- menu start -->
+    <color name="menu_item_background_default">#1491D4</color>
+    <color name="menu_item_background_pressed">#E26011</color>
+    <!-- menu end -->
+
+</resources>

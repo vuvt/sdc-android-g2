@@ -1,0 +1,25 @@
+<resources>
+
+    <string name="app_name">NearFood</string>
+
+    <!-- FirstUseActivity -->
+    <string name="activity_firstuse_title">NearFood</string>
+    <string name="activity_firstuse_button_register">Create New Account</string>
+    <string name="activity_firstuse_button_notnow">Not Now</string>
+
+    <!-- SearchActivity -->
+    <string name="activity_search_title">Search</string>
+
+    <!-- CheckInActivity -->
+    <string name="activity_checkin_title">Check In</string>
+
+    <!-- FavoritesActivity -->
+    <string name="activity_favorites_title">Favorites</string>
+
+    <!-- SettingsActivity -->
+    <string name="activity_settings_title">Settings</string>
+
+    <!-- RegisterActivity -->
+    <string name="activity_register_title">Create New Account</string>
+
+</resources>

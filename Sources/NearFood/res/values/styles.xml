@@ -1,0 +1,97 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme is the default theme. -->
+    <style name="Theme" parent="android:Theme"></style>
+
+    <!-- Variation on the Light theme that turns off the title -->
+    <style name="Theme.Basic" parent="android:style/Theme.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+    <!-- TitleBar style -->
+    <style name="TitleBar">
+        <item name="android:id">@id/titlebar_container</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/titlebar_height</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@color/titlebar_background</item>
+    </style>
+
+    <style name="TitleBarAction">
+        <item name="android:layout_width">@dimen/titlebar_height</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="TitleBarSeparator">
+        <item name="android:layout_width">1px</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/titlebar_separator</item>
+    </style>
+
+    <style name="TitleBarLogo">
+        <item name="android:id">@id/titlebar_logo</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="TitleBarBack">
+        <item name="android:id">@id/titlebar_back</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingLeft">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+        <item name="android:src">@drawable/titlebar_back</item>
+    </style>
+
+    <style name="TitleBarSpring">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="TitleBarText">
+        <item name="android:id">@id/titlebar_text</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingRight">12dip</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/titlebar_text</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Body">
+        <item name="android:id">@id/content_body</item>
+        <item name="android:layout_below">@id/titlebar_container</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:padding">@dimen/body_padding</item>
+        <item name="android:layout_alignParentBottom">true</item>
+    </style>
+
+    <style name="BlueButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+        <item name="android:background">@drawable/button_background</item>
+    </style>
+
+</resources>

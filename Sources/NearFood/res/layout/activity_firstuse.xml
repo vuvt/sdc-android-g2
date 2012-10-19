@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout style="@style/TitleBar" >
+
+        <ImageView
+            style="@style/TitleBarLogo"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/titlebar_logo" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_firstuse_title" />
+    </LinearLayout>
+
+    <RelativeLayout style="@style/Body" >
+
+        <Button
+            android:id="@+id/btnRegister"
+            style="@style/BlueButton"
+            android:layout_centerInParent="true"
+            android:onClick="onClickRegister"
+            android:text="@string/activity_firstuse_button_register" />
+
+        <Button
+            android:id="@+id/btnNotNow"
+            style="@style/BlueButton"
+            android:layout_above="@id/btnRegister"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:onClick="onClickNotNow"
+            android:text="@string/activity_firstuse_button_notnow" />
+    </RelativeLayout>
+
+</RelativeLayout>

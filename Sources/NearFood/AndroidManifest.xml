@@ -1,0 +1,68 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nikmesoft.android.nearfood"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:maxSdkVersion="16"
+        android:minSdkVersion="13"
+        android:targetSdkVersion="15" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Basic" >
+        <activity
+            android:name=".activities.SplashActivity"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.FavoritesActivity"
+            android:label="@string/activity_favorites_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.FirstUseActivity"
+            android:label="@string/activity_firstuse_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.SearchActivity"
+            android:label="@string/activity_search_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.CheckInActivity"
+            android:label="@string/activity_checkin_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:label="@string/activity_settings_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:label="@string/activity_register_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+    </application>
+
+</manifest>
