@@ -2,9 +2,9 @@
 <resources>
 
     <!-- title bar start -->
-    <color name="titlebar_background">#1491D4</color>
+    <color name="titlebar_background">#49051c</color>
     <color name="titlebar_text">#ffffffff</color>
-    <color name="titlebar_separator">#40ffffff</color>
+    <color name="titlebar_separator">#2a0411</color>
     <!-- title bar end -->
 
 

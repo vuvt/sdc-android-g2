@@ -15,7 +15,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/titlebar_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/titlebar_background</item>
+        <item name="android:background">@drawable/titlebar_bg</item>
     </style>
 
     <style name="TitleBarAction">
@@ -91,7 +91,7 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">2</item>
-        <item name="android:background">@drawable/button_background</item>
+        <item name="android:background">@drawable/button_bg</item>
     </style>
 
 </resources>
