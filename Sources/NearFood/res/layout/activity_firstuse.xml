@@ -39,16 +39,6 @@
             android:onClick="onClickNotNow"
             android:text="@string/activity_firstuse_button_notnow" />
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="88dp"
-            android:text="TextView neu nguoi ay yeu em khong nhu anh da tung yeu ta xay lai tin tye moi chung ta co cu to"
-            android:textSize="13dp" />
-
     </RelativeLayout>
 
 </RelativeLayout>
