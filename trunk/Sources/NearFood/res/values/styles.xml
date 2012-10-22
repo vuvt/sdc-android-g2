@@ -15,7 +15,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/titlebar_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/titlebar_bg</item>
+        <item name="android:background">@drawable/title_bar</item><!-- titlebar_bg -->
     </style>
 
     <style name="TitleBarAction">
