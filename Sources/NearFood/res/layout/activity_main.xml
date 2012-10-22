@@ -2,7 +2,8 @@
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/background" >
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -14,7 +15,16 @@
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1" >
+
+            
+
         </FrameLayout>
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView long chua xot thay nhung tiec nuoi ngay qua biet tin dau"
+                android:textSize="13dp" />
 
         <TabWidget
             android:id="@android:id/tabs"
