@@ -1,11 +1,25 @@
 <resources>
 
-    <string name="app_name">NearFood</string>
+    <string name="app_name">SFood</string>
 
     <!-- FirstUseActivity -->
-    <string name="activity_firstuse_title">NearFood</string>
+    <string name="activity_firstuse_title">SFood</string>
     <string name="activity_firstuse_button_register">Create New Account</string>
     <string name="activity_firstuse_button_notnow">Not Now</string>
+    <string name="activity_firstuse_tvWelcome">Welcome to SFood</string>
+    <string name="activity_firstuse_tvTitle">Register to use the advanced futures of the system! Do you want register an account now?</string>
+    <string name="activity_register_tvTitle">Register to use the advanced futures of the system</string>
+    <string name="activity_register_edtFullName">Enter your full name &#8230;</string>
+    <string name="activity_register_edtEmail">Enter your email &#8230;</string>
+    <string name="activity_register_edtPassword">Enter your password &#8230;</string>
+    <string name="activity_register_edtConfirmPassword">Confirm password &#8230;</string>
+    <string name="activity_register_tvBirthDay">Birthday</string>
+    <string name="activity_register_edtBirthDay">Day / Month / Year</string>
+    <string name="activity_register_tvGender">Gender</string>
+    <string name="activity_register_rbMale">Male</string>
+    <string name="activity_register_rbFemale">Female</string>
+    <string name="activity_register_btnRegister">Register</string>
+    <string name="activity_register_btnReset">Reset</string>
 
     <!-- SearchActivity -->
     <string name="activity_search_title">Search</string>
