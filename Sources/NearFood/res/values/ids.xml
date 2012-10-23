@@ -8,5 +8,21 @@
     <item name="content_body" type="id"/>
     <item name="pattern_layout" type="id"/>
     <item name="bottom_bar" type="id"/>
+    <item name="titlebar_login" type="id"/>
+
+    <!-- SearchActivity -->
+    <item name="btnFilter" type="id"/>
+    <item name="btnListMap" type="id"/>
+    <item name="edSearch" type="id"/>
+    <item name="img_item_Search" type="id"/>
+    <item name="namePlace_item_Search" type="id"/>
+    <item name="address_item_Search" type="id"/>
+    <item name="distance_item_Search" type="id"/>
+    <item name="content_item_Search" type="id"/>
+    <item name="like_item_Search" type="id"/>
+    <item name="number_like_Search" type="id"/>
+    <item name="titlebar_facebook" type="id"/>
+    <item name="titlebar_like" type="id"/>
+    <item name="titlebar_favorite" type="id"/>
 
 </resources>

@@ -15,7 +15,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/titlebar_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/title_bar</item><!-- titlebar_bg -->
+        <item name="android:background">@drawable/title_bar</item>
+        <!-- titlebar_bg -->
     </style>
 
     <style name="TitleBarAction">
@@ -47,6 +48,52 @@
         <item name="android:paddingLeft">5dip</item>
         <item name="android:paddingRight">5dip</item>
         <item name="android:src">@drawable/titlebar_back</item>
+    </style>
+
+    <style name="TitleBarFacebook">
+        <item name="android:id">@id/titlebar_facebook</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingLeft">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+        <item name="android:src">@drawable/ic_facebook_normal</item>
+    </style>
+
+    <style name="TitleBarFavorite">
+        <item name="android:id">@id/titlebar_favorite</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingLeft">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+        <item name="android:src">@drawable/ic_facebook_normal</item>
+    </style>
+
+    <style name="TitleBarLike">
+        <item name="android:id">@id/titlebar_like</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingLeft">5dip</item>
+        <item name="android:paddingRight">5dip</item>
+        <item name="android:src">@drawable/ic_facebook_normal</item>
+    </style>
+
+    <style name="TitleBarLogin">
+        <item name="android:id">@id/titlebar_login</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 
     <style name="TitleBarSpring">
@@ -93,5 +140,52 @@
         <item name="android:shadowRadius">2</item>
         <item name="android:background">@drawable/button_bg</item>
     </style>
+
+    <style name="SearchButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/button_bg</item>
+    </style>
+
+    <style name="SearchEditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">50dip</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginRight">3dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
+    </style>
+
+    <style name="Place_Name_Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#4169E1</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Address_Distance_Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dip</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+
 
 </resources>
