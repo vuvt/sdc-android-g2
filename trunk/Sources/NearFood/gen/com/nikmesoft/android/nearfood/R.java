@@ -8,6 +8,9 @@
 package com.nikmesoft.android.nearfood;
 
 public final class R {
+    public static final class array {
+        public static final int distance_array=0x7f080000;
+    }
     public static final class attr {
     }
     public static final class color {
@@ -23,6 +26,7 @@ public final class R {
         public static final int titlebar_text=0x7f040001;
     }
     public static final class dimen {
+        public static final int body_layout_margin=0x7f050005;
         /**  title bar end 
          */
         public static final int body_padding=0x7f050001;
@@ -34,56 +38,107 @@ public final class R {
         public static final int titlebar_height=0x7f050000;
     }
     public static final class drawable {
-        public static final int button_bg=0x7f020000;
-        public static final int ic_about=0x7f020001;
-        public static final int ic_action_search=0x7f020002;
-        public static final int ic_change_password=0x7f020003;
-        public static final int ic_facebook=0x7f020004;
-        public static final int ic_facebook_normal=0x7f020005;
-        public static final int ic_facebook_pressed=0x7f020006;
-        public static final int ic_feedback=0x7f020007;
-        public static final int ic_help=0x7f020008;
-        public static final int ic_launcher=0x7f020009;
-        public static final int ic_login=0x7f02000a;
-        public static final int ic_logout=0x7f02000b;
-        public static final int ic_profile=0x7f02000c;
-        public static final int ic_register=0x7f02000d;
-        public static final int ic_tab_checkin=0x7f02000e;
-        public static final int ic_tab_favorites=0x7f02000f;
-        public static final int ic_tab_search=0x7f020010;
-        public static final int ic_tab_settings=0x7f020011;
-        public static final int ic_twitter=0x7f020012;
-        public static final int ic_twitter_normal=0x7f020013;
-        public static final int ic_twitter_pressed=0x7f020014;
-        public static final int logo=0x7f020015;
-        public static final int splash=0x7f020016;
-        public static final int tab_focus=0x7f020017;
-        public static final int tab_normal=0x7f020018;
-        public static final int tab_selector=0x7f020019;
-        public static final int titlebar_back=0x7f02001a;
-        public static final int titlebar_back_default=0x7f02001b;
-        public static final int titlebar_back_pressed=0x7f02001c;
-        public static final int titlebar_bg=0x7f02001d;
-        public static final int titlebar_logo=0x7f02001e;
+        public static final int background=0x7f020000;
+        public static final int background1=0x7f020001;
+        public static final int becgorao=0x7f020002;
+        public static final int bg_bitmap=0x7f020003;
+        public static final int button_bg=0x7f020004;
+        public static final int button_list=0x7f020005;
+        public static final int button_map=0x7f020006;
+        public static final int frame_search_background=0x7f020007;
+        public static final int ic_about=0x7f020008;
+        public static final int ic_action_search=0x7f020009;
+        public static final int ic_change_password=0x7f02000a;
+        public static final int ic_facebook=0x7f02000b;
+        public static final int ic_facebook_normal=0x7f02000c;
+        public static final int ic_facebook_pressed=0x7f02000d;
+        public static final int ic_feedback=0x7f02000e;
+        public static final int ic_help=0x7f02000f;
+        public static final int ic_launcher=0x7f020010;
+        public static final int ic_like_normal=0x7f020011;
+        public static final int ic_like_pressed=0x7f020012;
+        public static final int ic_list_normal=0x7f020013;
+        public static final int ic_list_pressed=0x7f020014;
+        public static final int ic_login=0x7f020015;
+        public static final int ic_logout=0x7f020016;
+        public static final int ic_map_normal=0x7f020017;
+        public static final int ic_map_pressed=0x7f020018;
+        public static final int ic_profile=0x7f020019;
+        public static final int ic_register=0x7f02001a;
+        public static final int ic_search=0x7f02001b;
+        public static final int ic_search_normal=0x7f02001c;
+        public static final int ic_search_pressed=0x7f02001d;
+        public static final int ic_tab_checkin=0x7f02001e;
+        public static final int ic_tab_favorites=0x7f02001f;
+        public static final int ic_tab_search=0x7f020020;
+        public static final int ic_tab_settings=0x7f020021;
+        public static final int ic_twitter=0x7f020022;
+        public static final int ic_twitter_normal=0x7f020023;
+        public static final int ic_twitter_pressed=0x7f020024;
+        public static final int logo=0x7f020025;
+        public static final int splash=0x7f020026;
+        public static final int tab_focus=0x7f020027;
+        public static final int tab_normal=0x7f020028;
+        public static final int tab_selector=0x7f020029;
+        public static final int title_bar=0x7f02002a;
+        public static final int titlebar_back=0x7f02002b;
+        public static final int titlebar_back_default=0x7f02002c;
+        public static final int titlebar_back_pressed=0x7f02002d;
+        public static final int titlebar_bg=0x7f02002e;
+        public static final int titlebar_logo=0x7f02002f;
     }
     public static final class id {
+        public static final int address_item_Search=0x7f06000d;
         public static final int bottom_bar=0x7f060006;
-        public static final int bt_checkin=0x7f06000c;
-        public static final int bt_share_facebook=0x7f06000a;
-        public static final int bt_share_twitter=0x7f06000b;
-        public static final int btnNotNow=0x7f06000f;
-        public static final int btnRegister=0x7f06000e;
+        public static final int bt_checkin=0x7f060019;
+        public static final int bt_filter=0x7f06001d;
+        public static final int bt_listmap=0x7f06001e;
+        public static final int bt_search=0x7f060017;
+        public static final int bt_share_facebook=0x7f060024;
+        public static final int bt_share_twitter=0x7f060025;
+        /**  SearchActivity 
+         */
+        public static final int btnFilter=0x7f060008;
+        public static final int btnListMap=0x7f060009;
+        public static final int btnNotNow=0x7f06001b;
+        public static final int btnRegister=0x7f06001a;
+        public static final int check_dishes=0x7f06002e;
+        public static final int check_distance=0x7f060029;
+        public static final int check_location=0x7f06002c;
+        public static final int check_place=0x7f06002d;
         public static final int content_body=0x7f060004;
-        public static final int edt_description=0x7f060009;
-        public static final int icon=0x7f060010;
-        public static final int imageView1=0x7f06000d;
+        public static final int content_item_Search=0x7f06000f;
+        public static final int details=0x7f06001f;
+        public static final int distance_item_Search=0x7f06000e;
+        public static final int edSearch=0x7f06000a;
+        public static final int ed_distance=0x7f06002a;
+        public static final int edt_description=0x7f060023;
+        public static final int edt_search=0x7f060016;
+        public static final int frame_search=0x7f060015;
+        public static final int icon=0x7f06002f;
+        public static final int image_checkin=0x7f060026;
+        public static final int img_item_Search=0x7f06000b;
+        public static final int layout_search=0x7f06001c;
+        public static final int like_item_Search=0x7f060010;
+        public static final int list=0x7f060028;
+        public static final int lvSearch=0x7f060020;
+        public static final int mapView=0x7f060018;
+        public static final int menu_settings=0x7f060030;
+        public static final int namePlace_item_Search=0x7f06000c;
+        public static final int number_like_Search=0x7f060011;
         public static final int pattern_layout=0x7f060005;
+        public static final int spinner=0x7f06002b;
         public static final int titlebar_back=0x7f060002;
         public static final int titlebar_container=0x7f060000;
+        public static final int titlebar_facebook=0x7f060012;
+        public static final int titlebar_favorite=0x7f060014;
+        public static final int titlebar_like=0x7f060013;
+        public static final int titlebar_login=0x7f060007;
         public static final int titlebar_logo=0x7f060001;
         public static final int titlebar_text=0x7f060003;
-        public static final int tv_place_address=0x7f060008;
-        public static final int tv_place_name=0x7f060007;
+        public static final int tv_place_address=0x7f060022;
+        public static final int tv_place_name=0x7f060021;
+        public static final int view_galery=0x7f060027;
     }
     public static final class layout {
         public static final int activity_checkin=0x7f030000;
@@ -92,17 +147,25 @@ public final class R {
         public static final int activity_main=0x7f030003;
         public static final int activity_register=0x7f030004;
         public static final int activity_search=0x7f030005;
-        public static final int activity_settings=0x7f030006;
-        public static final int activity_splash=0x7f030007;
-        public static final int tab_item=0x7f030008;
+        public static final int activity_search_item=0x7f030006;
+        public static final int activity_settings=0x7f030007;
+        public static final int activity_splash=0x7f030008;
+        public static final int activity_start_checkin=0x7f030009;
+        public static final int activity_view_checkin=0x7f03000a;
+        public static final int list_item_search=0x7f03000b;
+        public static final int menu_filter=0x7f03000c;
+        public static final int tab_item=0x7f03000d;
+    }
+    public static final class menu {
+        public static final int activity_search_item=0x7f0a0000;
     }
     public static final class string {
         /**  CheckInActivity 
          */
-        public static final int activity_checkin_title=0x7f070005;
+        public static final int activity_checkin_title=0x7f070008;
         /**  FavoritesActivity 
          */
-        public static final int activity_favorites_title=0x7f070006;
+        public static final int activity_favorites_title=0x7f070009;
         public static final int activity_firstuse_button_notnow=0x7f070003;
         public static final int activity_firstuse_button_register=0x7f070002;
         /**  FirstUseActivity 
@@ -110,32 +173,48 @@ public final class R {
         public static final int activity_firstuse_title=0x7f070001;
         /**  RegisterActivity 
          */
-        public static final int activity_register_title=0x7f070008;
+        public static final int activity_register_title=0x7f07000b;
         /**  SearchActivity 
          */
         public static final int activity_search_title=0x7f070004;
         /**  SettingsActivity 
          */
-        public static final int activity_settings_title=0x7f070007;
+        public static final int activity_settings_title=0x7f07000a;
         public static final int app_name=0x7f070000;
+        public static final int hello_world=0x7f07000c;
+        public static final int menu_settings=0x7f07000d;
+        public static final int text_btn_filter=0x7f070006;
+        public static final int text_btn_list_or_map=0x7f070007;
+        public static final int text_btn_login=0x7f070005;
+        public static final int title_activity_search_item=0x7f07000e;
     }
     public static final class style {
-        public static final int BlueButton=0x7f08000a;
-        public static final int Body=0x7f080009;
+        public static final int Address_Distance_Text=0x7f090013;
+        public static final int BlueButton=0x7f09000e;
+        public static final int Body=0x7f09000d;
+        public static final int BodyRow=0x7f09000f;
+        public static final int Place_Name_Text=0x7f090012;
+        public static final int SearchButton=0x7f090010;
+        public static final int SearchEditText=0x7f090011;
         /**  Base application theme is the default theme. 
          */
-        public static final int Theme=0x7f080000;
+        public static final int Theme=0x7f090000;
         /**  Variation on the Light theme that turns off the title 
          */
-        public static final int Theme_Basic=0x7f080001;
+        public static final int Theme_Basic=0x7f090001;
         /**  TitleBar style 
+ titlebar_bg 
          */
-        public static final int TitleBar=0x7f080002;
-        public static final int TitleBarAction=0x7f080003;
-        public static final int TitleBarBack=0x7f080006;
-        public static final int TitleBarLogo=0x7f080005;
-        public static final int TitleBarSeparator=0x7f080004;
-        public static final int TitleBarSpring=0x7f080007;
-        public static final int TitleBarText=0x7f080008;
+        public static final int TitleBar=0x7f090002;
+        public static final int TitleBarAction=0x7f090003;
+        public static final int TitleBarBack=0x7f090006;
+        public static final int TitleBarFacebook=0x7f090007;
+        public static final int TitleBarFavorite=0x7f090008;
+        public static final int TitleBarLike=0x7f090009;
+        public static final int TitleBarLogin=0x7f09000a;
+        public static final int TitleBarLogo=0x7f090005;
+        public static final int TitleBarSeparator=0x7f090004;
+        public static final int TitleBarSpring=0x7f09000b;
+        public static final int TitleBarText=0x7f09000c;
     }
 }
