@@ -1,0 +1,91 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout style="@style/TitleBar" >
+
+        <ImageView
+            style="@style/TitleBarLogo"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/titlebar_logo" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_checkin_title" />
+    </LinearLayout>
+
+    <RelativeLayout style="@style/Body" >
+
+        <TextView
+            android:id="@+id/tv_place_name"
+            style="@style/BodyRow"
+            android:layout_alignParentLeft="true"
+            android:text="SDC"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_place_address"
+            style="@style/BodyRow"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_place_name"
+            android:layout_marginLeft="20dp"
+            android:text="TextView"
+            android:textSize="14dp" />
+
+
+        <EditText
+            android:id="@+id/edt_description"
+            style="@style/BodyRow"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tv_place_address"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/bt_share_facebook"
+            android:ems="10"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:textSize="13dp" />
+
+        <Button
+            android:id="@+id/bt_share_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/edt_description"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/ic_facebook" />
+
+        <Button
+            android:id="@+id/bt_share_twitter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/bt_share_facebook"
+            android:layout_below="@+id/bt_share_facebook"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ic_twitter" />
+
+        <Button
+            android:id="@+id/bt_checkin"
+            style="@style/BodyRow"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="5dp"
+            android:text="Check-In" />
+
+        <ImageView
+            android:id="@+id/image_checkin"
+            style="@style/BodyRow"
+            android:layout_alignParentLeft="true"
+            android:layout_above="@+id/bt_checkin"
+            android:layout_below="@+id/edt_description" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
