@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background" >
+    android:background="@drawable/bg_bitmap" >
 
     <LinearLayout style="@style/TitleBar" >
 
@@ -24,10 +24,35 @@
         style="@style/Body"
         android:padding="30dp" >
 
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:gravity="center_horizontal"
+            android:text="@string/activity_firstuse_tvWelcome"
+            android:textColor="#00a8ec"
+            android:textSize="30dp" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvWelcome"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:text="@string/activity_firstuse_tvTitle"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+
         <Button
             android:id="@+id/btnRegister"
             style="@style/BlueButton"
-            android:layout_centerInParent="true"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
             android:onClick="onClickRegister"
             android:text="@string/activity_firstuse_button_register" />
 
@@ -35,10 +60,10 @@
             android:id="@+id/btnNotNow"
             style="@style/BlueButton"
             android:layout_below="@id/btnRegister"
-            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
             android:onClick="onClickNotNow"
             android:text="@string/activity_firstuse_button_notnow" />
-
     </RelativeLayout>
 
 </RelativeLayout>
