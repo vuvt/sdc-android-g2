@@ -9,5 +9,6 @@
     <dimen name="text_size_medium">20sp</dimen>
     <dimen name="text_size_large">25sp</dimen>
     <dimen name="body_layout_margin">5dp</dimen>
+    <dimen name="description_margin">42dp</dimen>
 
 </resources>

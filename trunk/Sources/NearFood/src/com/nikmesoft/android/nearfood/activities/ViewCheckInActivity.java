@@ -51,14 +51,15 @@ public class ViewCheckInActivity extends BaseActivity {
 		checkIn.setDescription("Khi thưởng thức ẩm thực, người ta thường nói: \"Món ngon không bằng lời đẹp\". Đến quán bánh tôm Bà Phúc, thực khách không chỉ được tự do lựa chọn món ăn theo sở thích mà còn được bà chủ giới thiệu tận tình về món bánh tôm và quan trọng hơn, là cách ăn như thế nào cho đúng cách.");
 
 		ArrayList<CheckIn> listCheckIn = new ArrayList<CheckIn>();
-		for (int i = 0; i < 10; i++) {
+		for(int i=0;i<10;i++)
 			listCheckIn.add(checkIn);
-		}
 		
-		ListView list = (ListView) findViewById(R.id.list);
-		Utility.setListViewHeightBasedOnChildren(list);
+		
+		final ListView list = (ListView) findViewById(R.id.list);
+		//Utility.setListViewHeightBasedOnChildren(list);
 		list.setAdapter(new CheckInAdapter(this,
 				R.layout.activity_view_checkin_list_item, listCheckIn));
+		Utility.setListViewHeightBasedOnChildren(list);
 
 	}
 }
