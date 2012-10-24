@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <LinearLayout style="@style/TitleBar" >
 
@@ -18,23 +17,64 @@
         <TextView
             style="@style/TitleBarText"
             android:text="@string/activity_search_title" />
+
         <ImageView
             style="@style/TitleBarFacebook"
             android:contentDescription="@string/app_name"
             android:onClick="onClickFacebook" />
+
         <ImageView
             style="@style/TitleBarFavorite"
             android:contentDescription="@string/app_name"
             android:onClick="onClickFavorite" />
+
         <ImageView
             style="@style/TitleBarLike"
             android:contentDescription="@string/app_name"
             android:onClick="onClickLike" />
     </LinearLayout>
+
     <RelativeLayout style="@style/Body" >
-        
-        
-        
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dip" >
+
+            <ImageView
+                android:id="@id/selected_imageview"
+                android:layout_width="match_parent"
+                android:layout_height="120dip" 
+                android:layout_marginBottom="10dip"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                <ImageView 
+                    android:id="@id/left_arrow_imageview"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:onClick="onClickLeftArrow"
+                    android:src="@drawable/arrow_left_enabled"/>
+                <Gallery 
+                    android:id="@id/gallery_search"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_toRightOf="@id/left_arrow_imageview"
+                    android:layout_toLeftOf="@id/right_arrow_imageview"/>
+                <ImageView  
+                    android:id="@id/right_arrow_imageview"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:onClick="onClickRightArrow"
+                    android:src="@drawable/arrow_right_enabled"/>
+            </RelativeLayout>
+        </LinearLayout>
     </RelativeLayout>
 
 </RelativeLayout>
