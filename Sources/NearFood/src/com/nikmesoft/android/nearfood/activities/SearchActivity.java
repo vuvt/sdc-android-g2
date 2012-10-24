@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -23,7 +26,7 @@ import com.nikmesoft.android.nearfood.utils.AnimationFactory;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
 @SuppressLint("ParserError")
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity implements OnItemClickListener{
 
 	private ListView lvSearch;
 	protected SearchResultAdapter placeAdapter;
@@ -61,6 +64,7 @@ public class SearchActivity extends BaseActivity {
 		placeAdapter = new SearchResultAdapter(this, R.layout.list_item_search,
 				places);
 		lvSearch.setAdapter(placeAdapter);
+		lvSearch.setOnItemClickListener(this);
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		checkboxs = new ArrayList<CheckBox>();
 
@@ -82,11 +86,11 @@ public class SearchActivity extends BaseActivity {
 
 		if (imgIndex == 1) {
 			imgIndex = 2;
-			btnListMap.setBackground(getResources().getDrawable(
+			btnListMap.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.button_map));
 		} else {
 			imgIndex = 1;
-			btnListMap.setBackground(getResources().getDrawable(
+			btnListMap.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.button_list));
 		}
 	}
@@ -152,6 +156,12 @@ public class SearchActivity extends BaseActivity {
 					}
 				});
 		alert.show();
+	}
+
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		Intent intent = new Intent(this, SearchItemActivity.class);
+		startActivity(intent);
 	}
 
 }
