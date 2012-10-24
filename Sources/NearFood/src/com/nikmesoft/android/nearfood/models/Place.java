@@ -3,31 +3,31 @@ package com.nikmesoft.android.nearfood.models;
 import android.annotation.SuppressLint;
 
 @SuppressLint("ParserError")
-public class Restaurant {
+public class Place {
 	private long id;
-	private String nameRestaurant;
+	private String name;
 	private String address;
 	private String description;
-	private String numberLike;
+	private String likedCount;
 	private PointMap mapPoint;
 	private String imagePath;
 
-	public Restaurant(String nameRestaurant, String address,
-			String description, String numberLike) {
+	public Place(String name, String address,
+			String description, String likedCount) {
 		this.address = address;
-		this.nameRestaurant = nameRestaurant;
+		this.name = name;
 		this.description = description;
-		this.numberLike = numberLike;
+		this.likedCount = likedCount;
 	}
 
-	public Restaurant(long id, String nameRestaurant, String address,
-			String description, String numberLike, PointMap mapPoint,
+	public Place(long id, String name, String address,
+			String description, String likedCount, PointMap mapPoint,
 			String imagePath) {
 		this.id = id;
 		this.address = address;
-		this.nameRestaurant = nameRestaurant;
+		this.name = name;
 		this.description = description;
-		this.numberLike = numberLike;
+		this.likedCount = likedCount;
 		this.mapPoint = mapPoint;
 		this.imagePath = imagePath;
 	}
@@ -40,12 +40,12 @@ public class Restaurant {
 		this.id = id;
 	}
 
-	public String getNameRestaurant() {
-		return nameRestaurant;
+	public String getName() {
+		return name;
 	}
 
-	public void setNameRestaurant(String nameRestaurant) {
-		this.nameRestaurant = nameRestaurant;
+	public void setNamePlace(String name) {
+		this.name = name;
 	}
 
 	public String getAddress() {
@@ -64,12 +64,12 @@ public class Restaurant {
 		this.description = description;
 	}
 
-	public String getNumberLike() {
-		return numberLike;
+	public String getLikedCount() {
+		return likedCount;
 	}
 
-	public void setNumberLike(String numberLike) {
-		this.numberLike = numberLike;
+	public void setLikedCount(String likedCount) {
+		this.likedCount = likedCount;
 	}
 
 	public PointMap getMapPoint() {

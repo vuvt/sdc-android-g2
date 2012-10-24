@@ -3,20 +3,19 @@ package com.nikmesoft.android.nearfood.adapters;
 import java.util.List;
 
 import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.models.Restaurant;
+import com.nikmesoft.android.nearfood.models.Place;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+public class SearchResultAdapter extends ArrayAdapter<Place> {
 	private int resourceID;
 
-	public RestaurantAdapter(Context context, int resourceID, List<Restaurant> objects) {
+	public SearchResultAdapter(Context context, int resourceID, List<Place> objects) {
 		super(context, resourceID, objects);
 		this.resourceID = resourceID;
 	}
@@ -24,7 +23,7 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 	@SuppressLint({ "ParserError", "ParserError", "NewApi" })
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Restaurant restaurant = getItem(position);
+		Place place = getItem(position);
 		View row = convertView;
 		if (row == null) {
 			LayoutInflater inflater;
@@ -33,15 +32,15 @@ public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
 			row = inflater.inflate(this.resourceID, null);
 		}
 		
-		TextView nameRestaurant = (TextView) row.findViewById(R.id.namePlace_item_Search);
-		TextView addressRestaurant = (TextView) row.findViewById(R.id.address_item_Search);
-		TextView distanceRestaurant = (TextView) row.findViewById(R.id.distance_item_Search);
+		TextView nameplace = (TextView) row.findViewById(R.id.namePlace_item_Search);
+		TextView addressplace = (TextView) row.findViewById(R.id.address_item_Search);
+		TextView distanceplace = (TextView) row.findViewById(R.id.distance_item_Search);
 		TextView numberLike = (TextView) row.findViewById(R.id.number_like_Search);
 		
-		nameRestaurant.setText(restaurant.getNameRestaurant().toString());
-		addressRestaurant.setText(restaurant.getAddress().toString());
-		distanceRestaurant.setText("About 2.5 Miles");
-		numberLike.setText(restaurant.getNumberLike());
+		nameplace.setText(place.getName().toString());
+		addressplace.setText(place.getAddress().toString());
+		distanceplace.setText("About 2.5 Miles");
+		numberLike.setText(place.getLikedCount());
 		
 		return row;
 	}

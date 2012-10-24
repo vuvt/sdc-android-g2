@@ -1,32 +1,24 @@
 package com.nikmesoft.android.nearfood.activities;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.adapters.RestaurantAdapter;
-import com.nikmesoft.android.nearfood.models.Restaurant;
+import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
+import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
@@ -34,8 +26,8 @@ import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 public class SearchActivity extends BaseActivity {
 
 	private ListView lvSearch;
-	protected RestaurantAdapter resAdapter;
-	protected ArrayList<Restaurant> restaurants;
+	protected SearchResultAdapter placeAdapter;
+	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
 	private int imgIndex = 1;
 	private View view;
@@ -53,34 +45,22 @@ public class SearchActivity extends BaseActivity {
 	@SuppressLint("ParserError")
 	public void init() {
 		lvSearch = (ListView) findViewById(R.id.lvSearch);
-		restaurants = new ArrayList<Restaurant>();
-		restaurants
-				.add(new Restaurant("Quán Thanh Trúc",
-						"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang",
-						"", "100"));
-		restaurants
-				.add(new Restaurant("Quán Thanh Trúc",
-						"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang",
-						"", "100"));
-		restaurants
-				.add(new Restaurant("Quán Thanh Trúc",
-						"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang",
-						"", "100"));
-		restaurants
-				.add(new Restaurant("Quán Thanh Trúc",
-						"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang",
-						"", "100"));
-		restaurants
-				.add(new Restaurant("Quán Thanh Trúc",
-						"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang",
-						"", "100"));
-		restaurants
-				.add(new Restaurant("Quán Thanh Trúc",
-						"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang",
-						"", "100"));
-		resAdapter = new RestaurantAdapter(this, R.layout.list_item_search,
-				restaurants);
-		lvSearch.setAdapter(resAdapter);
+		places = new ArrayList<Place>();
+		places.add(new Place("Quán Thanh Trúc",
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+		places.add(new Place("Quán Thanh Trúc",
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+		places.add(new Place("Quán Thanh Trúc",
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+		places.add(new Place("Quán Thanh Trúc",
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+		places.add(new Place("Quán Thanh Trúc",
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+		places.add(new Place("Quán Thanh Trúc",
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+		placeAdapter = new SearchResultAdapter(this, R.layout.list_item_search,
+				places);
+		lvSearch.setAdapter(placeAdapter);
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		checkboxs = new ArrayList<CheckBox>();
 
@@ -158,7 +138,8 @@ public class SearchActivity extends BaseActivity {
 					checkboxs.add(check_dishes);
 					str_filter += check_dishes.getText().toString();
 				}
-				Toast.makeText(getApplicationContext(), str_filter, Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(), str_filter,
+						Toast.LENGTH_SHORT).show();
 
 			}
 		});
