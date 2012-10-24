@@ -24,5 +24,9 @@
     <item name="titlebar_facebook" type="id"/>
     <item name="titlebar_like" type="id"/>
     <item name="titlebar_favorite" type="id"/>
+    <item name="left_arrow_imageview" type="id"/>
+    <item name="right_arrow_imageview" type="id"/>
+    <item name="selected_imageview" type="id"/>
+    <item name="gallery_search" type="id"/>
 
 </resources>
