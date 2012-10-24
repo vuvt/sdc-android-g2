@@ -5,7 +5,11 @@ public class CheckIn {
 	private long id;
 	private User user;
 	private Place place;
-
+	
+	public CheckIn(){
+		
+	}
+	
 	public CheckIn(long id, String description, String imagePath) {
 		this.id = id;
 		this.description = description;
@@ -49,7 +53,7 @@ public class CheckIn {
 		return user;
 	}
 
-	public void setIdUser(User user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 

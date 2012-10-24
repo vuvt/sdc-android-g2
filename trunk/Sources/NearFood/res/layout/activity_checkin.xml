@@ -17,6 +17,20 @@
         <TextView
             style="@style/TitleBarText"
             android:text="@string/activity_checkin_title" />
+
+        <Button
+            android:id="@+id/bt_checkin"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="@dimen/body_layout_margin"
+            android:layout_marginRight="@dimen/body_layout_margin"
+            android:onClick="checkIn"
+            android:text="@string/activity_checkin_title"
+            android:visibility="invisible" 
+            android:enabled="false"/>
+        
     </LinearLayout>
 
     <RelativeLayout style="@style/Body" >
@@ -33,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center_vertical"
                 android:background="@drawable/frame_search_background"
-                android:focusableInTouchMode="true"
+                android:focusableInTouchMode="false"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:paddingLeft="20dp"
@@ -75,21 +89,16 @@
             android:apiKey="0l4sCTTyRmXTNo7k8DREHvEaLar2UmHGwnhZVHQ"
             android:clickable="true"
             android:enabled="true" />
-
+
         <ListView
-            android:id="@android:layout/simple_list_item_1"
+            android:id="@+id/list"
             style="@style/BodyRow"
-            android:layout_above="@+id/bt_checkin"
-            android:layout_below="@+id/mapView"
-            android:layout_marginBottom="5dp" />
-
-        <Button
-            android:id="@+id/bt_checkin"
-            style="@style/BlueButton"
             android:layout_alignParentBottom="true"
-            android:layout_marginLeft="5dp"
-            android:height="40dp"
-            android:text="Check-In" />
+            android:layout_below="@+id/mapView"
+            android:layout_marginBottom="5dp"
+            android:choiceMode="singleChoice"
+            android:splitMotionEvents="true"/>
+
     </RelativeLayout>
 
 </RelativeLayout>
