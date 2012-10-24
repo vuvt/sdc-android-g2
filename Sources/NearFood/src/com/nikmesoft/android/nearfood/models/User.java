@@ -3,7 +3,10 @@ package com.nikmesoft.android.nearfood.models;
 public class User {
 	private String fullName, email, birthday, profilePicture;
 	private long id;
-
+	
+	public User(){
+	}
+	
 	public User(String fullName, String email, String birthday,
 			String profilePicture) {
 		this.fullName = fullName;

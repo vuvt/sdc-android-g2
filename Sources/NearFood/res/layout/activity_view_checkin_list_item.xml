@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        style="@style/BodyRow"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/img_avasta"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"
+            android:src="@drawable/default_user_icon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:text="Phan Ngoc Tu"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:typeface="sans" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="bottom|left"
+                android:text="Email: lufy.it.bkdn@gmail.com"
+                android:textSize="14dp"
+                android:textStyle="italic"
+                android:typeface="sans" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/BodyRow"
+        android:gravity="center_horizontal" >
+
+        <ImageView
+            android:id="@+id/img_checkin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </ImageView>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_checkin_description"
+        style="@style/BodyRow"
+        android:background="@drawable/bg_message"
+        android:gravity="top|left"
+        android:hint="@string/description"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp" />
+
+</LinearLayout>

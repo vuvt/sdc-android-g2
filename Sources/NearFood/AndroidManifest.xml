@@ -73,6 +73,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
+        <activity
+            android:name=".activities.ViewCheckInActivity"
+            android:label="@string/view_checkin_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.StartCheckInActivity"
+            android:label="@string/activity_checkin_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
     </application>
 
 </manifest>
