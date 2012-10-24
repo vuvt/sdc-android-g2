@@ -8,12 +8,10 @@ import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-
-
-public class NestedListView extends ListView implements AbsListView.OnScrollListener,
-		View.OnTouchListener {
+public class NestedListView extends ListView implements
+		AbsListView.OnScrollListener, View.OnTouchListener {
 	private int listViewTouchAction;
-	private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 4;
+	private static final int MAXIMUM_LIST_ITEMS_VIEWABLE = 10;
 
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 	}
@@ -21,7 +19,7 @@ public class NestedListView extends ListView implements AbsListView.OnScrollList
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
 		if (getAdapter() != null
-				&& getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE) {
+				/*&& getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE*/) {
 			if (listViewTouchAction == MotionEvent.ACTION_MOVE) {
 				scrollBy(0, -1);
 			}
@@ -45,8 +43,8 @@ public class NestedListView extends ListView implements AbsListView.OnScrollList
 			ListAdapter listAdapter = getAdapter();
 			if (listAdapter != null && !listAdapter.isEmpty()) {
 				int listPosition = 0;
-				for (listPosition = 0; listPosition < listAdapter.getCount()
-						&& listPosition < MAXIMUM_LIST_ITEMS_VIEWABLE; listPosition++) {
+				for (listPosition = 0; listPosition < listAdapter.getCount()/*
+						&& listPosition < MAXIMUM_LIST_ITEMS_VIEWABLE*/; listPosition++) {
 					View listItem = listAdapter.getView(listPosition, null,
 							this);
 					listItem.measure(widthMeasureSpec, heightMeasureSpec);
@@ -67,8 +65,8 @@ public class NestedListView extends ListView implements AbsListView.OnScrollList
 
 	public boolean onTouch(View v, MotionEvent event) {
 		listViewTouchAction = event.getAction();
-		if (getAdapter() != null
-				&& getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE) {
+		if (getAdapter() != null/*
+				&& getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE*/) {
 			if (listViewTouchAction == MotionEvent.ACTION_MOVE) {
 				scrollBy(0, 1);
 			}
