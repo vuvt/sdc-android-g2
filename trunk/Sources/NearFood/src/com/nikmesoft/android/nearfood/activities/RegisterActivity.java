@@ -96,6 +96,7 @@ public class RegisterActivity extends BaseActivity {
 	 * 
 	 * @param v
 	 */
+	@SuppressWarnings("deprecation")
 	public void onClickDatePicker(View v) {
 		// DatePickerFragment newFragment = new DatePickerFragment();
 		// newFragment.show(getFragmentManager(), "datePicker");
@@ -108,7 +109,7 @@ public class RegisterActivity extends BaseActivity {
 	/**
 	 * check null all fields
 	 * 
-	 * @return true if all fields is null, invert return false if not null
+	 * @return true if have a field is null, invert return false if haven't
 	 */
 	public boolean isNullAllFields() {
 		if (edtFullName.getText().equals(null)
@@ -116,7 +117,7 @@ public class RegisterActivity extends BaseActivity {
 				|| edtPassword.getText().equals(null)
 				|| edtConfirmPassword.getText().equals(null)
 				|| edtBirthDay.getText().equals(null)
-				|| (!rbMale.isChecked() & !rbFemale.isChecked())) {
+				|| (!rbMale.isSelected() && !rbFemale.isSelected())) {
 			return true;
 		}
 		return false;
