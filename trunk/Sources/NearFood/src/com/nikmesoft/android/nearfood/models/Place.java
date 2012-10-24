@@ -1,9 +1,12 @@
 package com.nikmesoft.android.nearfood.models;
 
+import java.io.Serializable;
+
 import android.annotation.SuppressLint;
 
 @SuppressLint("ParserError")
-public class Place {
+public class Place implements Serializable{
+
 	private long id;
 	private String name;
 	private String address;
