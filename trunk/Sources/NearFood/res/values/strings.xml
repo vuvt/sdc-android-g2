@@ -63,5 +63,8 @@
     
     <!-- ForgotPasswordActivity -->
     <string name="activity_forgot_password_title">Forgot password</string>
+    <string name="activity_forgot_password_tvTitle">To reset your password, please first identify your account!</string>
+    <string name="activity_forgot_password_edtEmail">Enter your email&#8230;</string>
+    <string name="activity_forgot_password_btnResetPassword">Reset password</string>
 
 </resources>

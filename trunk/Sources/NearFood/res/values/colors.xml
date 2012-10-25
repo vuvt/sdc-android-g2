@@ -12,5 +12,11 @@
     <color name="menu_item_background_default">#1491D4</color>
     <color name="menu_item_background_pressed">#E26011</color>
     <!-- menu end -->
+    
+    
+    <!-- link 3 state start -->
+    <color name="link_background_default">#00000000</color>
+    <color name="link_background_pressed">#d8f9ee</color>
+    <!-- link 3 state end -->
 
 </resources>
