@@ -60,5 +60,8 @@
     <string name="activity_login_tvDoNotHaveAccount">Do not have an account?</string>
     <string name="activity_login_tvLinkRegister"><u>register</u></string>
     <string name="activity_login_tvNow">now</string>
+    
+    <!-- ForgotPasswordActivity -->
+    <string name="activity_forgot_password_title">Forgot password</string>
 
 </resources>
