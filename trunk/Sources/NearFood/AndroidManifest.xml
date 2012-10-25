@@ -97,6 +97,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:label="@string/activity_profile_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
     </application>
 
 </manifest>
