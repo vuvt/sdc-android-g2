@@ -34,7 +34,15 @@ public class CheckIn {
         this.TimeCheck = TimeCheck;
 }
 
-        public String getDescription() {
+        public String getTimeCheck() {
+			return TimeCheck;
+		}
+
+		public void setTimeCheck(String timeCheck) {
+			TimeCheck = timeCheck;
+		}
+
+		public String getDescription() {
                 return description;
         }
 
