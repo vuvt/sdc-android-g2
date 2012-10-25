@@ -50,17 +50,24 @@ public class SettingsActivity extends BaseActivity {
 		al.setPositiveButton("OK", null);
 		al.show();
 	}
-/*	public void OnClicklogin(View v){
-		Intent intents = new Intent();
+	public void OnClicklogin(View v){
+/*		Intent intents = new Intent();
 		intents.setClass(this, LoginActivity.class);
-		startActivity(intents);
-	}*/
+		startActivity(intents);*/
+	}
 
-	/*	public void OnClicklogout(View v){
-	Intent intents = new Intent();
+	public void OnClicklogout(View v){
+/*	Intent intents = new Intent();
 	intents.setClass(this, LoginActivity.class);
-	startActivity(intents);
-}*/
+	startActivity(intents);*/
+	}
+	public void OnClickFeedback(View v){
+		//---------------
+	}
+	public void OnClickHelp(View v){
+		//------------
+	}
+	
 	public void OnClickRegister(View v){
 		Intent intents = new Intent();
 		intents.setClass(this, RegisterActivity.class);
