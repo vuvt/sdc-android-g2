@@ -3,7 +3,10 @@ package com.nikmesoft.android.nearfood.activities;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityGroup;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +28,10 @@ import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
+@SuppressWarnings("deprecation")
 @SuppressLint("ParserError")
-public class SearchActivity extends BaseActivity implements OnItemClickListener{
+public class SearchActivity extends ActivityGroup implements
+		OnItemClickListener {
 
 	private ListView lvSearch;
 	protected SearchResultAdapter placeAdapter;
@@ -87,18 +92,18 @@ public class SearchActivity extends BaseActivity implements OnItemClickListener{
 		if (imgIndex == 1) {
 			imgIndex = 2;
 			btnListMap.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.button_map));
+					R.drawable.button_list));
 		} else {
 			imgIndex = 1;
 			btnListMap.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.button_list));
+					R.drawable.button_map));
 		}
 	}
 
 	public void onClickFilter(View v) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		view = LayoutInflater.from(getBaseContext()).inflate(
-				R.layout.menu_filter, null);
+		LayoutInflater 	inflater = (LayoutInflater) this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		view = inflater.inflate(R.layout.menu_filter, null);
 		final CheckBox check_distance = (CheckBox) view
 				.findViewById(R.id.check_distance);
 		final CheckBox check_location = (CheckBox) view
@@ -155,13 +160,20 @@ public class SearchActivity extends BaseActivity implements OnItemClickListener{
 
 					}
 				});
-		alert.show();
+		AlertDialog dialog = alert.create();
+		dialog.show();
 	}
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(this, SearchItemActivity.class);
-		startActivity(intent);
+		replaceContentView("SearchActivity", intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
 	}
 
+	public void replaceContentView(String id, Intent newIntent, int flag) {
+		View view = getLocalActivityManager().startActivity(id,
+				newIntent.addFlags(flag))
+				.getDecorView();
+		this.setContentView(view);
+	}
 }
