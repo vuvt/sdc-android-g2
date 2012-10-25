@@ -38,7 +38,7 @@ public class SearchCheckInResultAdapter extends ArrayAdapter<CheckIn> {
 		
 		//fullName.setText(check_in.getIdUser().toString());
 		fullName.setText("Full Name");
-		description.setText(check_in.getDescription().toString());
+		description.setText(check_in.getPlace().getDescription().toString());
 		time.setText(check_in.getTimeCheck().toString());
 		
 		return row;

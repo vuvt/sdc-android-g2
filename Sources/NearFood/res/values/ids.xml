@@ -29,5 +29,12 @@
     <item name="right_arrow_imageview" type="id"/>
     <item name="selected_imageview" type="id"/>
     <item name="gallery_search" type="id"/>
-
+    <item name="search_name_place" type="id"/>
+    <item name="name_place_information" type="id"/>
+	<item name="description_information" type="id"/>
+	<item name="address_information" type="id"/>
+	<item name="lv_checkin_search" type="id"/>
+	<item name="fullname_item_checkin_search" type="id"/>
+	<item name="description_item_checkin_search" type="id"/>
+	<item name="time_item_checkin_search" type="id"/>
 </resources>

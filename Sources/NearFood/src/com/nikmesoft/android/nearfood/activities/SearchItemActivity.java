@@ -10,6 +10,7 @@ import com.nikmesoft.android.nearfood.adapters.SearchCheckInResultAdapter;
 import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
 import com.nikmesoft.android.nearfood.models.CheckIn;
 import com.nikmesoft.android.nearfood.models.Place;
+import com.nikmesoft.android.nearfood.models.User;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -58,31 +59,18 @@ public class SearchItemActivity extends Activity {
 
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_MOVE) {
-					return true; // Indicates that this has been handled by you
-									// and will not be forwarded further.
+					return true; 
 				}
 				return false;
 			}
 		});
 		checkins = new ArrayList<CheckIn>();
-		checkins.add(new CheckIn(
-				1,
-				2,
-				3,
-				"Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.",
-				"asd", "2 days ago"));
-		checkins.add(new CheckIn(
-				2,
-				2,
-				3,
-				"Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.",
-				"asd", "2 days ago"));
-		checkins.add(new CheckIn(
-				3,
-				2,
-				3,
-				"Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.",
-				"asd", "2 days ago"));
+		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number One", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number two", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number One", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number two", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number One", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number two", "","2 days ago"));
 		checkInApdapter = new SearchCheckInResultAdapter(this,
 				R.layout.list_item_checkin_search, checkins);
 		lvCheckin.setAdapter(checkInApdapter);

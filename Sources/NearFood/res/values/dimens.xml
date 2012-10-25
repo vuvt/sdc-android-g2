@@ -10,5 +10,5 @@
     <dimen name="text_size_large">25sp</dimen>
     <dimen name="body_layout_margin">5dp</dimen>
     <dimen name="description_margin">42dp</dimen>
-
+	<dimen name="size_standard">13sp</dimen>
 </resources>
