@@ -36,4 +36,9 @@ public class FirstUseActivity extends BaseActivity {
 		Intent intent = new Intent(this, LoginActivity.class);
 		startActivity(intent);
 	}
+	
+	public void onClickProfile(View v) {
+		Intent intent = new Intent(this, ProfileActivity.class);
+		startActivity(intent);
+	}
 }

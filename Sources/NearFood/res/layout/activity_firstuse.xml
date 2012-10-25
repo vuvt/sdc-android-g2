@@ -73,6 +73,15 @@
             android:layout_marginTop="14dp"
             android:onClick="onClickLogin"
             android:text="Login-Vu-Test" />
+        
+        <Button
+            android:id="@+id/btnProfile"
+            style="@style/BlueButton"
+            android:layout_below="@id/btnLogin"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:onClick="onClickProfile"
+            android:text="Profile-Vu-Test" />
     </RelativeLayout>
 
 </RelativeLayout>
