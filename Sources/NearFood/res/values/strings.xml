@@ -66,5 +66,15 @@
     <string name="activity_forgot_password_tvTitle">To reset your password, please first identify your account!</string>
     <string name="activity_forgot_password_edtEmail">Enter your email&#8230;</string>
     <string name="activity_forgot_password_btnResetPassword">Reset password</string>
+    
+    <!-- ProfileActivity -->
+    <string name="activity_profile_title">Profile</string>
+    <string name="activity_profile_tvProfilePicture">Profile picture:</string>
+    <string name="activity_profile_tvTakeAPhoto"><u>Take a photo</u></string>
+    <string name="activity_profile_tvChooseFromGallery"><u>Choose from Gallery</u></string>
+    <string name="activity_profile_tvFullName">Full name</string>
+    <string name="activity_profile_tvEmail">Email</string>
+    <string name="activity_profile_tvBirthDay">Birthday</string>
+    <string name="activity_profile_tvGender">Gender</string>
 
 </resources>
