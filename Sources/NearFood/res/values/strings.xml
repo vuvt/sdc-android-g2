@@ -30,7 +30,8 @@
 
     <!-- SettingsActivity -->
     <string name="activity_settings_title">Settings</string>
-
+    <!-- Profile -->
+    <string name="activity_profile">Profile</string>
     <!-- RegisterActivity -->
     <string name="activity_register_title">Create New Account</string>
     <string name="hello_world">Hello world!</string>
