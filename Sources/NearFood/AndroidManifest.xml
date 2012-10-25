@@ -68,6 +68,18 @@
             android:theme="@style/Theme.Basic" >
         </activity>
         <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/activity_login_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.ForgotPasswordActivity"
+            android:label="@string/activity_forgot_password_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
             android:name=".activities.SearchItemActivity"
             android:label="@string/title_activity_search_item"
             android:screenOrientation="portrait"
