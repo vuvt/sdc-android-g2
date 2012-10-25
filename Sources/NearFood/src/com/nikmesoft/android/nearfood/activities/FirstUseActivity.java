@@ -30,4 +30,10 @@ public class FirstUseActivity extends BaseActivity {
 		startActivity(intent);
 		finish();
 	}
+	
+	//Test login - hoan thanh thi xoa di
+	public void onClickLogin(View v) {
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivity(intent);
+	}
 }

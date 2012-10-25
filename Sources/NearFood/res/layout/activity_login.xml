@@ -1,0 +1,146 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bitmap" >
+
+    <LinearLayout style="@style/TitleBar" >
+
+        <ImageView
+            style="@style/TitleBarBack"
+            android:contentDescription="@string/app_name"
+            android:onClick="onClickBack" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_login_title" />
+    </LinearLayout>
+
+    <RelativeLayout style="@style/Body" >
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="50dp"
+            android:gravity="center_horizontal"
+            android:shadowColor="#333"
+            android:shadowDx="1"
+            android:shadowRadius="2"
+            android:text="@string/activity_login_tvTitle"
+            android:textColor="#00a8ec"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@id/tvTitle"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="15dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edit_text_frame"
+            android:hint="@string/activity_login_edtEmail"
+            android:singleLine="true" />
+
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@id/edtEmail"
+            android:layout_below="@id/edtEmail"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edit_text_frame"
+            android:hint="@string/activity_login_edtPassword"
+            android:inputType="textPassword" />
+
+        <TextView
+            android:id="@+id/tvLinkForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/edtPassword"
+            android:layout_below="@id/edtPassword"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="30dp"
+            android:textStyle="italic"
+            android:textSize="16dp"
+            android:text="@string/activity_login_linkForgotPassword"
+            android:background="@drawable/link_3_state"
+            android:focusable="false"
+        	android:clickable="true"
+            android:onClick="onClickForgotPassword" />
+
+        <LinearLayout
+            android:id="@+id/linearLayoutButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLinkForgotPassword"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_login_btnLogin"
+                android:onClick="onClickLogin" />
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/activity_login_btnCancel"
+                android:onClick="onClickCancel" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDoNotHaveAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvLinkForgotPassword"
+            android:layout_below="@+id/linearLayoutButton"
+            android:layout_marginLeft="31dp"
+            android:layout_marginTop="32dp"
+            android:textStyle="italic"
+            android:textSize="16dp"
+            android:text="@string/activity_login_tvDoNotHaveAccount" />
+
+        <TextView
+            android:id="@+id/tvLinkRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDoNotHaveAccount"
+            android:layout_marginTop="8dp"
+            android:layout_toRightOf="@+id/tvLinkForgotPassword"
+            android:textStyle="italic"
+            android:textSize="16dp"
+            android:linksClickable="true"
+            android:text="@string/activity_login_tvLinkRegister"
+            android:background="@drawable/link_3_state"
+            android:focusable="false"
+        	android:clickable="true"
+            android:onClick="onClickRegister" />
+
+        <TextView
+            android:id="@+id/tvNow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvLinkRegister"
+            android:layout_alignBottom="@+id/tvLinkRegister"
+            android:layout_toRightOf="@+id/tvLinkRegister"
+            android:layout_marginLeft="10dp"
+            android:textStyle="italic"
+            android:textSize="16dp"
+            android:text="@string/activity_login_tvNow" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
