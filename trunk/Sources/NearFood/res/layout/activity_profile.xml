@@ -1,0 +1,189 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_bitmap" >
+
+    <LinearLayout style="@style/TitleBar" >
+
+        <ImageView
+            style="@style/TitleBarBack"
+            android:contentDescription="@string/app_name"
+            android:onClick="onClickBack" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_profile_title" />
+
+        <ImageView
+            style="@style/TitleBarSave"
+            android:contentDescription="@string/app_name"
+            android:onClick="onClickSave" />
+    </LinearLayout>
+
+    <RelativeLayout style="@style/Body" >
+
+        <TextView
+            android:id="@+id/tvProfilePicture"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="40dp"
+            android:gravity="center_vertical"
+            android:text="@string/activity_profile_tvProfilePicture" />
+
+        <ImageView
+            android:id="@+id/imgProfilePicture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignTop="@id/tvProfilePicture"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/tvProfilePicture"
+            android:contentDescription="@string/description"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tvTakeAPhoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvProfilePicture"
+            android:layout_below="@+id/tvProfilePicture"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:focusable="false"
+            android:clickable="true"
+            android:background="@drawable/link_3_state"
+            android:text="@string/activity_profile_tvTakeAPhoto" />
+
+        <TextView
+            android:id="@+id/tvChooseFromGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvTakeAPhoto"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/tvTakeAPhoto"
+            android:focusable="false"
+            android:clickable="true"
+            android:background="@drawable/link_3_state"
+            android:text="@string/activity_profile_tvChooseFromGallery" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvTakeAPhoto"
+            android:layout_marginTop="25dp"
+            android:stretchColumns="1" >
+
+            <TableRow android:layout_marginTop="5dp" >
+
+                <TextView
+                    android:id="@+id/tvFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/activity_profile_tvFullName" />
+
+                <EditText
+                    android:id="@+id/edtFullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/edit_text_frame"
+                    android:hint="@string/activity_register_edtFullName"
+                    android:singleLine="true" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp" >
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/activity_profile_tvEmail" />
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/edit_text_frame"
+                    android:hint="@string/activity_register_edtEmail"
+                    android:inputType="textEmailAddress"
+                    android:singleLine="true" />
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp" >
+
+                <TextView
+                    android:id="@+id/tvBirthDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/activity_profile_tvBirthDay" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
+
+                    <EditText
+                        android:id="@+id/edtBirthDay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="10dp"
+                        android:focusable="false"
+                        android:background="@drawable/edit_text_frame"
+                        android:hint="@string/activity_register_edtBirthDay"
+                        android:singleLine="true" />
+
+                    <Button
+                        android:id="@+id/btnBirthDay"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_calendar_birthday"
+                        android:onClick="onClickDatePicker" />
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow android:layout_marginTop="5dp" >
+
+                <TextView
+                    android:id="@+id/tvGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/activity_profile_tvGender" />
+
+                <RadioGroup
+                    android:id="@+id/rgGender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal" >
+
+                    <RadioButton
+                        android:id="@+id/rbMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/activity_register_rbMale" />
+
+                    <RadioButton
+                        android:id="@+id/rbFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:text="@string/activity_register_rbFemale" />
+                </RadioGroup>
+            </TableRow>
+        </TableLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
