@@ -49,14 +49,13 @@
                 android:layout_height="30dp"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical" >
-
                 <EditText
                     android:id="@+id/edt_search"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:background="@drawable/frame_search_background"
-                    android:focusableInTouchMode="true"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
                     android:paddingLeft="20dp"
@@ -97,7 +96,7 @@
                 android:layout_height="35dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_margin="5dp"
-                android:background="@drawable/button_list"
+                android:background="@drawable/button_map"
                 android:onClick="onClickListOrMap" />
         </LinearLayout>
 
