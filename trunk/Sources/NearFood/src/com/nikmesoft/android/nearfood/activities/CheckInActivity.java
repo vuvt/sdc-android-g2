@@ -63,18 +63,13 @@ public class CheckInActivity extends BaseMapsActivity {
 			}
 		});
 		ArrayList<Place> places = new ArrayList<Place>();
-		places.add(new Place("Bánh tôm Bà Phúc",
-				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100"));
-		places.add(new Place("Bánh tôm Bà Phúc",
-				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100"));
-		places.add(new Place("Bánh tôm Bà Phúc",
-				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100"));
-		places.add(new Place("Bánh tôm Bà Phúc",
-				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100"));
-		places.add(new Place("Bánh tôm Bà Phúc",
-				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100"));
-		places.add(new Place("Bánh tôm Bà Phúc",
-				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100"));
+		Place place=new Place("Bánh tôm Bà Phúc",
+				"464/11 Trưng Nữ Vương - Đà Nẵng", "", "100");
+		place.setImagePath("http://dl6.iq8download.com/icnmedia/def4562a-50e0-4bda-8518-543f1a10c165.jpg");
+		for(int i=0;i<10;i++){
+			places.add(place);
+		}
+		
 
 		ListView list = (ListView) findViewById(R.id.list);
 		checkinResultAdapter = new CheckInResultAdapter(this,
