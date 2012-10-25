@@ -9,6 +9,7 @@
     <item name="pattern_layout" type="id"/>
     <item name="bottom_bar" type="id"/>
     <item name="titlebar_login" type="id"/>
+    <item name="titlebar_save" type="id"/>
 
     <!-- SearchActivity -->
     <item name="btnFilter" type="id"/>
