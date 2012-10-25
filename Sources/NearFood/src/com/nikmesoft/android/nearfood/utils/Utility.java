@@ -1,30 +1,19 @@
 package com.nikmesoft.android.nearfood.utils;
 
-import android.view.View;
-import android.view.View.MeasureSpec;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import android.graphics.drawable.Drawable;
 
 public class Utility {
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            // pre-condition
-            return;
-        }
+	
 
-        int totalHeight = 0;
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-            totalHeight += listItem.getMeasuredHeight();
-        }
+	public static Drawable LoadImageFromWebOperations(String url, String srcName) throws MalformedURLException, IOException {
+		InputStream is = (InputStream) new URL(url).getContent();
+		Drawable d = Drawable.createFromStream(is, srcName);
+		return d;
 
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
+	}
 }

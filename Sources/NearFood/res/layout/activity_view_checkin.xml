@@ -25,63 +25,47 @@
             android:text="@string/activity_checkin_title" />
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scrollview"
         style="@style/Body"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/scrollview_child"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tv_place_name"
+                style="@style/BodyRow"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tv_place_name"
-                    style="@style/BodyRow"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tv_place_address"
+                style="@style/BodyRow"
+                android:layout_marginLeft="20dp"
+                android:textSize="14dp" />
+
+            <ImageSwitcher
+                android:id="@+id/img_switcher"
+                style="@style/BodyRow"
+                android:onClick="changeImage" 
+                android:layout_height="200dp"/>
 
-                <TextView
-                    android:id="@+id/tv_place_address"
-                    style="@style/BodyRow"
-                    android:layout_marginLeft="20dp"
-                    android:textSize="14dp" />
-
-                <Gallery
-                    android:id="@+id/view_galery"
-                    style="@style/BodyRow"
-                    android:layout_height="180dp" />
-
-                <TextView
-                    android:id="@+id/tv_description"
-                    style="@style/BodyRow"
-                    android:background="@drawable/bg_message"
-                    android:gravity="top|left"
-                    android:hint="@string/description"
-                    android:paddingBottom="15dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="20dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/line_horizontal" />
-
-                <ListView
-                    android:id="@+id/list"
-                    style="@style/BodyRow"
-                    android:layout_margin="5dp" />
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_description"
+                style="@style/BodyRow"
+                android:background="@drawable/bg_message"
+                android:gravity="top|left"
+                android:hint="@string/description"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="20dp" />
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>
