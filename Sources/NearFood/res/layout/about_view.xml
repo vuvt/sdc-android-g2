@@ -6,6 +6,8 @@
     <TextView
         android:id="@+id/textView1"
         android:textSize="16dp"
+        android:textColor="#6B8E23"
+        android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -18,52 +20,145 @@
         android:layout_toRightOf="@+id/textView1"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="70dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#6B8E23"
         android:text="sFood v1.0" />
+
     <TextView
-        android:id="@+id/textView2"
-        android:textSize="16dp"
+        android:id="@+id/textView2_1"
+        android:textSize="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView1"
         android:layout_alignLeft="@+id/textView1"
-        android:layout_marginTop="10dp"
-        android:text="Emal :"/>
-
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="3dp"
+        android:textColor="#6B8E23"
+        android:text="Name "/>
     <TextView
-        android:id="@+id/textView2_2"
+        android:id="@+id/textView2_1_1"
+        android:textSize="14dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
-        android:layout_alignRight="@+id/textView1_1"
-        android:layout_marginTop="10dp"
-        android:text="g2.bkdn@gmail.com" />
+        android:layout_below="@+id/textView2"
+        android:layout_alignBaseline="@+id/textView2_1"
+        android:layout_toRightOf="@+id/textView2_1"
+        android:layout_marginLeft="90dp"
+        android:layout_marginTop="3dp"
+        android:textColor="#6B8E23"
+        android:text="Gmail"/>
+    
+    <TextView
+        android:id="@+id/textView2_2_2"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2_1"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:textColor="#6B8E23"
+        android:text="Võ Thái Vũ"/>
+    <TextView
+        android:id="@+id/textView2_2_2_1"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2_2_2"
+        android:layout_toRightOf="@+id/textView2_2_2"
+        android:layout_marginLeft="70dp"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="thaivu101"/>
+    <TextView
+        android:id="@+id/textView2_2_3"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2_2_2"
+        android:layout_alignLeft="@+id/textView2_2_2"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="Đặng Xuân Lập"/>
+    <TextView
+        android:id="@+id/textView2_2_3_1"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2_2_3"
+        android:layout_alignLeft="@+id/textView2_2_2_1"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="dvl101bkdn"/>
+    <TextView
+        android:id="@+id/textView2_2_4"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2_2_3"
+        android:layout_alignLeft="@+id/textView2_2_2"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="Đặng Công Mến"/>
+    <TextView
+        android:id="@+id/textView2_2_4_1"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2_2_4"
+        android:layout_alignLeft="@+id/textView2_2_2_1"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="dcm.it.bkdn"/>
+	<TextView
+        android:id="@+id/textView2_2_5"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2_2_4"
+        android:layout_alignLeft="@+id/textView2_2_2"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="Phan Ngọc Tứ"/>
+    <TextView
+        android:id="@+id/textView2_2_5_1"
+        android:textSize="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView2_2_5"
+        android:layout_alignLeft="@+id/textView2_2_2_1"
+        android:layout_marginTop="5dp"
+        android:textColor="#6B8E23"
+        android:text="lufy.it.bkdn"/>
 
    <TextView
         android:id="@+id/textView3"
         android:textSize="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
+        android:layout_below="@+id/textView2_2_5"
+        android:layout_alignLeft="@+id/textView1"
         android:layout_marginTop="20dp"
+        android:textColor="#6B8E23"
         android:text="Phone : "/>
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textView3_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView2"
-        android:layout_alignRight="@+id/textView2_2"
-        android:layout_marginTop="20dp"
+        android:layout_alignBaseline="@+id/textView3"
+        android:layout_alignRight="@+id/textView1_1"
+        android:textColor="#6B8E23"
         android:text="01654321789" />
 
     <TextView
         android:id="@+id/textView4"
         android:textSize="16dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/textView3"
         android:layout_marginTop="10dp"
+        android:textColor="#6B8E23"
         android:text="Copyright @Android SDC G2" />
 
 </RelativeLayout>

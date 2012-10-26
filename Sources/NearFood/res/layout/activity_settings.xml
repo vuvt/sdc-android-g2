@@ -18,7 +18,9 @@
             style="@style/TitleBarText"
             android:text="@string/activity_settings_title" />
     </LinearLayout>
-    <!-- Acount settings -->
+    
+    <RelativeLayout style="@style/Body" >
+        <!-- Acount settings -->
 
     <LinearLayout
         android:id="@+id/lvfull"
@@ -173,7 +175,6 @@
      <!-- end -->
   </LinearLayout>
 	<!-- Menu Tab -->
-    <RelativeLayout style="@style/Body" >
     </RelativeLayout>
 
 </RelativeLayout>
