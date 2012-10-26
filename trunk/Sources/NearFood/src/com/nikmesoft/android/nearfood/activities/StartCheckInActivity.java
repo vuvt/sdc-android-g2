@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class StartCheckInActivity extends BaseActivity {
 	Place place;
 	ImageView img_checkin;
 	EditText edt_description;
+	Button bt_take_photo, bt_choose_image;
 	private boolean hasImage = false;
 	private int REQ_CODE_PICK_IMAGE = 100, REQ_CODE_TAKE_PHOTO = 101;
 
@@ -41,6 +43,8 @@ public class StartCheckInActivity extends BaseActivity {
 		// img_checkin=(ImageView)findViewById(R.id.img_checkin);
 		edt_description = (EditText) findViewById(R.id.edt_description);
 		img_checkin = (ImageView) findViewById(R.id.img_checkin);
+		bt_choose_image=(Button)findViewById(R.id.bt_choose_img);
+		bt_take_photo=(Button)findViewById(R.id.bt_take_photo);
 	}
 
 	public void actionChooseImage(View v) {
@@ -62,12 +66,15 @@ public class StartCheckInActivity extends BaseActivity {
             Bitmap photo = (Bitmap) data.getExtras().get("data"); 
             img_checkin.setImageBitmap(photo);
             hasImage=true;
+            bt_choose_image.setVisibility(View.INVISIBLE);
+            bt_take_photo.setVisibility(View.INVISIBLE);
         } else if (requestCode == REQ_CODE_PICK_IMAGE&&resultCode == RESULT_OK) {
                 Uri selectedImageUri = data.getData();
                 //System.out.println("Image Path : " + selectedImagePath);
                 img_checkin.setImageURI(selectedImageUri);
                 hasImage=true;
-            
+                bt_choose_image.setVisibility(View.INVISIBLE);
+                bt_take_photo.setVisibility(View.INVISIBLE);
         }
 	}
 
@@ -111,6 +118,10 @@ public class StartCheckInActivity extends BaseActivity {
 	}
 	public void startCheckIn(){
 		
+	}
+	public void imgCheckInClick(View v){
+		bt_choose_image.setVisibility(View.VISIBLE);
+        bt_take_photo.setVisibility(View.VISIBLE);
 	}
 	// private void share(String nameApp, String imagePath) {
 	// List<Intent> targetedShareIntents = new ArrayList<Intent>();
