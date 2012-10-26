@@ -63,6 +63,7 @@
                     android:background="@drawable/frame_search_background"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
+                    android:focusableInTouchMode="false"
                     android:keepScreenOn="false"
                     android:paddingLeft="20dp"
                     android:paddingRight="45dp"

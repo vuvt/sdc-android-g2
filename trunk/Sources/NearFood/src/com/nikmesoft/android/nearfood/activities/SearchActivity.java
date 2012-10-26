@@ -39,7 +39,7 @@ public class SearchActivity extends ActivityGroup implements
 	private ViewFlipper flipper;
 	private int imgIndex = 1;
 	private View view;
-	private EditText ed_distance;
+	private EditText ed_distance, ed_search;
 	ArrayList<CheckBox> checkboxs;
 	private Spinner spinner_distance;
 	String str_filter = "";
@@ -72,7 +72,14 @@ public class SearchActivity extends ActivityGroup implements
 		lvSearch.setOnItemClickListener(this);
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		checkboxs = new ArrayList<CheckBox>();
-
+		ed_search = (EditText) findViewById(R.id.edt_search);
+		ed_search.setOnClickListener(new View.OnClickListener() {
+			
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				ed_search.setFocusableInTouchMode(true);
+			}
+		});
 	}
 
 	@SuppressLint({ "ParserError", "NewApi", "NewApi", "NewApi" })
