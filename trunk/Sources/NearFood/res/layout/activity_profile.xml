@@ -60,7 +60,8 @@
             android:focusable="false"
             android:clickable="true"
             android:background="@drawable/link_3_state"
-            android:text="@string/activity_profile_tvTakeAPhoto" />
+            android:text="@string/activity_profile_tvTakeAPhoto"
+            android:onClick="onClickTakeAPhoto" />
 
         <TextView
             android:id="@+id/tvChooseFromGallery"
@@ -72,7 +73,8 @@
             android:focusable="false"
             android:clickable="true"
             android:background="@drawable/link_3_state"
-            android:text="@string/activity_profile_tvChooseFromGallery" />
+            android:text="@string/activity_profile_tvChooseFromGallery"
+            android:onClick="onClickChooseFromGallery" />
 
         <TableLayout
             android:layout_width="match_parent"
