@@ -42,51 +42,79 @@
             android:layout_height="2dp"
             android:background="#8B7E66"/>
         	
-	<LinearLayout
+	<RelativeLayout
 	    android:id="@+id/llay_login"
 	    android:onClick="OnClicklogin"
 	    android:orientation="horizontal"
 	    android:layout_marginTop="5dp"
-	    android:layout_width="wrap_content"
+	    android:background="@drawable/bground_setting"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
 	    <ImageView 
 	        android:id="@+id/img_login"
-	        android:layout_width="fill_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
 	        android:layout_marginLeft="30dp"
 	        android:src="@drawable/ic_login"/>
 	    <TextView
 	        android:id="@+id/tvlogin"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@+id/img_login"
 	        android:layout_marginTop="5dp"
+	        android:layout_marginBottom="5dp"
 	        android:layout_marginLeft="20dp"
 	        android:textSize="20dp"
 	        android:text="Login"/>
-	</LinearLayout>
+
+	   <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/tvlogin"
+            android:layout_marginRight="30dp"
+            android:layout_height="1dp"
+            android:background="#F0F8FF"/>
+	  </RelativeLayout>    
 	<!-- Register -->
-	<LinearLayout
+	<RelativeLayout
 	    android:id="@+id/llay_register"
 	    android:onClick="OnClickRegister"
 	    android:orientation="horizontal"
-	    android:layout_marginTop="5dp"
-	    android:layout_width="wrap_content"
+	    android:background="@drawable/bground_setting"
+	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
 	    <ImageView 
 	        android:id="@+id/img_register"
-	        android:layout_width="fill_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
+	        android:layout_marginTop="4dp"
 	        android:layout_marginLeft="30dp"
 	        android:src="@drawable/ic_register"/>
 	    <TextView
-	        android:id="@+id/tvlogin"
+	        android:id="@+id/tvregister"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="5dp"
+	        android:layout_marginTop="9dp"
+	        android:layout_toRightOf="@+id/img_register"
+	        android:layout_marginBottom="4dp"
 	        android:layout_marginLeft="20dp"
 	        android:textSize="20dp"
 	        android:text="Register"/>
-	</LinearLayout>
+
+	<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/tvregister"
+            android:layout_marginRight="30dp"
+            android:layout_height="1dp"
+            android:background="#F0F8FF"/>
+	
+	</RelativeLayout>
 	<!-- end -->
 	<!-- Infomation -->
 	<TextView 
@@ -102,76 +130,121 @@
             android:layout_marginRight="20dp"
             android:layout_height="2dp"
             android:background="#8B7E66"/>
-        <!-- Feedback -->
-     <LinearLayout
+        
+        
+        <!-- Feedback -->       
+     <RelativeLayout
 			android:id="@+id/llay_Feedback"
 			android:onClick="OnClickFeedback"
 			android:orientation="horizontal"
 			android:layout_marginTop="5dp"
-			android:layout_width="wrap_content"
+			android:background="@drawable/bground_setting"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
 			    <ImageView 
 			        android:id="@+id/img_feedback"
-			        android:layout_width="fill_parent"
+			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
+			        android:layout_marginTop="4dp"
 			        android:layout_marginLeft="30dp"
 			        android:src="@drawable/ic_feedback"/>
 			    <TextView
 			        android:id="@+id/tvfeedback"
 			        android:layout_width="wrap_content"
 			        android:layout_height="wrap_content"
-			        android:layout_marginTop="5dp"
+			        android:layout_marginTop="9dp"
+			        android:layout_toRightOf="@+id/img_feedback"
+			        android:layout_marginBottom="4dp"
 			        android:layout_marginLeft="20dp"
 			        android:textSize="20dp"
 			        android:text="Feedback"/>
-	</LinearLayout>		    
-			  <!-- Help -->
-	<LinearLayout
+
+	<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/tvfeedback"
+            android:layout_marginRight="30dp"
+            android:layout_height="1dp"
+            android:background="#F0F8FF"/>
+	 </RelativeLayout>   
+	<!-- Help -->
+	<RelativeLayout
 			android:id="@+id/llay_help"
 			android:onClick="OnClickHelp"
 			android:orientation="horizontal"
-			android:layout_marginTop="5dp"
-			android:layout_width="wrap_content"
+			android:layout_marginTop="1dp"
+			android:background="@drawable/bground_setting"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 				    <ImageView 
 				        android:id="@+id/img_help"
-				        android:layout_width="fill_parent"
+				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
+				        android:layout_marginTop="4dp"
 				        android:layout_marginLeft="30dp"
 				        android:src="@drawable/ic_help"/>
 				    <TextView
 				        android:id="@+id/tvhelp"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_marginTop="5dp"
+				        android:layout_width="match_parent"
+				        android:layout_height="wrap_content"				        
+				        android:layout_toRightOf="@+id/img_help"
+				        android:layout_marginTop="9dp"
+				        android:layout_marginBottom="4dp"
 				        android:layout_marginLeft="20dp"
 				        android:textSize="20dp"
 				        android:text="Help"/>
-		</LinearLayout>		    
-				    <!--About  -->
-		<LinearLayout
-			android:id="@+id/llay_about"
-			android:onClick="OnClickAbout"
-			android:orientation="horizontal"
-			android:layout_marginTop="5dp"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content">
+
+		<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/tvhelp"
+            android:layout_marginRight="30dp"
+            android:layout_height="1dp"
+            android:background="#F0F8FF"/>
+		</RelativeLayout>		    
+	<!--About  -->	    
+		<RelativeLayout
+		    android:id="@+id/llay_about"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="1dp"
+		    android:background="@drawable/bground_setting"
+		    android:onClick="OnClickAbout" >
+
 				    <ImageView 
 				        android:id="@+id/img_about"
-				        android:layout_width="fill_parent"
+				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
+				        android:layout_marginTop="4dp"
+				        android:layout_marginBottom="5dp"
 				        android:layout_marginLeft="30dp"
 				        android:src="@drawable/ic_about"/>
 				    <TextView
 				        android:id="@+id/tvabout"
-				        android:layout_width="wrap_content"
+				        android:layout_width="match_parent"
 				        android:layout_height="wrap_content"
-				        android:layout_marginTop="5dp"
+				        android:layout_marginTop="9dp"
+				        android:layout_marginBottom="4dp"
+				        android:layout_toRightOf="@+id/img_about"
 				        android:textSize="20dp"
 				        android:layout_marginLeft="20dp"
 				        android:text="About"/>
-		</LinearLayout>  
+
+		<RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/tvabout"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_height="1dp"
+            android:background="#F0F8FF"/>  
+       </RelativeLayout>    
      <!-- end -->
   </LinearLayout>
 	<!-- Menu Tab -->
