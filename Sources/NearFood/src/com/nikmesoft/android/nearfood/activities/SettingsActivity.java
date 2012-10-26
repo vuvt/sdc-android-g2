@@ -79,7 +79,7 @@ public class SettingsActivity extends BaseActivity {
 		al.setTitle("Change password");
 		al.setView(inflater.inflate(R.layout.change_password, null));
 		al.setPositiveButton("OK",null);
-        al.setNegativeButton("Call",null);
+        al.setNegativeButton("Cancel",null);
 		al.show();
 	}
 }
