@@ -83,7 +83,7 @@ public class StartCheckInActivity extends BaseActivity {
 
 	public void shareFacebook(View v) {
 		if (checkImage()) {
-
+			
 		}
 	}
 
@@ -99,6 +99,18 @@ public class StartCheckInActivity extends BaseActivity {
 					.show();
 		return hasImage;
 
+	}
+	public void checkIn(View v){
+		startCheckIn();
+		Intent intent = new Intent(this, StartCheckInActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("place",
+				place);
+		intent.putExtras(bundle);
+		startActivity(intent);
+	}
+	public void startCheckIn(){
+		
 	}
 	// private void share(String nameApp, String imagePath) {
 	// List<Intent> targetedShareIntents = new ArrayList<Intent>();
