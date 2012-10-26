@@ -80,5 +80,7 @@
     <string name="activity_profile_tvEmail">Email</string>
     <string name="activity_profile_tvBirthDay">Birthday</string>
     <string name="activity_profile_tvGender">Gender</string>
+    <string name="bt_take_photo_title">Take a photo</string>
+    <string name="bt_choose_image_title">Choose from gallery</string>
 
 </resources>

@@ -17,7 +17,7 @@
         <TextView
             style="@style/TitleBarText"
             android:text="@string/activity_checkin_title" />
-
+
         <Button
             android:id="@+id/bt_checkin"
             style="?android:attr/buttonStyleSmall"
@@ -26,10 +26,11 @@
             android:layout_gravity="left|center_vertical"
             android:layout_marginLeft="@dimen/body_layout_margin"
             android:layout_marginRight="@dimen/body_layout_margin"
+            android:background="@drawable/button_opacity_20dp"
+            android:enabled="false"
             android:onClick="checkIn"
-            android:text="@string/activity_checkin_title"
-            android:visibility="invisible" 
-            android:enabled="false"/>
+            android:visibility="invisible"
+            android:text="@string/activity_checkin_title" />
         
     </LinearLayout>
 
