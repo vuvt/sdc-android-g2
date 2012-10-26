@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,7 +21,7 @@ public class StartCheckInActivity extends BaseActivity {
 	Place place;
 	ImageView img_checkin;
 	EditText edt_description;
-	private boolean hasImage=false;
+	private boolean hasImage = false;
 	private int REQ_CODE_PICK_IMAGE = 100, REQ_CODE_TAKE_PHOTO = 101;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -45,13 +44,15 @@ public class StartCheckInActivity extends BaseActivity {
 	}
 
 	public void actionChooseImage(View v) {
-		Intent intent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(intent, REQ_CODE_PICK_IMAGE);
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+				REQ_CODE_PICK_IMAGE);
 	}
 
 	public void actionTakePhoto(View v) {
-		Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		startActivityForResult(intent, REQ_CODE_TAKE_PHOTO);
 	}
 
@@ -60,44 +61,48 @@ public class StartCheckInActivity extends BaseActivity {
 
 		if (requestCode == REQ_CODE_PICK_IMAGE) {
 			if (resultCode == Activity.RESULT_OK && data != null) {
-				Uri selectedImage = data.getData();
-				String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-				Cursor cursor = getContentResolver().query(selectedImage,
-						filePathColumn, null, null, null);
-				cursor.moveToFirst();
-
-				int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-				String picturePath = cursor.getString(columnIndex);
-				cursor.close();
-
-				img_checkin.setImageBitmap(BitmapFactory
-						.decodeFile(picturePath));
-				hasImage=true;
+				Uri selectedImageUri = data.getData();
+				// System.out.println("Image Path : " + selectedImagePath);
+				img_checkin.setImageURI(selectedImageUri);
+				hasImage = true;
 			}
 		} else if (requestCode == REQ_CODE_TAKE_PHOTO) {
 			if (data != null) {
 				Bitmap photo = (Bitmap) data.getExtras().get("data");
 				img_checkin.setImageBitmap(photo);
-				hasImage=true;
-			} 
+				hasImage = true;
+			}
 		}
 	}
-	public void shareFacebook(View v){
-		if(checkImage()){
-			
+
+	public String getPath(Uri uri) {
+		String[] projection = { MediaStore.Images.Media.DATA };
+		@SuppressWarnings("deprecation")
+		Cursor cursor = managedQuery(uri, projection, null, null, null);
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+
+	public void shareFacebook(View v) {
+		if (checkImage()) {
+
 		}
 	}
-	public void shareTwitter(View v){
-		if(checkImage()){
-			
+
+	public void shareTwitter(View v) {
+		if (checkImage()) {
+
 		}
 	}
-	private boolean checkImage(){
-		if(!hasImage)
-			Toast.makeText(this, "Please choose image!", Toast.LENGTH_LONG).show();
+
+	private boolean checkImage() {
+		if (!hasImage)
+			Toast.makeText(this, "Please choose image!", Toast.LENGTH_LONG)
+					.show();
 		return hasImage;
-			
+
 	}
 	// private void share(String nameApp, String imagePath) {
 	// List<Intent> targetedShareIntents = new ArrayList<Intent>();
