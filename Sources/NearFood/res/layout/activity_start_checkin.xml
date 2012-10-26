@@ -76,6 +76,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
+            android:onClick="checkIn"
             android:text="@string/activity_checkin_title" />
 
         <RelativeLayout
@@ -83,11 +84,12 @@
             android:layout_above="@+id/bt_checkin"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/edt_description" >
-
+
             <ImageView
                 android:id="@+id/img_checkin"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:onClick="imgCheckInClick"
                 android:scaleType="fitCenter" />
 
             <LinearLayout
