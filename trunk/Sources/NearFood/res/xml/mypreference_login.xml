@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+     <Preference
+        android:layout="@layout/activity_settings" >         
+     </Preference>
+     
+     <PreferenceCategory
+         android:title=" ACOUNT SETTINGS">
+     <Preference
+         android:icon="@drawable/ic_profile"
+         android:title="Profile"/>           	
+     <PreferenceScreen 
+        android:icon="@drawable/ic_change_password"
+        android:title="Change password"/>
+     
+     <PreferenceScreen 
+        android:icon="@drawable/ic_logout"
+        android:title="Logout"/>
+     </PreferenceCategory>   
+     
+     <PreferenceCategory
+         android:title="INFOMATION">	
+     <PreferenceScreen 
+        android:icon="@drawable/ic_feedback"
+        android:title="Feedback" />
+     <PreferenceScreen 
+        android:icon="@drawable/ic_help"
+        android:title="Help" />  
+     <Preference
+        android:icon="@drawable/ic_about"
+        android:title="About" />
+     </PreferenceCategory>
+     
+</PreferenceScreen>
