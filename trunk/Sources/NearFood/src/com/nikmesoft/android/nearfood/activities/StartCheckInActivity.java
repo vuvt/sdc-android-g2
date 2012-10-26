@@ -109,7 +109,7 @@ public class StartCheckInActivity extends BaseActivity {
 	}
 	public void checkIn(View v){
 		startCheckIn();
-		Intent intent = new Intent(this, StartCheckInActivity.class);
+		Intent intent = new Intent(this, ViewCheckInActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("place",
 				place);
