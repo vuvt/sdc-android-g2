@@ -18,5 +18,6 @@
     <color name="link_background_default">#00000000</color>
     <color name="link_background_pressed">#d8f9ee</color>
     <!-- link 3 state end -->
+    <color name="click_setting_color">#ffb90f</color>
 
 </resources>
