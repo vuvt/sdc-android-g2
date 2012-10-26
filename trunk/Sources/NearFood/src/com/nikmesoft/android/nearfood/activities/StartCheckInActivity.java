@@ -1,6 +1,6 @@
 package com.nikmesoft.android.nearfood.activities;
 
-import android.app.Activity;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -40,7 +40,7 @@ public class StartCheckInActivity extends BaseActivity {
 		tv_placeaddress.setText(place.getAddress());
 		// img_checkin=(ImageView)findViewById(R.id.img_checkin);
 		edt_description = (EditText) findViewById(R.id.edt_description);
-		img_checkin = (ImageView) findViewById(R.id.img_checked);
+		img_checkin = (ImageView) findViewById(R.id.img_checkin);
 	}
 
 	public void actionChooseImage(View v) {
@@ -58,21 +58,17 @@ public class StartCheckInActivity extends BaseActivity {
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == REQ_CODE_PICK_IMAGE) {
-			if (resultCode == Activity.RESULT_OK && data != null) {
-				Uri selectedImageUri = data.getData();
-				// System.out.println("Image Path : " + selectedImagePath);
-				img_checkin.setImageURI(selectedImageUri);
-				hasImage = true;
-			}
-		} else if (requestCode == REQ_CODE_TAKE_PHOTO) {
-			if (data != null) {
-				Bitmap photo = (Bitmap) data.getExtras().get("data");
-				img_checkin.setImageBitmap(photo);
-				hasImage = true;
-			}
-		}
+		if (requestCode == REQ_CODE_TAKE_PHOTO && resultCode == RESULT_OK) {  
+            Bitmap photo = (Bitmap) data.getExtras().get("data"); 
+            img_checkin.setImageBitmap(photo);
+            hasImage=true;
+        } else if (requestCode == REQ_CODE_PICK_IMAGE&&resultCode == RESULT_OK) {
+                Uri selectedImageUri = data.getData();
+                //System.out.println("Image Path : " + selectedImagePath);
+                img_checkin.setImageURI(selectedImageUri);
+                hasImage=true;
+            
+        }
 	}
 
 	public String getPath(Uri uri) {
