@@ -91,12 +91,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
-        <activity
-            android:name=".activities.ProfileActivity"
-            android:label="@string/activity_profile"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Basic" >
-        </activity>
+
         <activity
             android:name=".activities.StartCheckInActivity"
             android:label="@string/activity_checkin_title"

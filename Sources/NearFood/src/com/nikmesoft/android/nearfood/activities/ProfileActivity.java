@@ -1,5 +1,7 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import com.nikmesoft.android.nearfood.R;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -8,8 +10,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
-import com.nikmesoft.android.nearfood.R;
 
 public class ProfileActivity extends BaseActivity {
 	
