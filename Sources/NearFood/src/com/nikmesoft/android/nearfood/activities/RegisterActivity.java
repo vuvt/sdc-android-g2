@@ -112,12 +112,12 @@ public class RegisterActivity extends BaseActivity {
 	 * @return true if have a field is null, invert return false if haven't
 	 */
 	public boolean isNullAllFields() {
-		if (edtFullName.getText().equals(null)
-				|| edtEmail.getText().equals(null)
-				|| edtPassword.getText().equals(null)
-				|| edtConfirmPassword.getText().equals(null)
-				|| edtBirthDay.getText().equals(null)
-				|| (!rbMale.isSelected() && !rbFemale.isSelected())) {
+		if ("".equals(edtFullName.getText().toString())
+				|| "".equals(edtEmail.getText().toString())
+				|| "".equals(edtPassword.getText().toString())
+				|| "".equals(edtConfirmPassword.getText().toString())
+				|| "".equals(edtBirthDay.getText().toString())
+				|| (!rbMale.isChecked() && !rbFemale.isChecked())) {
 			return true;
 		}
 		return false;
