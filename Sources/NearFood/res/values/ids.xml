@@ -37,4 +37,5 @@
 	<item name="fullname_item_checkin_search" type="id"/>
 	<item name="description_item_checkin_search" type="id"/>
 	<item name="time_item_checkin_search" type="id"/>
+	<item name="listview_layout_search" type="id"/>
 </resources>

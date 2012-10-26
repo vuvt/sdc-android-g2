@@ -99,7 +99,9 @@ public class SearchActivity extends ActivityGroup implements
 					R.drawable.button_map));
 		}
 	}
-
+	public void onClickLogin(View v){
+		
+	}
 	public void onClickFilter(View v) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		LayoutInflater 	inflater = (LayoutInflater) this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -114,11 +116,10 @@ public class SearchActivity extends ActivityGroup implements
 				.findViewById(R.id.check_dishes);
 		ed_distance = (EditText) view.findViewById(R.id.ed_distance);
 		spinner_distance = (Spinner) view.findViewById(R.id.spinner);
-		spinner_distance = (Spinner) view.findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.distance_array,
 				android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_distance.setAdapter(adapter);
 		alert.setTitle("Serach Filter");
 		alert.setView(view);

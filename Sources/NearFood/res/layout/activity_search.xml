@@ -21,7 +21,12 @@
             android:text="@string/activity_search_title" />
 
         <Button
-            style="@style/TitleBarLogin"
+            android:id="@+id/bt_login"
+            style="@style/SearchButton"
+            android:layout_height="28dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp"
+            android:onClick="onClickLogin"
             android:text="Login" />
     </LinearLayout>
 
@@ -47,21 +52,21 @@
                 android:id="@+id/frame_search"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical" >
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" >
+
                 <EditText
                     android:id="@+id/edt_search"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:background="@drawable/frame_search_background"
-                    android:focusableInTouchMode="false"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
+                    android:keepScreenOn="false"
                     android:paddingLeft="20dp"
                     android:paddingRight="45dp"
                     android:singleLine="true" >
-
                 </EditText>
 
                 <LinearLayout
@@ -92,7 +97,7 @@
 
             <ImageButton
                 android:id="@+id/bt_listmap"
-                android:layout_width="wrap_content"
+                android:layout_width="42dip"
                 android:layout_height="35dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_margin="5dp"

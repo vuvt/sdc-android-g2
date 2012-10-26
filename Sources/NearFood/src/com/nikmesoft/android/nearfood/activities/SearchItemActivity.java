@@ -14,6 +14,7 @@ import com.nikmesoft.android.nearfood.models.User;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -21,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,10 +34,13 @@ import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SearchItemActivity extends Activity {
 	private ArrayList<Drawable> listImage;
+	private ScrollView scrollview;
 	private Gallery gallery;
 	private ImageView left_arrow_imageview, right_arrow_imageview,
 			selected_imageview;
@@ -44,7 +49,7 @@ public class SearchItemActivity extends Activity {
 	private SearchCheckInResultAdapter checkInApdapter;
 	private ListView lvCheckin;
 	ArrayList<CheckIn> checkins;
-
+	private LinearLayout linearlayout_list;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_item);
@@ -54,16 +59,9 @@ public class SearchItemActivity extends Activity {
 	public void init() {
 
 		// Adapter Check In
-		lvCheckin = (ListView) findViewById(R.id.lv_checkin_search);
-		lvCheckin.setOnTouchListener(new OnTouchListener() {
-
-			public boolean onTouch(View v, MotionEvent event) {
-				if (event.getAction() == MotionEvent.ACTION_MOVE) {
-					return true; 
-				}
-				return false;
-			}
-		});
+		linearlayout_list = (LinearLayout) findViewById(R.id.listview_layout_search);
+		scrollview = (ScrollView) findViewById(R.id.ScrollViewLayout);
+		
 		checkins = new ArrayList<CheckIn>();
 		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number One", "","2 days ago"));
 		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number two", "","2 days ago"));
@@ -71,9 +69,7 @@ public class SearchItemActivity extends Activity {
 		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number two", "","2 days ago"));
 		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number One", "","2 days ago"));
 		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", ""), "Quan nay` Number two", "","2 days ago"));
-		checkInApdapter = new SearchCheckInResultAdapter(this,
-				R.layout.list_item_checkin_search, checkins);
-		lvCheckin.setAdapter(checkInApdapter);
+		addItemListViewCustomer(checkins);
 		// Adapter Gallery
 		gallery = (Gallery) findViewById(R.id.gallery_search);
 		left_arrow_imageview = (ImageView) findViewById(R.id.left_arrow_imageview);
@@ -224,5 +220,24 @@ public class SearchItemActivity extends Activity {
 
 	public void onClickMap(View v) {
 
+	}
+	public void addItemListViewCustomer(ArrayList<CheckIn> checks) {
+		Log.d("Customer", "Da vao");
+		for(int i=0; i<checks.size(); i++){
+			LayoutInflater inflater = (LayoutInflater)getSystemService(
+					Context.LAYOUT_INFLATER_SERVICE);
+			View row = inflater.inflate(
+					R.layout.list_item_checkin_search, null);
+			TextView fullName = (TextView) row
+					.findViewById(R.id.fullname_item_checkin_search);
+			TextView description = (TextView) row
+					.findViewById(R.id.description_item_checkin_search);
+			TextView time = (TextView) row
+					.findViewById(R.id.time_item_checkin_search);
+			fullName.setText("Full Name");
+			description.setText(checks.get(i).getDescription().toString());
+			time.setText(checks.get(i).getTimeCheck().toString());
+			linearlayout_list.addView(row);
+		}
 	}
 }

@@ -53,30 +53,33 @@
     <style name="TitleBarFacebook">
         <item name="android:id">@id/titlebar_facebook</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">30dip</item>
         <item name="android:clickable">true</item>
         <item name="android:paddingLeft">5dip</item>
         <item name="android:paddingRight">5dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:src">@drawable/ic_facebook</item>
     </style>
 
     <style name="TitleBarFavorite">
         <item name="android:id">@id/titlebar_favorite</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">35dip</item>
         <item name="android:clickable">true</item>
         <item name="android:paddingLeft">5dip</item>
         <item name="android:paddingRight">5dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:src">@drawable/ic_favorite</item>
     </style>
 
     <style name="TitleBarLike">
         <item name="android:id">@id/titlebar_like</item>
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">30dip</item>
         <item name="android:clickable">true</item>
         <item name="android:paddingLeft">5dip</item>
         <item name="android:paddingRight">5dip</item>
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:src">@drawable/ic_like</item>
     </style>
 
@@ -238,6 +241,7 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingLeft">10dip</item>
+        <item name="android:layout_marginTop">10dip</item>
         <item name="android:textStyle">bold|normal</item>
         <item name="android:shadowColor">#000000</item>
         <item name="android:shadowDx">1</item>

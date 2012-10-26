@@ -26,7 +26,8 @@
         <ImageView
             style="@style/TitleBarFavorite"
             android:contentDescription="@string/app_name"
-            android:onClick="onClickFavorite" />
+            android:onClick="onClickFavorite" 
+            />
 
         <ImageView
             style="@style/TitleBarLike"
@@ -42,7 +43,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="10dip">
 
             <TextView
                 android:id="@id/search_name_place"
@@ -50,15 +52,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
                 android:text="Quan nhau Pipo"
                 android:textColor="#4169E1"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold|normal" />
 
             <Button
                 android:id="@+id/btnCheckInSearch"
                 style="@style/SearchButton"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="27dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="3dip"
@@ -68,71 +72,19 @@
 
             <ImageButton
                 android:layout_width="wrap_content"
-                android:layout_height="35dip"
+                android:layout_height="30dip"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/btnCheckInSearch"
                 android:background="@drawable/button_map"
                 android:onClick="onClickMap" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="2dip" >
-
-            <ImageView
-                android:id="@id/selected_imageview"
-                android:layout_width="match_parent"
-                android:layout_height="120dip"
-                android:layout_marginBottom="5dip" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <ImageView
-                    android:id="@id/left_arrow_imageview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="4dip"
-                    android:onClick="onClickLeftArrow"
-                    android:src="@drawable/arrow_left_enabled" />
-
-                <Gallery
-                    android:id="@id/gallery_search"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="4dip"
-                    android:layout_toLeftOf="@id/right_arrow_imageview"
-                    android:layout_toRightOf="@id/left_arrow_imageview" />
-
-                <ImageView
-                    android:id="@id/right_arrow_imageview"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:onClick="onClickRightArrow"
-                    android:src="@drawable/arrow_right_enabled" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:layout_marginBottom="5dip"
-            android:layout_marginLeft="5dip"
-            android:layout_marginRight="5dip"
-            android:layout_marginTop="5dip"
-            android:background="@color/titlebar_separator" />
-
         <ScrollView
+            android:id="@+id/ScrollViewLayout"
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent" >
+            android:layout_height="fill_parent" 
+            android:layout_marginTop="5dip">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,86 +94,147 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical"
+                    android:padding="2dip" >
 
-                    <TextView
-                        style="@style/TextTitelItemSearch"
-                        android:text="@string/text_information" />
-
-                    <LinearLayout
+                    <ImageView
+                        android:id="@id/selected_imageview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="15dip"
-                        android:paddingRight="15dip"
-                        android:paddingTop="5dip" >
+                        android:layout_height="120dip"
+                        android:layout_marginBottom="5dip" />
 
-                        <TextView
-                            android:id="@id/address_information"
-                            style="@style/TextInfomation"
-                            android:text="240 - Nguyen Luong Bang, Quan Lien chieu, Da Nang" />
-                        
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
 
-                            <!-- This is the main content -->
+                        <ImageView
+                            android:id="@id/left_arrow_imageview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="4dip"
+                            android:onClick="onClickLeftArrow"
+                            android:src="@drawable/arrow_left_enabled" />
 
-                            <RelativeLayout
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"
-                                android:layout_marginTop="12dp"
-                                android:layout_marginBottom="12dp"
-                                android:background="@drawable/bg_border"
-                                android:orientation="vertical"
-                                android:paddingTop="15dp"
-                                android:paddingBottom="15dp"
-                                android:paddingRight="10dp"
-                                android:paddingLeft="10dp"
-                                 >
+                        <Gallery
+                            android:id="@id/gallery_search"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="4dip"
+                            android:layout_toLeftOf="@id/right_arrow_imageview"
+                            android:layout_toRightOf="@id/left_arrow_imageview" />
 
-                                <TextView
-                                    android:id="@id/description_information"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được. Buổi sáng gần đó cũng có một quán bún mắm, thấy mọi người ăn đông" />
-                            </RelativeLayout>
-
-                            <!-- This is the title label -->
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="30dp"
-                                android:padding="3dp"
-                                android:background="@drawable/bg_border"
-                                android:text="Description"
-                                android:textColor="@android:color/black" />
-                        </RelativeLayout>
-                    </LinearLayout>
+                        <ImageView
+                            android:id="@id/right_arrow_imageview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:onClick="onClickRightArrow"
+                            android:src="@drawable/arrow_right_enabled" />
+                    </RelativeLayout>
                 </LinearLayout>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/titlebar_separator" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="3dip"
                     android:orientation="vertical" >
 
-                    <TextView
-                        style="@style/TextTitelItemSearch"
-                        android:text="@string/text_checkin" />
-
-                    <ListView
-                        android:id="@id/lv_checkin_search"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="15dip"
-                        android:paddingRight="15dip"
-                        
-                        >
-                    </ListView>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            style="@style/TextTitelItemSearch"
+                            android:text="@string/text_information" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="15dip"
+                            android:paddingRight="15dip"
+                            android:paddingTop="5dip" >
+
+                            <TextView
+                                android:id="@id/address_information"
+                                style="@style/TextInfomation"
+                                android:text="240 - Nguyen Luong Bang, Quan Lien chieu, Da Nang" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" >
+
+                                <!-- This is the main content -->
+
+                                <RelativeLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_marginBottom="12dp"
+                                    android:layout_marginTop="12dp"
+                                    android:background="@drawable/bg_border"
+                                    android:orientation="vertical"
+                                    android:paddingBottom="15dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingTop="15dp" >
+
+                                    <TextView
+                                        android:id="@id/description_information"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được. Buổi sáng gần đó cũng có một quán bún mắm, thấy mọi người ăn đông" />
+                                </RelativeLayout>
+
+                                <!-- This is the title label -->
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="30dp"
+                                    android:background="@drawable/bg_border"
+                                    android:padding="3dp"
+                                    android:text="Description"
+                                    android:textColor="@android:color/black" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dip"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            style="@style/TextTitelItemSearch"
+                            android:text="@string/text_checkin" />
+
+                        <LinearLayout
+                            android:id="@id/listview_layout_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingLeft="15dip"
+                            android:layout_marginTop="2dip"
+                            android:paddingRight="15dip" 
+                            >
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
+/
         </ScrollView>
     </LinearLayout>
 
