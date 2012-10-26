@@ -1,0 +1,200 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout style="@style/TitleBar">
+
+        <ImageView
+            style="@style/TitleBarLogo"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/titlebar_logo" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_settings_title" />
+    </LinearLayout>
+    <!-- Acount settings -->
+
+    <LinearLayout
+        android:id="@+id/lvfull"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/titlebar_container"
+        android:orientation="vertical" >
+        <TextView 
+            android:id="@+id/tvAcount_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="Acount Settings"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="2dp"
+            android:background="#8B7E66"/>
+    <LinearLayout
+	    android:id="@+id/llay_profile"
+	    android:onClick="OnClickProfile"
+	    android:orientation="horizontal"
+	    android:layout_marginTop="5dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content">
+	    <ImageView 
+	        android:id="@+id/img_profile"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:src="@drawable/ic_profile"/>
+	    <TextView
+	        android:id="@+id/tvlogin"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginLeft="20dp"
+	        android:text="Profile"/>
+	</LinearLayout>
+	<!-- Change password -->
+	<LinearLayout
+	    android:id="@+id/llay_changwpass"
+	    android:onClick="OnClickChangepass"
+	    android:orientation="horizontal"
+	    android:layout_marginTop="5dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content">
+	    <ImageView 
+	        android:id="@+id/img_changepass"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:src="@drawable/ic_change_password"/>
+	    <TextView
+	        android:id="@+id/tvchangepass"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:layout_marginLeft="20dp"
+	        android:textSize="20dp"
+	        android:text="Change Password"/>
+	</LinearLayout>
+	<!-- Logout -->    	
+	<LinearLayout
+	    android:id="@+id/llay_logout"
+	    android:onClick="OnClicklogout"
+	    android:orientation="horizontal"
+	    android:layout_marginTop="5dp"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content">
+	    <ImageView 
+	        android:id="@+id/img_login"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginLeft="30dp"
+	        android:src="@drawable/ic_logout"/>
+	    <TextView
+	        android:id="@+id/tvlogin"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dp"
+	        android:textSize="20dp"
+	        android:layout_marginLeft="20dp"
+	        android:text="Logout"/>
+	</LinearLayout>
+	<!-- end -->
+	<!-- Infomation -->
+	<TextView 
+            android:id="@+id/tvinfomation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="Infomation"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_height="2dp"
+            android:background="#8B7E66"/>
+        <!-- Feedback -->
+     <LinearLayout
+			android:id="@+id/llay_Feedback"
+			android:onClick="OnClickFeedback"
+			android:orientation="horizontal"
+			android:layout_marginTop="5dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+
+			    <ImageView 
+			        android:id="@+id/img_feedback"
+			        android:layout_width="fill_parent"
+			        android:layout_height="wrap_content"
+			        android:layout_marginLeft="30dp"
+			        android:src="@drawable/ic_feedback"/>
+			    <TextView
+			        android:id="@+id/tvfeedback"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_marginTop="5dp"
+			        android:textSize="20dp"
+			        android:layout_marginLeft="20dp"
+			        android:text="Feedback"/>
+	</LinearLayout>		    
+			  <!-- Help -->
+	<LinearLayout
+			android:id="@+id/llay_help"
+			android:onClick="OnClickHelp"
+			android:orientation="horizontal"
+			android:layout_marginTop="5dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+				    <ImageView 
+				        android:id="@+id/img_help"
+				        android:layout_width="fill_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_marginLeft="30dp"
+				        android:src="@drawable/ic_help"/>
+				    <TextView
+				        android:id="@+id/tvhelp"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginTop="5dp"
+				        android:textSize="20dp"
+				        android:layout_marginLeft="20dp"
+				        android:text="Help"/>
+		</LinearLayout>		    
+				    <!--About  -->
+		<LinearLayout
+			android:id="@+id/llay_about"
+			android:onClick="OnClickAbout"
+			android:orientation="horizontal"
+			android:layout_marginTop="5dp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content">
+				    <ImageView 
+				        android:id="@+id/img_about"
+				        android:layout_width="fill_parent"
+				        android:layout_height="wrap_content"
+				        android:layout_marginLeft="30dp"
+				        android:src="@drawable/ic_about"/>
+				    <TextView
+				        android:id="@+id/tvabout"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:layout_marginTop="5dp"
+				        android:textSize="20dp"
+				        android:layout_marginLeft="20dp"
+				        android:text="About"/>
+		</LinearLayout>  
+     <!-- end -->
+  </LinearLayout>
+	<!-- Menu Tab -->
+    <RelativeLayout style="@style/Body" >
+    </RelativeLayout>
+
+</RelativeLayout>
