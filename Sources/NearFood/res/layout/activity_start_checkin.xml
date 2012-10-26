@@ -25,7 +25,6 @@
             android:id="@+id/tv_place_name"
             style="@style/BodyRow"
             android:layout_alignParentLeft="true"
-            android:text="SDC"
             android:textSize="16dp"
             android:textStyle="bold" />
 
@@ -35,9 +34,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tv_place_name"
             android:layout_marginLeft="20dp"
-            android:text="TextView"
             android:textSize="14dp" />
-
 
         <EditText
             android:id="@+id/edt_description"
@@ -51,7 +48,7 @@
             android:gravity="top|left"
             android:inputType="textMultiLine"
             android:textSize="13dp" />
-
+
         <Button
             android:id="@+id/bt_share_facebook"
             android:layout_width="wrap_content"
@@ -59,8 +56,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/edt_description"
             android:layout_marginRight="5dp"
-            android:background="@drawable/ic_facebook" />
-
+            android:background="@drawable/ic_facebook"
+            android:onClick="shareFacebook" />
+
         <Button
             android:id="@+id/bt_share_twitter"
             android:layout_width="wrap_content"
@@ -68,7 +66,8 @@
             android:layout_alignRight="@+id/bt_share_facebook"
             android:layout_below="@+id/bt_share_facebook"
             android:layout_marginTop="5dp"
-            android:background="@drawable/ic_twitter" />
+            android:background="@drawable/ic_twitter"
+            android:onClick="shareTwitter" />
 
         <Button
             android:id="@+id/bt_checkin"
@@ -77,15 +76,44 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
-            android:text="Check-In" />
+            android:text="@string/activity_checkin_title" />
 
-        <ImageView
-            android:id="@+id/image_checkin"
+        <RelativeLayout
             style="@style/BodyRow"
-            android:layout_alignParentLeft="true"
             android:layout_above="@+id/bt_checkin"
-            android:layout_below="@+id/edt_description" />
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/edt_description" >
+
+            <ImageView
+                android:id="@+id/img_checkin"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter" />
 
+            <LinearLayout
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" android:orientation="vertical"
+                >
+
+                <Button
+                    android:id="@+id/bt_choose_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/body_layout_margin"
+                    android:background="@drawable/button_opacity"
+                    android:text="@string/bt_choose_image_title" 
+                    android:onClick="actionChooseImage"/>
+                <Button
+                    android:id="@+id/bt_take_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_margin="@dimen/body_layout_margin"
+                    android:background="@drawable/button_opacity"
+                    android:text="@string/bt_take_photo_title" 
+                    android:onClick="actionTakePhoto"/>
+            </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

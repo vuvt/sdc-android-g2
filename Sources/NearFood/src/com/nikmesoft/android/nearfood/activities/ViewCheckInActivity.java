@@ -1,7 +1,6 @@
 package com.nikmesoft.android.nearfood.activities;
 
-import java.io.InputStream;
-import java.net.URL;
+
 import java.util.ArrayList;
 
 import com.nikmesoft.android.nearfood.R;
@@ -77,14 +76,14 @@ public class ViewCheckInActivity extends BaseActivity implements ViewFactory {
 				CheckIn checkin = new CheckIn(
 						1,
 						description,
-						"http://d.f14.photo.zdn.vn/upload/original/2012/10/24/14/44/1351064663357763639_574_574.jpg");
+						"http://sphotos-d.ak.fbcdn.net/hphotos-ak-ash3/542972_378371868894102_1861606541_n.jpg");
 				checkin.setUser(user);
 				listCheckIn.add(checkin);
 			} else {
 				CheckIn checkin = new CheckIn(
 						1,
 						description,
-						"http://www.wallpapers.com/media/6ec23df0-3b54-4c17-870f-803983a7c8ce/adorableawp6_400x250.jpg");
+						"http://sphotos-c.ak.fbcdn.net/hphotos-ak-ash4/252307_436532289703053_1987981101_n.jpg");
 				checkin.setUser(user);
 				listCheckIn.add(checkin);
 			}
@@ -100,25 +99,43 @@ public class ViewCheckInActivity extends BaseActivity implements ViewFactory {
 		imageSwitcher.setOutAnimation(AnimationUtils.loadAnimation(this,
 				android.R.anim.slide_out_right));
 		imgList = new ArrayList<Drawable>();
-		try {
-			Drawable drawable = Utility.LoadImageFromWebOperations(
-					place.getImagePath(), "check_in_place_img");
+		new Thread(new Runnable() {
 
-			imageSwitcher.setImageDrawable(drawable);
-			imgList.add(drawable);
+			public void run() {
+				try {
+					Drawable placeimg = Utility.LoadImageFromWebOperations(
+							place.getImagePath(), "check_in_place_img");
 
-		} catch (Exception e) {
-		}
+					//imageSwitcher.setImageDrawable(placeimg);
+					imgList.add(placeimg);
+
+				} catch (Exception e) {
+				}
+/*				for (int i = 0; i < listCheckIn.size(); i++) {
+					try {
+						Drawable drawable = Utility.LoadImageFromWebOperations(
+								listCheckIn.get(i).getImagePath(),
+								"check_in_img_top" + i);
+						imgList.add(drawable);
+						if (imgList.size() == 1) {
+							imageSwitcher.setImageDrawable(drawable);
+						}
+					} catch (Exception e) {
+					}
+				}*/
+			}
+		}).start();
 		positionShow = 0;
 
 		layout = (LinearLayout) findViewById(R.id.scrollview_child);
 		addView();
+		changeImage(imageSwitcher);
 
 	}
 
 	public void changeImage(View v) {
 		if (imgList.size() > 0) {
-			if (positionShow < imgList.size())
+			if (positionShow < imgList.size()-1)
 				positionShow++;
 			else
 				positionShow = 0;
@@ -127,30 +144,9 @@ public class ViewCheckInActivity extends BaseActivity implements ViewFactory {
 	}
 
 	public void addView() {
-		// int i=positionShow;
-		// positionShow=listCheckIn.size() > (positionShow +10) ?
-		// (positionShow+10):(listCheckIn.size()-1);
-		for (int i = 0; i < listCheckIn.size(); i++) {
+		for (int i = 0; i < listCheckIn.size(); i++)
 			layout.addView(getView(i));
-			final int temp = i;
-			new Thread(new Runnable() {
 
-				public void run() {
-
-					try {
-						Drawable drawable = Utility.LoadImageFromWebOperations(
-								listCheckIn.get(temp).getImagePath(),
-								"check_in_img" + temp);
-						imgList.add(drawable);
-						if (imgList.size() == 1) {
-							imageSwitcher.setImageDrawable(drawable);
-						}
-					} catch (Exception e) {
-					}
-
-				}
-			}).start();
-		}
 	}
 
 	public View getView(final int position) {
@@ -193,7 +189,10 @@ public class ViewCheckInActivity extends BaseActivity implements ViewFactory {
 				try {
 					Drawable drawable = Utility.LoadImageFromWebOperations(
 							checkin.getImagePath(), "check_in_img" + position);
+					//Drawable drawable = Utility.loadDrawable(
+					//		checkin.getImagePath());
 					img_checkin.setImageDrawable(drawable);
+					imgList.add(drawable);
 				} catch (Exception e) {
 				}
 
