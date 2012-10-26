@@ -10,6 +10,8 @@ import android.app.AlertDialog.Builder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -18,7 +20,9 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.R.xml;
@@ -28,9 +32,11 @@ public class SettingsActivity extends BaseActivity {
 	private static final String key_log="login";
 	private ListView myListView,myLi;
 	private ArrayAdapter<String> myAdapter,myad;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		// neu chua login
 		setContentView(R.layout.activity_settings);
 		/*neu da login
@@ -43,6 +49,7 @@ public class SettingsActivity extends BaseActivity {
 		startActivity(intent);
 	}
 	public void OnClickAbout(View v){
+
 		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
 		LayoutInflater inflater = this.getLayoutInflater();
 		al.setTitle("About");
