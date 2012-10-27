@@ -1,6 +1,7 @@
 package com.nikmesoft.android.nearfood.activities;
 
 import com.nikmesoft.android.nearfood.R;
+import com.nikmesoft.android.nearfood.helpers.SharedPreferencesHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,9 +37,9 @@ public class SplashActivity extends BaseActivity {
 		if (!isTouched) {
 			isTouched = true;
 			Intent intent = new Intent();
-			if (sharedPreferencesHelper.isFirstUse()) {
+			if (SharedPreferencesHelper.getInstance().isFirstUse()) {
 				intent.setClass(SplashActivity.this, FirstUseActivity.class);
-				//sharedPreferencesHelper.setFirstUse(false);
+				// sharedPreferencesHelper.setFirstUse(false);
 			} else {
 				intent.setClass(SplashActivity.this, MainActivity.class);
 			}
