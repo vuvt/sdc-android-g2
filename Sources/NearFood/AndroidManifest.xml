@@ -121,6 +121,20 @@
             android:theme="@style/Theme.Basic" >
         </activity>
         <activity
+            android:name=".activities.AboutActivity"
+            android:label="@string/activity_profile_title"
+            android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.HelpActivity"
+            android:label="@string/activity_settings_title"
+            android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
             android:name=".activities.TabGroupActivity"
             android:label="@string/activity_profile_title"
             android:permission="android.permission.CAMERA"
