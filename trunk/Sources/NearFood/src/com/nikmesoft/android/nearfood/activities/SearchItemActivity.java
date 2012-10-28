@@ -185,21 +185,8 @@ public class SearchItemActivity extends Activity {
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		// TODO Auto-generated method stub
-		Log.i("Vao` chua?", "Da vao");
-		Intent intent = new Intent(this, SearchActivity.class);
-		SearchActivity parentActivity = (SearchActivity) getParent();
-		parentActivity.replaceContentView("SearchActivity", intent,
-				Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-	}
-
 	public void onClickBack(View v) {
-		Intent intent = new Intent(this, SearchActivity.class);
-		SearchActivity parentActivity = (SearchActivity) getParent();
-		parentActivity.replaceContentView("SearchActivity", intent,
-				Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+		onBackPressed();
 	}
 
 	public void onClickFacebook(View v) {
