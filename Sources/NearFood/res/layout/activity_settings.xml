@@ -20,6 +20,7 @@
     </LinearLayout>
     
     <RelativeLayout style="@style/Body" >
+        
         <!-- Acount settings -->
 
     <LinearLayout
@@ -28,222 +29,161 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/titlebar_container"
         android:orientation="vertical" >
-        <TextView 
-            android:id="@+id/tvAcount_settings"
+     <LinearLayout
+	    android:id="@+id/llayout_title1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">	
+		<TextView 
+            android:id="@+id/tvinfomation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:text="Acount Settings"/>
+            android:textSize="12dp"
+            android:textColor="#6E8B3D"
+            android:text="ACOUNT SETTINGS"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="0dp"
             android:layout_height="2dp"
             android:background="#8B7E66"/>
-        	
+    </LinearLayout> 
+    	
 	<RelativeLayout
 	    android:id="@+id/llay_login"
 	    android:onClick="OnClicklogin"
-	    android:orientation="horizontal"
 	    android:layout_marginTop="5dp"
 	    android:background="@drawable/bground_setting"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
 	    <ImageView 
+	        style="@style/Img_stylt_setting"
 	        android:id="@+id/img_login"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="5dp"
-	        android:layout_marginLeft="30dp"
 	        android:src="@drawable/ic_login"/>
 	    <TextView
+	        style="@style/TextSettings"
 	        android:id="@+id/tvlogin"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@+id/img_login"
-	        android:layout_marginTop="5dp"
-	        android:layout_marginBottom="5dp"
-	        android:layout_marginLeft="20dp"
-	        android:textSize="20dp"
 	        android:text="Login"/>
-
 	   <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/tvlogin"
-            android:layout_marginRight="30dp"
-            android:layout_height="1dp"
-            android:background="#F0F8FF"/>
-	  </RelativeLayout>    
+			style="@style/Line_setting"
+            android:layout_below="@+id/tvlogin"/>
+	</RelativeLayout>
+	    
 	<!-- Register -->
 	<RelativeLayout
 	    android:id="@+id/llay_register"
 	    android:onClick="OnClickRegister"
-	    android:orientation="horizontal"
 	    android:background="@drawable/bground_setting"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content">
 	    <ImageView 
+	        style="@style/Img_stylt_setting"
 	        android:id="@+id/img_register"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="4dp"
-	        android:layout_marginLeft="30dp"
 	        android:src="@drawable/ic_register"/>
 	    <TextView
+	        style="@style/TextSettings"
 	        android:id="@+id/tvregister"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginTop="9dp"
 	        android:layout_toRightOf="@+id/img_register"
-	        android:layout_marginBottom="4dp"
-	        android:layout_marginLeft="20dp"
-	        android:textSize="20dp"
 	        android:text="Register"/>
-
-	<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/tvregister"
-            android:layout_marginRight="30dp"
-            android:layout_height="1dp"
-            android:background="#F0F8FF"/>
-	
+		<RelativeLayout
+			style="@style/Line_setting"
+            android:layout_below="@+id/tvregister"/>	
 	</RelativeLayout>
+	
 	<!-- end -->
 	<!-- Infomation -->
-	<TextView 
+	<LinearLayout
+	    android:id="@+id/llayout_title2"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical">	
+		<TextView 
             android:id="@+id/tvinfomation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="20dp"
-            android:text="Infomation"/>
+            android:textSize="12dp"
+            android:textColor="#6E8B3D"
+            android:text="INFOMATION"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
+            android:layout_marginBottom="5dp"
             android:layout_height="2dp"
             android:background="#8B7E66"/>
-        
+      </LinearLayout>  
         
         <!-- Feedback -->       
      <RelativeLayout
 			android:id="@+id/llay_Feedback"
 			android:onClick="OnClickFeedback"
-			android:orientation="horizontal"
-			android:layout_marginTop="5dp"
 			android:background="@drawable/bground_setting"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
 			    <ImageView 
+			        style="@style/Img_stylt_setting"
 			        android:id="@+id/img_feedback"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginTop="4dp"
-			        android:layout_marginLeft="30dp"
 			        android:src="@drawable/ic_feedback"/>
 			    <TextView
+			        style="@style/TextSettings"
 			        android:id="@+id/tvfeedback"
-			        android:layout_width="wrap_content"
-			        android:layout_height="wrap_content"
-			        android:layout_marginTop="9dp"
 			        android:layout_toRightOf="@+id/img_feedback"
-			        android:layout_marginBottom="4dp"
-			        android:layout_marginLeft="20dp"
-			        android:textSize="20dp"
 			        android:text="Feedback"/>
 
 	<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/tvfeedback"
-            android:layout_marginRight="30dp"
-            android:layout_height="1dp"
-            android:background="#F0F8FF"/>
+            style="@style/Line_setting"
+            android:layout_below="@+id/tvfeedback"/>
 	 </RelativeLayout>   
 	<!-- Help -->
 	<RelativeLayout
 			android:id="@+id/llay_help"
 			android:onClick="OnClickHelp"
-			android:orientation="horizontal"
 			android:layout_marginTop="1dp"
 			android:background="@drawable/bground_setting"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 				    <ImageView 
+				        style="@style/Img_stylt_setting"
 				        android:id="@+id/img_help"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_marginTop="4dp"
-				        android:layout_marginLeft="30dp"
 				        android:src="@drawable/ic_help"/>
 				    <TextView
-				        android:id="@+id/tvhelp"
-				        android:layout_width="match_parent"
-				        android:layout_height="wrap_content"				        
+				        style="@style/TextSettings"
+				        android:id="@+id/tvhelp"				        
 				        android:layout_toRightOf="@+id/img_help"
-				        android:layout_marginTop="9dp"
-				        android:layout_marginBottom="4dp"
-				        android:layout_marginLeft="20dp"
-				        android:textSize="20dp"
 				        android:text="Help"/>
 
 		<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="30dp"
-            android:layout_below="@+id/tvhelp"
-            android:layout_marginRight="30dp"
-            android:layout_height="1dp"
-            android:background="#F0F8FF"/>
+            style="@style/Line_setting"
+            android:layout_below="@+id/tvhelp"/>
 		</RelativeLayout>		    
 	<!--About  -->	    
 		<RelativeLayout
 		    android:id="@+id/llay_about"
-		    android:layout_width="wrap_content"
+		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_marginTop="1dp"
 		    android:background="@drawable/bground_setting"
 		    android:onClick="OnClickAbout" >
 
 				    <ImageView 
+				        style="@style/Img_stylt_setting"
 				        android:id="@+id/img_about"
-				        android:layout_width="wrap_content"
-				        android:layout_height="wrap_content"
-				        android:layout_marginTop="4dp"
-				        android:layout_marginBottom="5dp"
-				        android:layout_marginLeft="30dp"
 				        android:src="@drawable/ic_about"/>
 				    <TextView
+				        style="@style/TextSettings"
 				        android:id="@+id/tvabout"
-				        android:layout_width="match_parent"
-				        android:layout_height="wrap_content"
-				        android:layout_marginTop="9dp"
-				        android:layout_marginBottom="4dp"
 				        android:layout_toRightOf="@+id/img_about"
-				        android:textSize="20dp"
-				        android:layout_marginLeft="20dp"
 				        android:text="About"/>
-
-		<RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_below="@+id/tvabout"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_height="1dp"
-            android:background="#F0F8FF"/>  
+			<RelativeLayout
+				style="@style/Line_setting"
+	            android:layout_below="@+id/tvabout"/>  
        </RelativeLayout>    
      <!-- end -->
   </LinearLayout>
