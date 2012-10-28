@@ -42,7 +42,7 @@ public class SearchResultAdapter extends ArrayAdapter<Place> {
 		nameplace.setText(place.getName().toString());
 		addressplace.setText(place.getAddress().toString());
 		distanceplace.setText("About 2.5 Miles");
-		numberLike.setText(place.getLikedCount());
+		numberLike.setText(String.valueOf(place.getLikedCount()));
 		
 		return row;
 	}
