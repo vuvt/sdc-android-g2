@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.models.Place;
 
-public class StartCheckInActivity extends BaseActivity {
+public class CKICheckInActivity extends BaseActivity {
 
 	Place place;
 	ImageView img_checkin;
@@ -109,7 +109,7 @@ public class StartCheckInActivity extends BaseActivity {
 	}
 	public void checkIn(View v){
 		startCheckIn();
-		Intent intent = new Intent(this, ViewCheckInActivity.class);
+		Intent intent = new Intent(this, CKIViewCheckInActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putSerializable("place",
 				place);

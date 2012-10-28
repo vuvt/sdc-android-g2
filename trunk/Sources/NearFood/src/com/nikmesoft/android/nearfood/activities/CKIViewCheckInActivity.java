@@ -22,7 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher.ViewFactory;
 
-public class ViewCheckInActivity extends BaseActivity implements ViewFactory {
+public class CKIViewCheckInActivity extends BaseActivity implements ViewFactory {
 	private Place place;
 	LinearLayout layout;
 	ArrayList<CheckIn> listCheckIn;
