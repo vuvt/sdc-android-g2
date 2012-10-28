@@ -48,12 +48,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
-        <activity
-            android:name=".activities.CheckInActivity"
-            android:label="@string/activity_checkin_title"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.Basic" >
-        </activity>
+       
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/activity_settings_title"
@@ -90,14 +85,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
+         <activity
+            android:name=".activities.CKIMainActivity"
+            android:label="@string/activity_checkin_title"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
         <activity
-            android:name=".activities.ViewCheckInActivity"
+            android:name=".activities.CKIViewCheckInActivity"
             android:label="@string/view_checkin_title"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
         <activity
-            android:name=".activities.StartCheckInActivity"
+            android:name=".activities.CKICheckInActivity"
             android:label="@string/activity_checkin_title"
             android:permission="android.permission.CAMERA"
             android:screenOrientation="portrait"

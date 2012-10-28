@@ -257,12 +257,12 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			int position, long id) {
 		if (view.equals(list)) {
 			CKIGroupActivity parent = (CKIGroupActivity) getParent();
-			Intent intent = new Intent(parent, SearchGroupActivity.class);
+			Intent intent = new Intent(parent, CKICheckInActivity.class);
 			Bundle bundle = new Bundle();
 			bundle.putSerializable(ExtraBinding.PLACE_BINDING,
 					checkinResultAdapter.getItem(position));
 			intent.putExtras(bundle);
-			parent.startChildActivity(CKICheckInActivity.class.getSimpleName(),
+			parent.startNewActivity(CKICheckInActivity.class.getSimpleName(),
 					intent);
 		} else if (view.equals(textView)) {
 			textView.setText(autoCompleteAdapter.getItem(position).getName());
