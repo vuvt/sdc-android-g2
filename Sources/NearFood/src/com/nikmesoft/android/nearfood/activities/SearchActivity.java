@@ -3,6 +3,7 @@ package com.nikmesoft.android.nearfood.activities;
 import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +24,7 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
+
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
 import com.nikmesoft.android.nearfood.models.Place;
@@ -30,15 +33,13 @@ import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("ParserError")
-public class SearchActivity extends ActivityGroup implements
-		OnItemClickListener {
+public class SearchActivity extends BaseActivity implements OnItemClickListener {
 
 	private ListView lvSearch;
 	protected SearchResultAdapter placeAdapter;
 	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
 	private int imgIndex = 1;
-	private View view;
 	private EditText ed_distance, ed_search;
 	ArrayList<CheckBox> checkboxs;
 	private Spinner spinner_distance;
@@ -74,7 +75,7 @@ public class SearchActivity extends ActivityGroup implements
 		checkboxs = new ArrayList<CheckBox>();
 		ed_search = (EditText) findViewById(R.id.edt_search);
 		ed_search.setOnClickListener(new View.OnClickListener() {
-			
+
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				ed_search.setFocusableInTouchMode(true);
@@ -86,16 +87,6 @@ public class SearchActivity extends ActivityGroup implements
 	public void onClickListOrMap(View v) {
 		AnimationFactory.flipTransition(flipper, FlipDirection.RIGHT_LEFT);
 		ImageButton btnListMap = (ImageButton) v.findViewById(R.id.bt_listmap);
-		/*
-		 * if (v.getBackground().equals(getResources().getDrawable(R.drawable.
-		 * button_list))) {
-		 * 
-		 * btnListMap.setBackground(getResources().getDrawable(
-		 * R.drawable.button_map)); } else {
-		 * btnListMap.setBackground(getResources().getDrawable(
-		 * R.drawable.button_list)); }
-		 */
-
 		if (imgIndex == 1) {
 			imgIndex = 2;
 			btnListMap.setBackgroundDrawable(getResources().getDrawable(
@@ -106,13 +97,16 @@ public class SearchActivity extends ActivityGroup implements
 					R.drawable.button_map));
 		}
 	}
-	public void onClickLogin(View v){
-		
+
+	public void onClickLogin(View v) {
+
 	}
+
 	public void onClickFilter(View v) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		LayoutInflater 	inflater = (LayoutInflater) this.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		view = inflater.inflate(R.layout.menu_filter, null);
+		View view = LayoutInflater.from(this.getParent()).inflate(
+				R.layout.menu_filter, null);
+		Log.d("Viewwwwwwww", String.valueOf(view.getId()));
 		final CheckBox check_distance = (CheckBox) view
 				.findViewById(R.id.check_distance);
 		final CheckBox check_location = (CheckBox) view
@@ -126,7 +120,6 @@ public class SearchActivity extends ActivityGroup implements
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				this, R.array.distance_array,
 				android.R.layout.simple_spinner_item);
-		//adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_distance.setAdapter(adapter);
 		alert.setTitle("Serach Filter");
 		alert.setView(view);
@@ -173,15 +166,8 @@ public class SearchActivity extends ActivityGroup implements
 	}
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-		Intent intent = new Intent(this, SearchItemActivity.class);
-		replaceContentView("SearchActivity", intent, Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	}
-
-	public void replaceContentView(String id, Intent newIntent, int flag) {
-		View view = getLocalActivityManager().startActivity(id,
-				newIntent.addFlags(flag))
-				.getDecorView();
-		this.setContentView(view);
+		SearchTabGroupActivity parent = (SearchTabGroupActivity) getParent();
+		parent.startNewActivity(SearchItemActivity.class.getSimpleName(),
+				new Intent(parent, SearchItemActivity.class));
 	}
 }
