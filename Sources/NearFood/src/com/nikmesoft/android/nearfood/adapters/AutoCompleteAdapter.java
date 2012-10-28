@@ -7,21 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.maps.MapView;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.models.Place;
 
-public class CheckInResultAdapter extends ArrayAdapter<Place>{
+public class AutoCompleteAdapter extends ArrayAdapter<Place>{
 	private int resourceID;
-	private MapView mapView;
 	
-	public CheckInResultAdapter(Context context, int resourceID, List<Place> objects, MapView mapView) {
-		super(context, resourceID, objects);
+	public AutoCompleteAdapter(Context context, int resourceID) {
+		super(context, resourceID);
 		this.resourceID = resourceID;
-		this.mapView=mapView;
+
+	}
+	public AutoCompleteAdapter(Context context, int resourceID,List<Place> list) {
+		super(context, resourceID,list);
+		this.resourceID = resourceID;
 	}
 	
 	@Override
@@ -35,12 +36,6 @@ public class CheckInResultAdapter extends ArrayAdapter<Place>{
 		}
 		TextView placeName= (TextView) row.findViewById(R.id.place_name);
 		placeName.setText(getItem(position).getName());
-		ImageView bt_mapView=(ImageView)row.findViewById(R.id.img_mapview);
-		bt_mapView.setOnClickListener(new View.OnClickListener() {
-			
-			public void onClick(View v) {
-			}
-		});
 		return row;
 	}
 	
