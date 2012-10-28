@@ -82,5 +82,7 @@
     <string name="activity_profile_tvGender">Gender</string>
     <string name="bt_take_photo_title">Take a photo</string>
     <string name="bt_choose_image_title">Choose from gallery</string>
+    <string name="crop_image_no_app">Can not find Crop Image App in your device.</string>
+    <string name="crop_image_dialog_title">Choose Crop Image App</string>
 
 </resources>
