@@ -56,17 +56,17 @@ public class SearchActivity extends BaseActivity implements OnItemClickListener 
 		lvSearch = (ListView) findViewById(R.id.lvSearch);
 		places = new ArrayList<Place>();
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", "100"));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		placeAdapter = new SearchResultAdapter(this, R.layout.list_item_search,
 				places);
 		lvSearch.setAdapter(placeAdapter);

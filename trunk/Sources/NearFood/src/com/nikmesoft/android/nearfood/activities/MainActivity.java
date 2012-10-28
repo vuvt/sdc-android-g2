@@ -22,7 +22,7 @@ public class MainActivity extends TabActivity {
 	private void initTabs() {
 		addTab(R.drawable.ic_tab_search, SearchTabGroupActivity.class,
 				R.layout.tab_item);
-		addTab(R.drawable.ic_tab_checkin, CheckInActivity.class,
+		addTab(R.drawable.ic_tab_checkin, CKIGroupActivity.class,
 				R.layout.tab_item);
 		addTab(R.drawable.ic_tab_favorites, FavoritesActivity.class,
 				R.layout.tab_item);

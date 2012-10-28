@@ -14,7 +14,7 @@
         android:layout_marginRight="@dimen/body_layout_margin"
         android:contentDescription="@string/activity_checkin_title"
         android:scaleType="fitStart"
-        android:src="@drawable/ic_map_nocolor" />
+        android:src="@drawable/ic_map_pin_current" />
 
     <ImageView
         style="@style/TitleBarSeparator"
