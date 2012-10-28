@@ -44,7 +44,7 @@
             android:layout_marginBottom="15dp"
             android:gravity="center_horizontal"
             android:text="@string/activity_firstuse_tvTitle"
-            android:textColor="#FFFFFF"
+            android:textColor="#800000"
             android:textSize="20dp" />
 
         <Button
