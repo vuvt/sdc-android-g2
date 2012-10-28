@@ -34,7 +34,6 @@ public class GetPlaceInfomation extends
 	@SuppressWarnings({ "rawtypes" })
 	protected ArrayList doInBackground(String... args) {
 
-		Log.d("gottaGo", "doInBackground");
 
 		ArrayList<String[]> predictionsArr = new ArrayList<String[]>();
 
@@ -75,7 +74,7 @@ public class GetPlaceInfomation extends
 				place.setPhoneNumber(result.getString("formatted_phone"));
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				place.setPhoneNumber("");
 			}
 			try {
 				place.setImagePath(result.getString("icon"));
@@ -87,19 +86,15 @@ public class GetPlaceInfomation extends
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			ended=true;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			ended=true;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			ended=true;
 		}
-
+		ended=true;
 		return predictionsArr;
-
 	}
 
 	// then our post
@@ -107,7 +102,6 @@ public class GetPlaceInfomation extends
 	@SuppressWarnings({ "rawtypes" })
 	@Override
 	protected void onPostExecute(ArrayList result) {
-		ended=true;
 	}
 
 }
