@@ -13,33 +13,31 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.adapters.AutoCompleteAdapter;
-import com.nikmesoft.android.nearfood.models.Place;
-
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 public class GetPlacesAutoComplete extends
 		AsyncTask<String, Void, ArrayList<String>> {
 
 	AutoCompleteTextView textView;
-	AutoCompleteAdapter adapter;
-	ArrayList<Place> places = new ArrayList<Place>();
+	ArrayAdapter<String> adapter;
+	ArrayList<String> places = new ArrayList<String>();
+	ArrayList<String> references,res;
 
 	public GetPlacesAutoComplete(AutoCompleteTextView textView,
-			AutoCompleteAdapter adapter) {
+			ArrayAdapter<String> adapter, ArrayList<String> references) {
 		this.textView = textView;
 		this.adapter = adapter;
+		this.references = references;
+		res=new ArrayList<String>();
 	}
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })
 	protected ArrayList doInBackground(String... args) {
 
 		Log.d("gottaGo", "doInBackground");
-
-		
 
 		try {
 
@@ -49,7 +47,7 @@ public class GetPlacesAutoComplete extends
 							+ URLEncoder.encode(textView.getText().toString(),
 									"UTF-8")
 							+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
-			
+
 			URLConnection tc = googlePlaces.openConnection();
 			Log.d("GottaGo", URLEncoder.encode(textView.getText().toString()));
 			BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -60,16 +58,16 @@ public class GetPlacesAutoComplete extends
 			while ((line = in.readLine()) != null) {
 				sb.append(line);
 			}
-			//Log.d("Content", sb.toString());
+			// Log.d("Content", sb.toString());
 			JSONObject predictions = new JSONObject(sb.toString());
-			//Log.d("Prediction", predictions.toString());
+			// Log.d("Prediction", predictions.toString());
 			JSONArray ja = new JSONArray(predictions.getString("predictions"));
 
 			for (int i = 0; i < ja.length(); i++) {
 				JSONObject jo = (JSONObject) ja.get(i);
 				{
-					places.add(new Place(jo.getString("description"), jo
-							.getString("reference")));
+					places.add(jo.getString("description"));
+					res.add(jo.getString("reference"));
 
 				}
 
@@ -98,12 +96,11 @@ public class GetPlacesAutoComplete extends
 
 		Log.d("YourApp", "onPostExecute : " + result.size());
 		// update the adapter
-		adapter = new AutoCompleteAdapter(textView.getContext(),
-				R.layout.activity_checkin_auto_complete_list_item,
-				places);
-		// attach the adapter to textview
-		textView.setAdapter(adapter);
 
+		adapter.clear();
+		adapter.addAll(places);
+		references.clear();
+		references.addAll(res);
 		Log.d("YourApp",
 				"onPostExecute : autoCompleteAdapter " + adapter.getCount());
 

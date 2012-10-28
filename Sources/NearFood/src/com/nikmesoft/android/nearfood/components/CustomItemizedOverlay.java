@@ -1,52 +1,57 @@
 package com.nikmesoft.android.nearfood.components;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import android.app.AlertDialog;
 import android.content.Context;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.widget.Toast;
 
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 
 public class CustomItemizedOverlay extends ItemizedOverlay{
-	private ArrayList<OverlayItem> mOverlays = new ArrayList<OverlayItem>();
+	private List<OverlayItem> items;
+	private Drawable marker;
 	private Context context;
-	
-	public CustomItemizedOverlay(Drawable defaultMarker) {
-		super(boundCenterBottom(defaultMarker));
+
+	public CustomItemizedOverlay(Context context, Drawable marker) {
+		super(marker);
+		this.context = context;
+		this.marker = marker;
+		items = new ArrayList<OverlayItem>();
+		boundCenterBottom(marker);
+		populate();
 	}
-	public CustomItemizedOverlay(Drawable defaultMarker, Context context) {
-		  super(boundCenterBottom(defaultMarker));
-		  this.context = context;
-		}
-	
+
 	@Override
 	protected OverlayItem createItem(int i) {
-		// TODO Auto-generated method stub
-		 return mOverlays.get(i);
+		return (items.get(i));
+	}
+
+	@Override
+	protected boolean onTap(int i) {
+		Toast.makeText(context, items.get(i).getTitle()+"\n"+items.get(i).getSnippet(), Toast.LENGTH_SHORT)
+				.show();
+		return (true);
 	}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return mOverlays.size();
+		return (items.size());
 	}
-	public void addOverlay(OverlayItem overlay) {
-	    mOverlays.add(overlay);
-	    populate();
-	}
-	public void clearOverlay(){
-		mOverlays.clear();
-	}
+
 	@Override
-	protected boolean onTap(int index) {
-	  OverlayItem item = mOverlays.get(index);
-	  AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-	  dialog.setTitle(item.getTitle());
-	  dialog.setMessage(item.getSnippet());
-	  dialog.show();
-	  return true;
+	public void draw(Canvas canvas, MapView mapView, boolean shadow) {
+		super.draw(canvas, mapView, shadow);
+		boundCenterBottom(marker);
+	}
+
+	public void addItem(OverlayItem item) {
+		items.add(item);
+		populate();
 	}
 
 }
