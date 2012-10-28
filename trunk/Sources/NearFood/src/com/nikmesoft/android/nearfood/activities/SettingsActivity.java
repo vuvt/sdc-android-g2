@@ -7,6 +7,7 @@ import java.util.prefs.Preferences;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -19,6 +20,7 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -36,12 +38,12 @@ public class SettingsActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// neu chua login
 		setContentView(R.layout.activity_settings);
 		/*neu da login
 		 * setContentView(R.layout.activity_settings_login)
 		 * */
+
 	}
 	public void OnClickProfile(View v){
 		Intent intent = new Intent();
@@ -49,18 +51,29 @@ public class SettingsActivity extends BaseActivity {
 		startActivity(intent);
 	}
 	public void OnClickAbout(View v){
-
-		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
-		LayoutInflater inflater = this.getLayoutInflater();
+/*		
+		View view =inflater.inflate(R.layout.web_about_view, null);*/
+/*		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
+		LayoutInflater inflater= this.getLayoutInflater();		
 		al.setTitle("About");
+		webAbout.loadUrl("file:///android_asset/about.html");
+		al.setView(inflater.inflate(R.layout.web_about_view, null));
+		al.setPositiveButton("OK", null);
+		al.show();*/
+		
+		Intent intent = new Intent();
+		intent.setClass(this, AboutActivity.class);
+		startActivity(intent);
+		/*AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
+		LayoutInflater inflater= this.getLayoutInflater();
 		al.setView(inflater.inflate(R.layout.about_view, null));
 		al.setPositiveButton("OK", null);
-		al.show();
+		al.show();*/
 	}
 	public void OnClicklogin(View v){
-/*		Intent intents = new Intent();
+		Intent intents = new Intent();
 		intents.setClass(this, LoginActivity.class);
-		startActivity(intents);*/
+		startActivity(intents);
 	}
 
 	public void OnClicklogout(View v){
@@ -70,9 +83,24 @@ public class SettingsActivity extends BaseActivity {
 	}
 	public void OnClickFeedback(View v){
 		//---------------
+		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
+		LayoutInflater inflater = this.getLayoutInflater();
+		al.setTitle("Feedback");
+		al.setMessage("Tính năng chưa được hoàn thiện !");
+		al.setPositiveButton("OK",null);
+		al.show();
 	}
 	public void OnClickHelp(View v){
 		//------------
+/*		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
+		LayoutInflater inflater = this.getLayoutInflater();
+		al.setTitle("Feedback");
+		al.setMessage(Html.fromHtml(getString(R.string.help)));
+		al.setPositiveButton("OK",null);
+		al.show();*/
+		Intent intent = new Intent();
+		intent.setClass(this, HelpActivity.class);
+		startActivity(intent);
 	}
 	
 	public void OnClickRegister(View v){
