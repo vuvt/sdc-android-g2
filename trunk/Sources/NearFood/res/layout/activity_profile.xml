@@ -47,7 +47,8 @@
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@+id/tvProfilePicture"
             android:contentDescription="@string/description"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/no_avatar"
+            android:background="@drawable/avatar_border" />
 
         <TextView
             android:id="@+id/tvTakeAPhoto"
