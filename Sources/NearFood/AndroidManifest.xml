@@ -9,10 +9,14 @@
         android:targetSdkVersion="15" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name=""/>
 
     <uses-feature android:name="android.hardware.camera" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name="com.nikmesoft.android.nearfood.MyApplication"
@@ -48,7 +52,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
-       
         <activity
             android:name=".activities.SettingsActivity"
             android:label="@string/activity_settings_title"
@@ -85,7 +88,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
-         <activity
+        <activity
             android:name=".activities.CKIMainActivity"
             android:label="@string/activity_checkin_title"
             android:screenOrientation="portrait"
@@ -101,6 +104,12 @@
             android:name=".activities.CKICheckInActivity"
             android:label="@string/activity_checkin_title"
             android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.CKIGroupActivity"
+            android:label="@string/activity_checkin_title"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
