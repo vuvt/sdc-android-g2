@@ -3,6 +3,7 @@ package com.nikmesoft.android.nearfood.activities;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -10,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -22,6 +22,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -58,7 +60,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private Drawable IC_MAP_PIN_NORMAL;
 	private Drawable IC_MAP_PIN_CHOSE;
 	private Drawable IC_MAP_PIN_CURRENT;
-	private static GetPlacesAutoComplete oldTask=null;
+	private Button bt_showhidelist;
+	LinearLayout layout_list;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				mapView);
 		list.setAdapter(checkinResultAdapter);
 		list.setOnItemClickListener(this);
+		bt_showhidelist = (Button) findViewById(R.id.bt_showhidelist);
+		layout_list = (LinearLayout) findViewById(R.id.layout_list);
 
 		// Map define component
 		mapView = (MapView) findViewById(R.id.mapView);
@@ -155,12 +160,10 @@ public class CKIMainActivity extends BaseMapsActivity implements
 
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				if(oldTask!=null){
-					oldTask.cancel(false);
-				}
-				GetPlacesAutoComplete getplaces = new GetPlacesAutoComplete(
-						textView, autoCompleteAdapter, references);
-				oldTask=getplaces;
+				GetPlacesAutoComplete getplaces;
+				getplaces = new GetPlacesAutoComplete(textView,
+						autoCompleteAdapter, references);
+
 				getplaces.execute(textView.getText().toString());
 
 			}
@@ -189,12 +192,19 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 						InputMethodManager.HIDE_NOT_ALWAYS);
-		GetPlaces getplaces = new GetPlaces(checkinResultAdapter, textView
-				.getText().toString());
-		getplaces.execute(textView.toString());
-
+		ProgressDialog loading = new ProgressDialog(getParent().getParent());
+		loading.setMessage("Loading. Please wait...");
+		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		loading.setCancelable(false);
+		loading.show();
+		GetPlaces getplaces;
 		try {
-			getplaces.get();
+			getplaces = new GetPlaces(textView.getText().toString());
+
+			getplaces.execute(textView.toString());
+
+			checkinResultAdapter.addAll(getplaces.get());
+
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -202,6 +212,22 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Overlay temp = mapView.getOverlays().get(0);
+		mapView.getOverlays().clear();
+		mapView.getOverlays().add(temp);
+		for (int i = 0; i < checkinResultAdapter.getCount(); i++) {
+			OverlayItem item = new OverlayItem(checkinResultAdapter.getItem(i)
+					.getMapPoint(), "", checkinResultAdapter.getItem(i)
+					.getName()
+					+ "\n"
+					+ checkinResultAdapter.getItem(i).getAddress());
+			addOverlay(item);
+		}
+		if (checkinResultAdapter.getCount() > 0)
+			mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
+		layout_list.setVisibility(View.VISIBLE);
+		bt_showhidelist.setVisibility(View.VISIBLE);
+		loading.dismiss();
 	}
 
 	public void addOverlay(OverlayItem item) {
@@ -230,7 +256,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		choseItem.addItem(newitem);
 
 		mapView.getOverlays().set(position, choseItem);
-		mc.animateTo(newitem.getPoint());
 	}
 
 	private void showCurrentLocation(GeoPoint srcGeoPoint) {
@@ -330,24 +355,50 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		startActivity(intent);
 	}
 
+	public void moveToPoint(GeoPoint point) {
+		mc.animateTo(point);
+	}
+
 	public void showResultAutoComplete(final String reference) {
 		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 						InputMethodManager.HIDE_NOT_ALWAYS);
+		ProgressDialog loading = new ProgressDialog(getParent().getParent());
+		loading.setMessage("Loading. Please wait...");
+		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		loading.setCancelable(false);
 		Overlay current = mapView.getOverlays().get(0);
 		mapView.getOverlays().clear();
 		mapView.getOverlays().add(current);
 		// TODO Auto-generated method stub
 		GetPlaceInfomation getInfo = new GetPlaceInfomation(reference);
-		getInfo.execute("");
+		try {
 
-		while (!getInfo.ended) {
+			getInfo.execute("");
+			Place place = getInfo.get();
+			OverlayItem item = new OverlayItem(place.getMapPoint(),
+					place.getName(), place.getAddress() + "\n"
+							+ place.getPhoneNumber());
+			addOverlay(item);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		OverlayItem item = new OverlayItem(getInfo.place.getMapPoint(),
-				getInfo.place.getName(), getInfo.place.getAddress() + "\n"
-						+ getInfo.place.getPhoneNumber());
-		addOverlay(item);
+		oldOverlay = -1;
+		bt_showhidelist.setVisibility(View.INVISIBLE);
+		layout_list.setVisibility(View.INVISIBLE);
+		loading.dismiss();
+	}
 
+	public void showHideList(View v) {
+		if (layout_list.getVisibility() == View.INVISIBLE) {
+			layout_list.setVisibility(View.VISIBLE);
+		} else {
+			layout_list.setVisibility(View.INVISIBLE);
+		}
 	}
 
 }

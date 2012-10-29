@@ -39,7 +39,7 @@
         <EditText
             android:id="@+id/edt_description"
             style="@style/BodyRow"
-            android:layout_height="150dp"
+            android:layout_height="110dp"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/tv_place_address"
             android:layout_marginTop="5dp"
@@ -48,7 +48,7 @@
             android:gravity="top|left"
             android:inputType="textMultiLine"
             android:textSize="13dp" />
-
+
         <Button
             android:id="@+id/bt_share_facebook"
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:layout_marginRight="5dp"
             android:background="@drawable/ic_facebook"
             android:onClick="shareFacebook" />
-
+
         <Button
             android:id="@+id/bt_share_twitter"
             android:layout_width="wrap_content"
@@ -78,13 +78,20 @@
             android:layout_marginBottom="5dp"
             android:onClick="checkIn"
             android:text="@string/activity_checkin_title" />
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible" />
 
         <RelativeLayout
             style="@style/BodyRow"
             android:layout_above="@+id/bt_checkin"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/edt_description" >
-
+
             <ImageView
                 android:id="@+id/img_checkin"
                 android:layout_width="match_parent"
@@ -93,10 +100,11 @@
                 android:scaleType="fitCenter" />
 
             <LinearLayout
+                android:id="@+id/linearLayout1"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true" android:orientation="vertical"
-                >
+                android:layout_centerInParent="true"
+                android:orientation="vertical" >
 
                 <Button
                     android:id="@+id/bt_choose_img"
@@ -104,16 +112,17 @@
                     android:layout_height="40dp"
                     android:layout_margin="@dimen/body_layout_margin"
                     android:background="@drawable/button_opacity"
-                    android:text="@string/bt_choose_image_title" 
-                    android:onClick="actionChooseImage"/>
+                    android:onClick="actionChooseImage"
+                    android:text="@string/bt_choose_image_title" />
+
                 <Button
                     android:id="@+id/bt_take_photo"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_margin="@dimen/body_layout_margin"
                     android:background="@drawable/button_opacity"
-                    android:text="@string/bt_take_photo_title" 
-                    android:onClick="actionTakePhoto"/>
+                    android:onClick="actionTakePhoto"
+                    android:text="@string/bt_take_photo_title" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

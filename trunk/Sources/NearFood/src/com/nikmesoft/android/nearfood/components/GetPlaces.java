@@ -14,34 +14,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.OverlayItem;
-import com.nikmesoft.android.nearfood.activities.CKIMainActivity;
-import com.nikmesoft.android.nearfood.adapters.CheckInResultAdapter;
 import com.nikmesoft.android.nearfood.models.Place;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
-public class GetPlaces extends AsyncTask<String, Void, ArrayList<String>> {
+public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 
-	CheckInResultAdapter adapter;
-	ArrayList<Place> places;
 	String input;
+	boolean isAutoComplete;
 
-	public GetPlaces(CheckInResultAdapter adapter, String input) {
-		this.adapter = adapter;
+	public GetPlaces(String input) {
 		this.input = input;
-
 	}
 
-	@SuppressWarnings({ "rawtypes", "deprecation" })
-	protected ArrayList doInBackground(String... args) {
+	protected ArrayList<Place> doInBackground(String... args) {
 		// = ProgressDialog.show(MyApplication.getContext(), "Loading...",
 		// "Please wait!", true, false);
 
 		Log.d("gottaGo", "doInBackground");
-
-		places = new ArrayList<Place>();
+		ArrayList<Place> places = new ArrayList<Place>();
 
 		try {
 
@@ -50,7 +42,6 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<String>> {
 							+ URLEncoder.encode(input, "UTF-8")
 							+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
 			URLConnection tc = googlePlaces.openConnection();
-			Log.d("GottaGo", URLEncoder.encode(input.toString()));
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					tc.getInputStream()));
 
@@ -81,6 +72,7 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<String>> {
 					e.printStackTrace();
 				}
 				places.add(place);
+
 			}
 
 		} catch (MalformedURLException e) {
@@ -96,28 +88,6 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<String>> {
 
 		return places;
 
-	}
-
-	// then our post
-
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected void onPostExecute(ArrayList result) {
-
-		Log.d("YourApp", "onPostExecute : " + result.size());
-		// update the adapter
-		adapter.clear();
-		adapter.addAll(places);
-		CKIMainActivity context = (CKIMainActivity) adapter.getContext();
-		for (Place place : places) {
-			OverlayItem item = new OverlayItem(place.getMapPoint(),
-					place.getName(), place.getAddress());
-			context.addOverlay(item);
-		}
-		context.oldOverlay=-1;
-
-		Log.d("YourApp",
-				"onPostExecute : autoCompleteAdapter" + adapter.getCount());
 	}
 
 }

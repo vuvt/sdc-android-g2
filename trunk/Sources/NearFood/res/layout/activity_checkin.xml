@@ -17,7 +17,6 @@
         <TextView
             style="@style/TitleBarText"
             android:text="@string/activity_checkin_title" />
-        
     </LinearLayout>
 
     <RelativeLayout style="@style/Body" >
@@ -27,22 +26,22 @@
             style="@style/BodyRow"
             android:layout_height="30dp"
             android:foregroundGravity="right" >
-			
+
             <AutoCompleteTextView
                 android:id="@+id/tv_search"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right|center_vertical"
                 android:background="@drawable/frame_search_background"
+                android:dropDownWidth="250dp"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:paddingLeft="20dp"
                 android:paddingRight="45dp"
-                android:singleLine="true" 
-                android:dropDownWidth="250dp">
-
+                android:singleLine="true" >
             </AutoCompleteTextView>
-			<LinearLayout
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="right|center_vertical"
@@ -50,15 +49,17 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp" >
+
                 <ImageView
                     style="@style/TitleBarSeparator"
                     android:layout_gravity="left|center_vertical"
+                    android:layout_marginBottom="2dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:contentDescription="@string/app_name" />
-				<Button
+
+                <Button
                     android:id="@+id/bt_search"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -66,34 +67,52 @@
                     android:layout_marginLeft="3dp"
                     android:background="@drawable/ic_search"
                     android:onClick="actionSearch" />
-                
-
-                
             </LinearLayout>
-            
         </FrameLayout>
-		<RelativeLayout 
-		    android:layout_below="@+id/frame_search"
-		    android:layout_width="match_parent"
-		    android:layout_height="fill_parent">
-        <com.google.android.maps.MapView
-            android:id="@+id/mapView"
-            style="@style/BodyRow"
-            android:layout_height="200dp"
-            android:layout_alignParentTop="true"
-            android:apiKey="0m4xhkR2pW3ezKZ1zF5R4S4v7yKK8wFQDStSKMQ"
-            android:clickable="true"
-            android:enabled="true" />
-        <ListView
-            android:id="@+id/list"
-            style="@style/BodyRow"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/mapView"
-            android:layout_marginBottom="5dp"
-            android:choiceMode="singleChoice"
-            android:splitMotionEvents="true"/>
 
-		</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/frame_search" >
+
+            <com.google.android.maps.MapView
+                android:id="@+id/mapView"
+                style="@style/BodyRow"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentTop="true"
+                android:apiKey="0m4xhkR2pW3ezKZ1zF5R4S4v7yKK8wFQDStSKMQ"
+                android:clickable="true"
+                android:enabled="true" />
+
+            <LinearLayout
+                android:id="@+id/layout_list"
+                style="@style/BodyRow"
+                android:layout_height="200dp"
+                android:layout_above="@+id/bt_showhidelist"
+                android:layout_marginBottom="0dp"
+                android:layout_marginLeft="10dp"
+                android:background="#00ffffff"
+                android:visibility="invisible" >
+
+                <ListView
+                    android:id="@+id/list"
+                    style="@style/BodyRow"
+                    android:layout_gravity="bottom"
+                    android:background="#ffffff"
+                    android:choiceMode="singleChoice" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/bt_showhidelist"
+                android:layout_height="50dp"
+                android:layout_width="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="5dp"
+                android:onClick="showHideList"
+                android:visibility="invisible"
+                android:background="@drawable/ic_button_list" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </RelativeLayout>

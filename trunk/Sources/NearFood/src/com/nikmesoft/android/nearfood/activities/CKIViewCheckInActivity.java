@@ -7,7 +7,7 @@ import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.models.CheckIn;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.models.User;
-import com.nikmesoft.android.nearfood.utils.Utility;
+import com.nikmesoft.android.nearfood.utils.Utilities;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -103,7 +103,7 @@ public class CKIViewCheckInActivity extends BaseActivity implements ViewFactory 
 
 			public void run() {
 				try {
-					Drawable placeimg = Utility.LoadImageFromWebOperations(
+					Drawable placeimg = Utilities.LoadImageFromWebOperations(
 							place.getImagePath(), "check_in_place_img");
 
 					//imageSwitcher.setImageDrawable(placeimg);
@@ -168,7 +168,7 @@ public class CKIViewCheckInActivity extends BaseActivity implements ViewFactory 
 			public void run() {
 
 				try {
-					Drawable drawable = Utility.LoadImageFromWebOperations(
+					Drawable drawable = Utilities.LoadImageFromWebOperations(
 							checkin.getUser().getProfilePicture(),
 							"check_in_user_avasta" + position);
 					img_avasta.setImageDrawable(drawable);
@@ -187,7 +187,7 @@ public class CKIViewCheckInActivity extends BaseActivity implements ViewFactory 
 			public void run() {
 
 				try {
-					Drawable drawable = Utility.LoadImageFromWebOperations(
+					Drawable drawable = Utilities.LoadImageFromWebOperations(
 							checkin.getImagePath(), "check_in_img" + position);
 					//Drawable drawable = Utility.loadDrawable(
 					//		checkin.getImagePath());
