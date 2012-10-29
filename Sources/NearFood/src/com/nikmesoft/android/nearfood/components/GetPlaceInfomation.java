@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 
 
 import org.json.JSONException;
@@ -19,24 +18,17 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 public class GetPlaceInfomation extends
-		AsyncTask<String, Void, ArrayList<String>> {
+		AsyncTask<String, Void, Place> {
 
 	String reference;
-	public Place place;
-	public boolean ended;
+	
 
 	public GetPlaceInfomation(String reference) {
 		this.reference = reference;
-		this.place = null;
-		ended=false;
 	}
 
-	@SuppressWarnings({ "rawtypes" })
-	protected ArrayList doInBackground(String... args) {
-
-
-		ArrayList<String[]> predictionsArr = new ArrayList<String[]>();
-
+	protected Place doInBackground(String... args) {
+		Place place;
 		try {
 
 			URL googlePlaces = new URL(
@@ -82,6 +74,7 @@ public class GetPlaceInfomation extends
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			return place;
 
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -93,15 +86,7 @@ public class GetPlaceInfomation extends
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ended=true;
-		return predictionsArr;
-	}
-
-	// then our post
-
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected void onPostExecute(ArrayList result) {
+		return null;
 	}
 
 }
