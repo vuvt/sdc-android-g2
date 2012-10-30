@@ -29,6 +29,11 @@
             android:onClick="onClickFavorite" 
             />
 
+		<ImageView
+            android:layout_width="1dip" 
+            android:layout_height="match_parent"
+            android:background="@color/titlebar_separator"
+            android:contentDescription="@string/app_name" />
         <ImageView
             style="@style/TitleBarLike"
             android:contentDescription="@string/app_name"

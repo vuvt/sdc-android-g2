@@ -61,9 +61,9 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
                     android:background="@drawable/frame_search_background"
+                    android:focusableInTouchMode="false"
                     android:imeOptions="actionSearch"
                     android:inputType="text"
-                    android:focusableInTouchMode="false"
                     android:keepScreenOn="false"
                     android:paddingLeft="20dp"
                     android:paddingRight="45dp"
@@ -120,11 +120,13 @@
                 android:layout_marginTop="10dip"
                 android:cacheColorHint="#00000000" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_launcher" />
+            <com.google.android.maps.MapView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:apiKey="0sMGVA8-_D69gXCJtdsjSByEWZaiYYdeVFTBjNw"
+                android:clickable="true" />
         </ViewFlipper>
     </RelativeLayout>
 
