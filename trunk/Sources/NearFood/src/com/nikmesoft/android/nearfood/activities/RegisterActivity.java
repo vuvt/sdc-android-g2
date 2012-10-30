@@ -1,7 +1,11 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import java.util.Calendar;
+
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,15 +36,12 @@ public class RegisterActivity extends BaseActivity {
 		setContentView(R.layout.activity_register);
 		init();
 
-//		/** Get the current date */
-//		final Calendar cal = Calendar.getInstance();
-//		pYear = cal.get(Calendar.YEAR);
-//		pMonth = cal.get(Calendar.MONTH);
-//		pDay = cal.get(Calendar.DAY_OF_MONTH);
-//
-//		/** Display the current date in the TextView */
-//		updateDisplay();
-	}
+		/* Get the current date */
+		final Calendar cal = Calendar.getInstance();
+		pYear = cal.get(Calendar.YEAR);
+		pMonth = cal.get(Calendar.MONTH);
+		pDay = cal.get(Calendar.DAY_OF_MONTH);
+}
 
 	private void init() {
 		edtFullName = (EditText) findViewById(R.id.edtFullName);
@@ -87,8 +88,31 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	public void onClickBack(View v) {
-		setResult(RESULT_CANCELED);
-		finish();
+		onBackPressed();
+	}
+	
+	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+	    @Override
+	    public void onClick(DialogInterface dialog, int which) {
+	        switch (which){
+	        case DialogInterface.BUTTON_POSITIVE:
+	            //Yes button clicked
+	        	setResult(RESULT_CANCELED);
+	    		finish();
+	            break;
+
+	        case DialogInterface.BUTTON_NEGATIVE:
+	            //No button clicked
+	            break;
+	        }
+	    }
+	};
+
+	@Override
+	public void onBackPressed() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage("Are you sure want to cancel the register?").setPositiveButton("Yes", dialogClickListener)
+		    .setNegativeButton("No", dialogClickListener).show();
 	}
 
 	/**
