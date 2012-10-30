@@ -59,7 +59,7 @@ public class GalleryAdapter extends BaseAdapter {
 		}
 		holder.imgView.setImageDrawable(listImage.get(position));
 		holder.imgView.setScaleType(ImageView.ScaleType.FIT_XY);
-		holder.imgView.setLayoutParams(new Gallery.LayoutParams(150, 90));
+		holder.imgView.setLayoutParams(new Gallery.LayoutParams(220, 150));
 
 		return imgview;
 	}

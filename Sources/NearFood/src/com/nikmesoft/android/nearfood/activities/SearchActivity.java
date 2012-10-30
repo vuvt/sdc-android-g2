@@ -105,7 +105,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener {
 
 	public void onClickFilter(View v) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(getParent());
-		View view = LayoutInflater.from(this).inflate(
+		View view = LayoutInflater.from(getParent()).inflate(
 				R.layout.menu_filter, null);
 		Log.d("Viewwwwwwww", String.valueOf(view.getId()));
 		final CheckBox check_distance = (CheckBox) view
@@ -118,9 +118,11 @@ public class SearchActivity extends MapActivity implements OnItemClickListener {
 				.findViewById(R.id.check_dishes);
 		ed_distance = (EditText) view.findViewById(R.id.ed_distance);
 		spinner_distance = (Spinner) view.findViewById(R.id.spinner);
+		spinner_distance = (Spinner)view.findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.distance_array,
+			getParent(), R.array.distance_array,
 				android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_distance.setAdapter(adapter);
 		alert.setTitle("Serach Filter");
 		alert.setView(view);
