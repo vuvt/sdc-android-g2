@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -219,12 +220,15 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				mapView.getOverlays().clear();
 				mapView.getOverlays().add(temp);
 				for (int i = 0; i < checkinResultAdapter.getCount(); i++) {
+					try{
 					OverlayItem item = new OverlayItem(checkinResultAdapter
 							.getItem(i).getMapPoint(), "", checkinResultAdapter
 							.getItem(i).getName()
 							+ "\n"
 							+ checkinResultAdapter.getItem(i).getAddress());
-					addOverlay(item);
+					addOverlay(item);}catch(Exception e){
+						Log.d(e.getCause().toString(), e.getMessage().toString());
+					}
 				}
 				if (checkinResultAdapter.getCount() > 0)
 					mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
