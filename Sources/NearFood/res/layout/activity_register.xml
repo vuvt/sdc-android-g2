@@ -146,14 +146,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="@string/activity_register_rbFemale" />
-        </RadioGroup>
-
+        </RadioGroup>        
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/footer"
+            style="@android:style/ButtonBar"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
             android:orientation="horizontal" >
 
             <Button
@@ -170,6 +169,7 @@
                 android:layout_weight="1"
                 android:text="@string/activity_register_btnReset" />
         </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>
