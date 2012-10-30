@@ -192,42 +192,48 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 						InputMethodManager.HIDE_NOT_ALWAYS);
-		ProgressDialog loading = new ProgressDialog(getParent().getParent());
+		final ProgressDialog loading = new ProgressDialog(getParent());
 		loading.setMessage("Loading. Please wait...");
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
 		loading.show();
-		GetPlaces getplaces;
-		try {
-			getplaces = new GetPlaces(textView.getText().toString());
+		final GetPlaces getplaces = new GetPlaces(textView.getText().toString());;
+		new Thread(new Runnable() {
+			
+			public void run() {
+				
+				try {
 
-			getplaces.execute(textView.toString());
+					getplaces.execute(textView.toString());
 
-			checkinResultAdapter.addAll(getplaces.get());
+					checkinResultAdapter.addAll(getplaces.get());
 
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Overlay temp = mapView.getOverlays().get(0);
-		mapView.getOverlays().clear();
-		mapView.getOverlays().add(temp);
-		for (int i = 0; i < checkinResultAdapter.getCount(); i++) {
-			OverlayItem item = new OverlayItem(checkinResultAdapter.getItem(i)
-					.getMapPoint(), "", checkinResultAdapter.getItem(i)
-					.getName()
-					+ "\n"
-					+ checkinResultAdapter.getItem(i).getAddress());
-			addOverlay(item);
-		}
-		if (checkinResultAdapter.getCount() > 0)
-			mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
-		layout_list.setVisibility(View.VISIBLE);
-		bt_showhidelist.setVisibility(View.VISIBLE);
-		loading.dismiss();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ExecutionException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Overlay temp = mapView.getOverlays().get(0);
+				mapView.getOverlays().clear();
+				mapView.getOverlays().add(temp);
+				for (int i = 0; i < checkinResultAdapter.getCount(); i++) {
+					OverlayItem item = new OverlayItem(checkinResultAdapter.getItem(i)
+							.getMapPoint(), "", checkinResultAdapter.getItem(i)
+							.getName()
+							+ "\n"
+							+ checkinResultAdapter.getItem(i).getAddress());
+					addOverlay(item);
+				}
+				if (checkinResultAdapter.getCount() > 0)
+					mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
+				layout_list.setVisibility(View.VISIBLE);
+				bt_showhidelist.setVisibility(View.VISIBLE);
+				loading.dismiss();
+			}
+		}).start();
+		
 	}
 
 	public void addOverlay(OverlayItem item) {
