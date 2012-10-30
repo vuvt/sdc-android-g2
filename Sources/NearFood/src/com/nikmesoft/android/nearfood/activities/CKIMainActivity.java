@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -63,6 +64,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private Drawable IC_MAP_PIN_CURRENT;
 	private Button bt_showhidelist;
 	LinearLayout layout_list;
+	private AsyncTask task = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -99,6 +101,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		checkinResultAdapter = new CheckInResultAdapter(this,
 				R.layout.activity_checkin_list_item, new ArrayList<Place>(),
 				mapView);
+		checkinResultAdapter.setNotifyOnChange(true);
 		list.setAdapter(checkinResultAdapter);
 		list.setOnItemClickListener(this);
 		bt_showhidelist = (Button) findViewById(R.id.bt_showhidelist);
@@ -164,7 +167,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				GetPlacesAutoComplete getplaces;
 				getplaces = new GetPlacesAutoComplete(textView,
 						autoCompleteAdapter, references);
-
 				getplaces.execute(textView.getText().toString());
 
 			}
@@ -186,6 +188,16 @@ public class CKIMainActivity extends BaseMapsActivity implements
 
 	public void actionSearch(View v) {
 		performSearch();
+		//checkinResultAdapter.notifyDataSetChanged();
+		Overlay temp = mapView.getOverlays().get(0);
+		//mapView.getOverlays().clear();
+		//mapView.getOverlays().add(temp);
+
+		//if (checkinResultAdapter.getCount() > 0)
+		//	mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
+		layout_list.setVisibility(View.VISIBLE);
+		bt_showhidelist.setVisibility(View.VISIBLE);
+
 	}
 
 	private void performSearch() {
@@ -198,8 +210,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
 		loading.show();
-		final GetPlaces getplaces = new GetPlaces(
-				textView.getText().toString(), checkinResultAdapter);
+		final GetPlaces getplaces = new GetPlaces();
 		new Thread(new Runnable() {
 
 			public void run() {
@@ -207,7 +218,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				try {
 
 					getplaces.execute(textView.toString());
-					getplaces.get();
+					checkinResultAdapter.clear();
+					checkinResultAdapter.addAll(getplaces.get());
 
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -216,24 +228,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				Overlay temp = mapView.getOverlays().get(0);
-				mapView.getOverlays().clear();
-				mapView.getOverlays().add(temp);
-				for (int i = 0; i < checkinResultAdapter.getCount(); i++) {
-					try{
-					OverlayItem item = new OverlayItem(checkinResultAdapter
-							.getItem(i).getMapPoint(), "", checkinResultAdapter
-							.getItem(i).getName()
-							+ "\n"
-							+ checkinResultAdapter.getItem(i).getAddress());
-					addOverlay(item);}catch(Exception e){
-						Log.d(e.getCause().toString(), e.getMessage().toString());
-					}
-				}
-				if (checkinResultAdapter.getCount() > 0)
-					mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
-				layout_list.setVisibility(View.VISIBLE);
-				bt_showhidelist.setVisibility(View.VISIBLE);
 				loading.dismiss();
 			}
 		}).start();

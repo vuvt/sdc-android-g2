@@ -26,11 +26,7 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 	boolean isAutoComplete;
 	CheckInResultAdapter adapter;
 	ArrayList<Place> places;
-	
-	public GetPlaces(String input, CheckInResultAdapter adapter) {
-		this.input = input;
-		this.adapter=adapter;
-	}
+
 
 	protected ArrayList<Place> doInBackground(String... args) {
 		// = ProgressDialog.show(MyApplication.getContext(), "Loading...",
@@ -43,7 +39,7 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 
 			URL googlePlaces = new URL(
 					"https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-							+ URLEncoder.encode(input, "UTF-8")
+							+ URLEncoder.encode(args[0], "UTF-8")
 							+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
 			URLConnection tc = googlePlaces.openConnection();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -91,17 +87,6 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 		}
 
 		return places;
-
-	}
-	protected void onPostExecute(ArrayList result) {
-
-		Log.d("YourApp", "onPostExecute : " + result.size());
-		// update the adapter
-
-		adapter.clear();
-		adapter.addAll(places);
-		Log.d("YourApp",
-				"onPostExecute : autoCompleteAdapter " + adapter.getCount());
 
 	}
 
