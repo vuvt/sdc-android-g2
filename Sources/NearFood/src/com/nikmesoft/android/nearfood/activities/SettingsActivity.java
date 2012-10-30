@@ -82,31 +82,21 @@ public class SettingsActivity extends BaseActivity {
 	startActivity(intents);*/
 	}
 	public void OnClickFeedback(View v){
-		//---------------
-/*		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
-		LayoutInflater inflater = this.getLayoutInflater();
-		al.setTitle("Feedback");
-		al.setMessage("Tính năng chưa được hoàn thiện !");
-		al.setPositiveButton("OK",null);
-		al.show();*/
+
 		try {
 	        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
 
-	        String[] recipients = new String[]{""};
-	        String[] ccList = { "dvl101bkdn@gmail.com"};
-
+	        String[] recipients = new String[]{"g2.bkdn@gmail.com"};
+	        String[] ccList = { "dvl101bkdn@gmail.com"};// email dang ky..
 	        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, recipients);
 	        emailIntent.putExtra(android.content.Intent.EXTRA_CC, ccList);
-
-	        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Hey ! Join this app with me!");
-	        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Hey, get the app for free and explore the funny of face troll comic.");
-
+	        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback for sFood v1.0!");
+	        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 	        emailIntent.setType("text/plain");
-
 	        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
 	        finish();
         } catch (Exception e) {
-        	//Common.showMessage(getBaseContext(), e.toString());
+        	finish();
         }
 		
 	}
