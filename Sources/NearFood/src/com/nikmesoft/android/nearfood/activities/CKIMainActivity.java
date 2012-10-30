@@ -104,7 +104,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		layout_list = (LinearLayout) findViewById(R.id.layout_list);
 
 		// Map define component
-		
+
 		mapView.setBuiltInZoomControls(true);
 		mc = mapView.getController();
 		// mc.setCenter(new GeoPoint(108149794, 16073651));
@@ -197,16 +197,16 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
 		loading.show();
-		final GetPlaces getplaces = new GetPlaces(textView.getText().toString());;
+		final GetPlaces getplaces = new GetPlaces(
+				textView.getText().toString(), checkinResultAdapter);
 		new Thread(new Runnable() {
-			
+
 			public void run() {
-				
+
 				try {
 
 					getplaces.execute(textView.toString());
-					checkinResultAdapter.clear();
-					checkinResultAdapter.addAll(getplaces.get());
+					getplaces.get();
 
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
@@ -219,9 +219,9 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				mapView.getOverlays().clear();
 				mapView.getOverlays().add(temp);
 				for (int i = 0; i < checkinResultAdapter.getCount(); i++) {
-					OverlayItem item = new OverlayItem(checkinResultAdapter.getItem(i)
-							.getMapPoint(), "", checkinResultAdapter.getItem(i)
-							.getName()
+					OverlayItem item = new OverlayItem(checkinResultAdapter
+							.getItem(i).getMapPoint(), "", checkinResultAdapter
+							.getItem(i).getName()
 							+ "\n"
 							+ checkinResultAdapter.getItem(i).getAddress());
 					addOverlay(item);
@@ -233,7 +233,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				loading.dismiss();
 			}
 		}).start();
-		
+
 	}
 
 	public void addOverlay(OverlayItem item) {
@@ -369,7 +369,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
 						InputMethodManager.HIDE_NOT_ALWAYS);
-		final ProgressDialog loading = new ProgressDialog(getParent().getParent());
+		final ProgressDialog loading = new ProgressDialog(getParent()
+				.getParent());
 		loading.setMessage("Loading. Please wait...");
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
@@ -378,7 +379,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		mapView.getOverlays().add(current);
 		// TODO Auto-generated method stub
 		new Thread(new Runnable() {
-			
+
 			public void run() {
 				// TODO Auto-generated method stub
 				GetPlaceInfomation getInfo = new GetPlaceInfomation(reference);
@@ -403,7 +404,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				loading.dismiss();
 			}
 		});
-		
+
 	}
 
 	public void showHideList(View v) {

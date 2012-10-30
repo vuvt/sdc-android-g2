@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.android.maps.GeoPoint;
+import com.nikmesoft.android.nearfood.adapters.CheckInResultAdapter;
 import com.nikmesoft.android.nearfood.models.Place;
 
 import android.os.AsyncTask;
@@ -23,9 +24,12 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 
 	String input;
 	boolean isAutoComplete;
-
-	public GetPlaces(String input) {
+	CheckInResultAdapter adapter;
+	ArrayList<Place> places;
+	
+	public GetPlaces(String input, CheckInResultAdapter adapter) {
 		this.input = input;
+		this.adapter=adapter;
 	}
 
 	protected ArrayList<Place> doInBackground(String... args) {
@@ -33,7 +37,7 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 		// "Please wait!", true, false);
 
 		Log.d("gottaGo", "doInBackground");
-		ArrayList<Place> places = new ArrayList<Place>();
+		places = new ArrayList<Place>();
 
 		try {
 
@@ -87,6 +91,17 @@ public class GetPlaces extends AsyncTask<String, Void, ArrayList<Place>> {
 		}
 
 		return places;
+
+	}
+	protected void onPostExecute(ArrayList result) {
+
+		Log.d("YourApp", "onPostExecute : " + result.size());
+		// update the adapter
+
+		adapter.clear();
+		adapter.addAll(places);
+		Log.d("YourApp",
+				"onPostExecute : autoCompleteAdapter " + adapter.getCount());
 
 	}
 
