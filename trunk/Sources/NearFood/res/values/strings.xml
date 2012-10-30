@@ -17,7 +17,7 @@
     <string name="text_btn_checkin_search">Check-in</string>
     <string name="text_information">INFORMATION</string>
     <string name="text_checkin">CHECK-IN</string>
-
+	<string name="activity_search_map_title">Map</string>
     <string-array name="distance_array">
         <item>Miles</item>
         <item>Km</item>
@@ -51,8 +51,7 @@
     <string name="activity_register_btnReset">Reset</string>
     <string name="view_checkin_title">View CheckIn</string>
     <string name="description">Description&#8230;</string>
-    
-    
+
     <!-- LoginActivity -->
     <string name="activity_login_title">Login</string>
     <string name="activity_login_tvTitle">Login to use the advanced futures of the system!</string>
@@ -64,13 +63,13 @@
     <string name="activity_login_tvDoNotHaveAccount">Do not have an account?</string>
     <string name="activity_login_tvLinkRegister"><u>register</u></string>
     <string name="activity_login_tvNow">now</string>
-    
+
     <!-- ForgotPasswordActivity -->
     <string name="activity_forgot_password_title">Forgot password</string>
     <string name="activity_forgot_password_tvTitle">To reset your password, please first identify your account!</string>
     <string name="activity_forgot_password_edtEmail">Enter your email&#8230;</string>
     <string name="activity_forgot_password_btnResetPassword">Reset password</string>
-    
+
     <!-- ProfileActivity -->
     <string name="activity_profile_title">Profile</string>
     <string name="activity_profile_tvProfilePicture">Profile picture:</string>
@@ -85,4 +84,6 @@
     <string name="activity_help_title">Help</string>
     <string name="crop_image_no_app">Can not find Crop Image App in your device.</string>
     <string name="crop_image_dialog_title">Choose Crop Image App</string>
+    <string name="title_activity_search_map">SearchMapActivity</string>
+
 </resources>

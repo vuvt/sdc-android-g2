@@ -63,12 +63,12 @@ public class SearchItemActivity extends Activity {
 		scrollview = (ScrollView) findViewById(R.id.ScrollViewLayout);
 		
 		checkins = new ArrayList<CheckIn>();
-		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", 0), "Quan nay` Number One", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", 0), "Quan nay` Number two", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", 0), "Quan nay` Number One", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", 0), "Quan nay` Number two", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", 0), "Quan nay` Number One", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được.", 0), "Quan nay` Number two", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number One", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number two", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number One", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number two", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number One", "","2 days ago"));
+		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number two", "","2 days ago"));
 		addItemListViewCustomer(checkins);
 		// Adapter Gallery
 		gallery = (Gallery) findViewById(R.id.gallery_search);
@@ -87,17 +87,17 @@ public class SearchItemActivity extends Activity {
 						&& position_selected_imgview < galleryAdapter
 								.getCount() - 1) {
 					left_arrow_imageview.setImageDrawable(getResources()
-							.getDrawable(R.drawable.arrow_left_enabled));
+							.getDrawable(R.drawable.ic_arrow_left));
 					right_arrow_imageview.setImageDrawable(getResources()
-							.getDrawable(R.drawable.arrow_right_enabled));
+							.getDrawable(R.drawable.ic_arrow_right));
 				}
 				if (position_selected_imgview == 0) {
 					left_arrow_imageview.setImageDrawable(getResources()
-							.getDrawable(R.drawable.arrow_left_disabled));
+							.getDrawable(R.drawable.ic_nocolor));
 				}
 				if (position_selected_imgview == galleryAdapter.getCount() - 1) {
 					right_arrow_imageview.setImageDrawable(getResources()
-							.getDrawable(R.drawable.arrow_right_disabled));
+							.getDrawable(R.drawable.ic_nocolor));
 				}
 				setImageView(position_selected_imgview);
 				changeBorderForSelectedImage(position_selected_imgview);
@@ -110,9 +110,9 @@ public class SearchItemActivity extends Activity {
 		});
 		if (listImage.size() > 0) {
 			left_arrow_imageview.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_left_disabled));
+					R.drawable.ic_nocolor));
 			right_arrow_imageview.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_right_enabled));
+					R.drawable.ic_arrow_right));
 		}
 		gallery.setAdapter(galleryAdapter);
 
@@ -168,7 +168,7 @@ public class SearchItemActivity extends Activity {
 		changeBorderForSelectedImage(position_selected_imgview);
 		if (position_selected_imgview == 0) {
 			left_arrow_imageview.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_left_disabled));
+					R.drawable.ic_nocolor));
 		}
 
 	}
@@ -181,7 +181,7 @@ public class SearchItemActivity extends Activity {
 		changeBorderForSelectedImage(position_selected_imgview);
 		if (position_selected_imgview == galleryAdapter.getCount() - 1) {
 			right_arrow_imageview.setImageDrawable(getResources().getDrawable(
-					R.drawable.arrow_right_disabled));
+					R.drawable.ic_nocolor));
 		}
 	}
 
@@ -206,7 +206,8 @@ public class SearchItemActivity extends Activity {
 	}
 
 	public void onClickMap(View v) {
-
+		SearchTabGroupActivity parent = (SearchTabGroupActivity)getParent();
+		parent.startNewActivity(SearchMapActivity.class.getSimpleName(), new Intent(parent, SearchMapActivity.class));
 	}
 	public void addItemListViewCustomer(ArrayList<CheckIn> checks) {
 		Log.d("Customer", "Da vao");

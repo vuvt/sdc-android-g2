@@ -25,6 +25,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.maps.MapActivity;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
 import com.nikmesoft.android.nearfood.models.Place;
@@ -33,7 +34,7 @@ import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
 @SuppressWarnings("deprecation")
 @SuppressLint("ParserError")
-public class SearchActivity extends BaseActivity implements OnItemClickListener {
+public class SearchActivity extends MapActivity implements OnItemClickListener {
 
 	private ListView lvSearch;
 	protected SearchResultAdapter placeAdapter;
@@ -103,8 +104,8 @@ public class SearchActivity extends BaseActivity implements OnItemClickListener 
 	}
 
 	public void onClickFilter(View v) {
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
-		View view = LayoutInflater.from(this.getParent()).inflate(
+		AlertDialog.Builder alert = new AlertDialog.Builder(getParent());
+		View view = LayoutInflater.from(this).inflate(
 				R.layout.menu_filter, null);
 		Log.d("Viewwwwwwww", String.valueOf(view.getId()));
 		final CheckBox check_distance = (CheckBox) view
@@ -169,5 +170,14 @@ public class SearchActivity extends BaseActivity implements OnItemClickListener 
 		SearchTabGroupActivity parent = (SearchTabGroupActivity) getParent();
 		parent.startNewActivity(SearchItemActivity.class.getSimpleName(),
 				new Intent(parent, SearchItemActivity.class));
+	}
+
+	@Override
+	protected boolean isRouteDisplayed() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	public void actionSearch(View v) {
+		
 	}
 }

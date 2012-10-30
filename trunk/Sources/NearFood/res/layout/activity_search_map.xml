@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        style="@style/TitleBar"
+        android:layout_width="wrap_content" >
+
+        <ImageView
+            android:onClick="onClickBack"
+            style="@style/TitleBarBack"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/titlebar_back" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_search_map_title" />
+    </LinearLayout>
+
+    <RelativeLayout style="@style/Body" >
+
+        <com.google.android.maps.MapView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:apiKey="0sMGVA8-_D69gXCJtdsjSByEWZaiYYdeVFTBjNw"
+            android:clickable="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

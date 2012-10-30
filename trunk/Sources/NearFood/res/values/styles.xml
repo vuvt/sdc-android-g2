@@ -74,13 +74,13 @@
 
     <style name="TitleBarLike">
         <item name="android:id">@id/titlebar_like</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">30dip</item>
+        <item name="android:layout_width">60dip</item>
+        <item name="android:layout_height">40dip</item>
         <item name="android:clickable">true</item>
-        <item name="android:paddingLeft">5dip</item>
-        <item name="android:paddingRight">5dip</item>
+        <item name="android:paddingLeft">0dip</item>
+        <item name="android:paddingRight">0dip</item>
         <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:src">@drawable/ic_like</item>
+        <item name="android:src">@drawable/ic_like_tabbar</item>
     </style>
 
     <style name="TitleBarLogin">
@@ -223,6 +223,8 @@
         <item name="android:textStyle">normal</item>
         <item name="android:singleLine">false</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:padding">15dip</item>
+        <item name="android:background">@drawable/bg_message</item>
     </style>
 
     <style name="TextInfomation">

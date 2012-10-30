@@ -28,20 +28,26 @@
                 android:id="@id/fullname_item_checkin_search"
                 style="@style/FullName_CheckIn_Text"
                 android:text="Fullname" />
+            <TextView
+                android:id="@id/time_item_checkin_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textStyle="normal"
+         		android:ellipsize="end"
+                android:layout_marginLeft="25dip"
+                android:layout_marginTop="5dip"
+                android:text="About 2h ago"
+                android:textColor="#FF0000" />
+            
 
             <TextView
                 android:id="@id/description_item_checkin_search"
                 style="@style/Description_Time_CheckIn_Text"
                 android:layout_marginLeft="10dip"
+        		android:layout_marginTop="10dip"
                 android:text="decription" />
-
-            <TextView
-                android:id="@id/time_item_checkin_search"
-                style="@style/Description_Time_CheckIn_Text"
-                android:layout_marginLeft="25dip"
-                android:layout_marginTop="5dip"
-                android:text="About 2h ago"
-                android:textColor="#FF0000" />
+            
         </LinearLayout>
     </LinearLayout>
 
