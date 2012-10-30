@@ -88,17 +88,7 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	public void onClickBack(View v) {
-		if(!"".equals(edtFullName.getText().toString())
-				&& !"".equals(edtEmail.getText().toString())
-				&& !"".equals(edtPassword.getText().toString())
-				&& !"".equals(edtConfirmPassword.getText().toString())
-				&& !"".equals(edtBirthDay.getText().toString())
-				&& (rbMale.isChecked() || rbFemale.isChecked())) {
-			onBackPressed();
-		} else {
-			setResult(RESULT_CANCELED);
-    		finish();
-		}
+		onBackPressed();
 	}
 	
 	DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -121,11 +111,11 @@ public class RegisterActivity extends BaseActivity {
 	@Override
 	public void onBackPressed() {
 		if (!"".equals(edtFullName.getText().toString())
-				&& !"".equals(edtEmail.getText().toString())
-				&& !"".equals(edtPassword.getText().toString())
-				&& !"".equals(edtConfirmPassword.getText().toString())
-				&& !"".equals(edtBirthDay.getText().toString())
-				&& (rbMale.isChecked() || rbFemale.isChecked())) { //not null all fields
+				|| !"".equals(edtEmail.getText().toString())
+				|| !"".equals(edtPassword.getText().toString())
+				|| !"".equals(edtConfirmPassword.getText().toString())
+				|| !"".equals(edtBirthDay.getText().toString())
+				|| (rbMale.isChecked() || rbFemale.isChecked())) { //not null all fields
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage("Are you sure want to cancel the register?").setPositiveButton("Yes", dialogClickListener)
 			    .setNegativeButton("No", dialogClickListener).show();
