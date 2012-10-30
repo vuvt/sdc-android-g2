@@ -115,6 +115,7 @@ public class SearchItemActivity extends Activity {
 					R.drawable.ic_arrow_right));
 		}
 		gallery.setAdapter(galleryAdapter);
+		
 
 	}
 
@@ -130,7 +131,6 @@ public class SearchItemActivity extends Activity {
 	private void changeBorderForSelectedImage(int selectedItemPos) {
 
 		int count = gallery.getChildCount();
-
 		for (int i = 0; i < count; i++) {
 
 			ImageView imageView = (ImageView) gallery.getChildAt(i);
@@ -210,7 +210,6 @@ public class SearchItemActivity extends Activity {
 		parent.startNewActivity(SearchMapActivity.class.getSimpleName(), new Intent(parent, SearchMapActivity.class));
 	}
 	public void addItemListViewCustomer(ArrayList<CheckIn> checks) {
-		Log.d("Customer", "Da vao");
 		for(int i=0; i<checks.size(); i++){
 			LayoutInflater inflater = (LayoutInflater)getSystemService(
 					Context.LAYOUT_INFLATER_SERVICE);
