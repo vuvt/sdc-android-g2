@@ -11,7 +11,7 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.models.PointOverlay;
+import com.nikmesoft.android.nearfood.components.CustomItemizedOverlay;
 import com.nikmesoft.android.nearfood.utils.CommonUtil;
 
 import android.location.Address;
@@ -34,6 +34,9 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 	private MapController mc;
 	private GeoPoint currentPoint;
 	private LocationManager lm;
+	private Drawable IC_MAP_PIN_NORMAL;
+	private Drawable IC_MAP_PIN_CHOSE;
+	private Drawable IC_MAP_PIN_CURRENT;
 	final Handler mHandler = new Handler();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,37 +46,57 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
     }
     final Runnable mUpdateResults = new Runnable() {
 		public void run() {
-			showLocation(currentPoint);
+			showCurrentLocation(currentPoint);
 		}
 	};
 
 	private void init() {
+		IC_MAP_PIN_NORMAL = getResources().getDrawable(
+				R.drawable.ic_map_pin_normal);
+		IC_MAP_PIN_NORMAL.setBounds(0, 0,
+				IC_MAP_PIN_NORMAL.getIntrinsicWidth(),
+				IC_MAP_PIN_NORMAL.getIntrinsicHeight());
+		IC_MAP_PIN_CHOSE = getResources().getDrawable(
+				R.drawable.ic_map_pin_chose);
+		IC_MAP_PIN_CHOSE.setBounds(0, 0, IC_MAP_PIN_CHOSE.getIntrinsicWidth(),
+				IC_MAP_PIN_CHOSE.getIntrinsicHeight());
+		IC_MAP_PIN_CURRENT = getResources().getDrawable(
+				R.drawable.ic_map_pin_current);
+		IC_MAP_PIN_CURRENT.setBounds(0, 0,
+				IC_MAP_PIN_CURRENT.getIntrinsicWidth(),
+				IC_MAP_PIN_CURRENT.getIntrinsicHeight());
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mc = mapView.getController();
 		mc.setZoom(16);
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, MyApplication.LOCATION_UPDATE_TIME, MyApplication.LOCATION_UPDATE_DISTANCE, this);
+		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				MyApplication.LOCATION_UPDATE_TIME,
+				MyApplication.LOCATION_UPDATE_DISTANCE, this);
 		CommonUtil.toastNotify(this, "Waiting for location");
-		Thread t = new Thread() {
+		new Thread() {
 			public void run() {
-				// Get the current location in start-up
-				if (lm != null) {
-					Location loc = lm
-							.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-					/*loc.setLatitude(16.055052);
-					loc.setLongitude(108.150049);*/
-					if (loc != null) {
-						currentPoint = new GeoPoint(
-								(int) (loc.getLatitude() * 1E6),
-								(int) (loc.getLongitude() * 1E6));
-						mHandler.post(mUpdateResults);
+				while (true) {
+					if (lm != null) {
+						Location loc = lm
+								.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+						if (loc != null) {
+							currentPoint = new GeoPoint(
+									(int) (loc.getLatitude() * 1E6),
+									(int) (loc.getLongitude() * 1E6));
+							mHandler.post(mUpdateResults);
+						}
+					}
+					try {
+						Thread.sleep(30000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
 
 			}
-		};
-		t.start();
+		}.start();
 	}
 	private String getInforAtPoint(Context context, GeoPoint p) {
 		if (p == null) {
@@ -102,17 +125,21 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 		}
 	}
 
-	private void showLocation(GeoPoint srcGeoPoint) {
-		Drawable icon = getResources().getDrawable(R.drawable.ic_map_pressed);
-		icon.setBounds(0, 0, icon.getIntrinsicWidth(),icon.getIntrinsicHeight());
-		PointOverlay overlayItem = new PointOverlay(this, icon);
+	private void showCurrentLocation(GeoPoint srcGeoPoint) {
+		CustomItemizedOverlay overlayItem = new CustomItemizedOverlay(this,
+				IC_MAP_PIN_CURRENT);
 		OverlayItem item = new OverlayItem(srcGeoPoint, "Location",
 				"I'm here (" + srcGeoPoint.getLatitudeE6() / 1E6 + ","
 						+ srcGeoPoint.getLongitudeE6() / 1E6 + ")");
 		overlayItem.addItem(item);
-		mapView.getOverlays().clear();
-		mapView.getOverlays().add(overlayItem);
-		mc.animateTo(srcGeoPoint);
+		if (mapView.getOverlays().size() == 0) {
+			mapView.getOverlays().add(overlayItem);
+			mc.animateTo(srcGeoPoint);
+		} else {
+			mapView.getOverlays().set(0, overlayItem);
+			if (mapView.getOverlays().size() == 1)
+				mc.animateTo(srcGeoPoint);
+		}
 
 	}
 
