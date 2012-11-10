@@ -21,14 +21,15 @@ public class GetPlaceInfomation extends
 		AsyncTask<String, Void, Place> {
 
 	String reference;
-	
+	public Place place;
 
 	public GetPlaceInfomation(String reference) {
 		this.reference = reference;
+		this.place = null;
 	}
 
 	protected Place doInBackground(String... args) {
-		Place place;
+
 		try {
 
 			URL googlePlaces = new URL(

@@ -1,7 +1,18 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -11,12 +22,11 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -39,8 +49,6 @@ import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.CheckInResultAdapter;
 import com.nikmesoft.android.nearfood.binding.ExtraBinding;
 import com.nikmesoft.android.nearfood.components.CustomItemizedOverlay;
-import com.nikmesoft.android.nearfood.components.GetPlaceInfomation;
-import com.nikmesoft.android.nearfood.components.GetPlaces;
 import com.nikmesoft.android.nearfood.components.GetPlacesAutoComplete;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.CommonUtil;
@@ -64,7 +72,9 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private Drawable IC_MAP_PIN_CURRENT;
 	private Button bt_showhidelist;
 	LinearLayout layout_list;
-	private AsyncTask task = null;
+	GetPlacesAutoComplete getplaceAutoComplete = null;
+	MyHandle handle = new MyHandle(this);
+	ProgressDialog loading;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -164,10 +174,14 @@ public class CKIMainActivity extends BaseMapsActivity implements
 
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
-				GetPlacesAutoComplete getplaces;
-				getplaces = new GetPlacesAutoComplete(textView,
+
+				if (getplaceAutoComplete != null
+						&& !getplaceAutoComplete.isCancelled()) {
+					getplaceAutoComplete.cancel(true);
+				}
+				getplaceAutoComplete = new GetPlacesAutoComplete(
 						autoCompleteAdapter, references);
-				getplaces.execute(textView.getText().toString());
+				getplaceAutoComplete.execute(textView.getText().toString());
 
 			}
 
@@ -183,54 +197,17 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			}
 
 		});
-
+		loading = new ProgressDialog(getParent());
+		loading.setMessage("Loading. Please wait...");
+		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		loading.setCancelable(false);
 	}
 
 	public void actionSearch(View v) {
 		performSearch();
-		//checkinResultAdapter.notifyDataSetChanged();
-		Overlay temp = mapView.getOverlays().get(0);
-		//mapView.getOverlays().clear();
-		//mapView.getOverlays().add(temp);
 
-		//if (checkinResultAdapter.getCount() > 0)
-		//	mc.animateTo(checkinResultAdapter.getItem(0).getMapPoint());
 		layout_list.setVisibility(View.VISIBLE);
 		bt_showhidelist.setVisibility(View.VISIBLE);
-
-	}
-
-	private void performSearch() {
-
-		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
-				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-						InputMethodManager.HIDE_NOT_ALWAYS);
-		final ProgressDialog loading = new ProgressDialog(getParent());
-		loading.setMessage("Loading. Please wait...");
-		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		loading.setCancelable(false);
-		loading.show();
-		final GetPlaces getplaces = new GetPlaces();
-		new Thread(new Runnable() {
-
-			public void run() {
-
-				try {
-
-					getplaces.execute(textView.toString());
-					checkinResultAdapter.clear();
-					checkinResultAdapter.addAll(getplaces.get());
-
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				loading.dismiss();
-			}
-		}).start();
 
 	}
 
@@ -344,9 +321,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			intent.putExtras(bundle);
 			parent.startNewActivity(CKICheckInActivity.class.getSimpleName(),
 					intent);
-		} else if (adapterView.getId() == R.id.tv_search) {
-			textView.setText(autoCompleteAdapter.getItem(position));
-			showResultAutoComplete(references.get(position));
 		}
 
 	}
@@ -363,54 +337,130 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		mc.animateTo(point);
 	}
 
-	public void showResultAutoComplete(final String reference) {
-		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
-				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
-						InputMethodManager.HIDE_NOT_ALWAYS);
-		final ProgressDialog loading = new ProgressDialog(getParent()
-				.getParent());
-		loading.setMessage("Loading. Please wait...");
-		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		loading.setCancelable(false);
-		Overlay current = mapView.getOverlays().get(0);
-		mapView.getOverlays().clear();
-		mapView.getOverlays().add(current);
-		// TODO Auto-generated method stub
-		new Thread(new Runnable() {
-
-			public void run() {
-				// TODO Auto-generated method stub
-				GetPlaceInfomation getInfo = new GetPlaceInfomation(reference);
-				try {
-
-					getInfo.execute("");
-					Place place = getInfo.get();
-					OverlayItem item = new OverlayItem(place.getMapPoint(),
-							place.getName(), place.getAddress() + "\n"
-									+ place.getPhoneNumber());
-					addOverlay(item);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				oldOverlay = -1;
-				bt_showhidelist.setVisibility(View.INVISIBLE);
-				layout_list.setVisibility(View.INVISIBLE);
-				loading.dismiss();
-			}
-		});
-
-	}
-
 	public void showHideList(View v) {
 		if (layout_list.getVisibility() == View.INVISIBLE) {
 			layout_list.setVisibility(View.VISIBLE);
 		} else {
 			layout_list.setVisibility(View.INVISIBLE);
 		}
+	}
+
+	private Runnable run = new Runnable() {
+
+		public void run() {
+			MyArrayList places = new MyArrayList();
+			try {
+				URL googlePlaces = new URL(
+						"https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+								+ URLEncoder.encode(textView.getText()
+										.toString().trim(), "UTF-8")
+								+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
+				URLConnection tc = googlePlaces.openConnection();
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						tc.getInputStream()));
+
+				String line;
+				StringBuffer sb = new StringBuffer();
+				while ((line = in.readLine()) != null) {
+					sb.append(line);
+				}
+				JSONObject search = new JSONObject(sb.toString());
+				JSONArray jresults = new JSONArray(search.getString("results"));
+
+				for (int i = 0; i < jresults.length(); i++) {
+					JSONObject jo = (JSONObject) jresults.get(i);
+					JSONObject point = jo.getJSONObject("geometry")
+							.getJSONObject("location");
+					Place place = new Place();
+					place.setNamePlace(jo.getString("name"))
+							.setAddress(jo.getString("formatted_address"))
+							.setReferenceKey(jo.getString("reference"))
+							.setMapPoint(
+									new GeoPoint(
+											(int) (point.getDouble("lat") * 1E6),
+											(int) (point.getDouble("lng") * 1E6)));
+					try {
+						place.setImagePath(jo.getString("icon"));
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					places.add(place);
+
+				}
+
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Message msg = new Message();
+			Bundle b = new Bundle();
+			b.putSerializable("RESULT", places);
+			msg.setData(b);
+			handle.sendMessage(msg);
+		}
+	};
+
+	private void performSearch() {
+
+		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+				.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),
+						InputMethodManager.HIDE_NOT_ALWAYS);
+
+		loading.show();
+
+		Thread search;
+
+		search = new Thread(run);
+		search.start();
+	}
+
+	static class MyHandle extends Handler {
+		CKIMainActivity activity;
+
+		MyHandle(CKIMainActivity activity) {
+			this.activity = activity;
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			MyArrayList list = (MyArrayList) msg.getData().getSerializable(
+					"RESULT");
+			activity.checkinResultAdapter.clear();
+			activity.checkinResultAdapter.addAll(list);
+			activity.checkinResultAdapter.notifyDataSetChanged();
+			try {
+				Overlay temp = activity.mapView.getOverlays().get(0);
+				activity.mapView.getOverlays().clear();
+				activity.mapView.getOverlays().add(temp);
+			} catch (Exception e) {
+				activity.mapView.getOverlays().clear();
+			}
+
+			for (int i = 0; i < list.size(); i++) {
+				OverlayItem item = new OverlayItem(list.get(i).getMapPoint(),
+						list.get(i).getName(), list.get(i).getAddress());
+				activity.addOverlay(item);
+			}
+			if (list.size() > 0)
+				activity.mc.animateTo(list.get(0).getMapPoint());
+			activity.loading.dismiss();
+		}
+
+	}
+
+	@SuppressWarnings("serial")
+	public class MyArrayList extends ArrayList<Place> implements Serializable {
+		public MyArrayList() {
+			super();
+		}
+
 	}
 
 }

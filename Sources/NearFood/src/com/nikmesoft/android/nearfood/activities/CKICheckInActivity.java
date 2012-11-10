@@ -43,7 +43,7 @@ public class CKICheckInActivity extends BaseActivity {
 	Button bt_take_photo, bt_choose_image, bt_share_facebook;
 	private boolean hasImage = false;
 	private int REQ_CODE_PICK_IMAGE = 100, REQ_CODE_TAKE_PHOTO = 101;
-	Facebook facebook = new Facebook("204816289643968");
+	Facebook facebook = new Facebook("302093569905424");
 	private Bitmap photoShareOnFb = null;
 	private SharedPreferences mPrefs;
 	ProgressBar progressbar;
@@ -94,6 +94,7 @@ public class CKICheckInActivity extends BaseActivity {
 			hasImage = true;
 			bt_choose_image.setVisibility(View.INVISIBLE);
 			bt_take_photo.setVisibility(View.INVISIBLE);
+			return;
 		} else if (requestCode == REQ_CODE_PICK_IMAGE
 				&& resultCode == RESULT_OK) {
 			Uri selectedImageUri = data.getData();
