@@ -106,7 +106,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				IC_MAP_PIN_CURRENT.getIntrinsicWidth(),
 				IC_MAP_PIN_CURRENT.getIntrinsicHeight());
 		mapView = (MapView) findViewById(R.id.mapView);
-		mapView.getOverlays().add(null);
+		
 		// Add data to list
 		list = (ListView) findViewById(R.id.list);
 		checkinResultAdapter = new CheckInResultAdapter(this,
@@ -123,6 +123,11 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		mc = mapView.getController();
 		// mc.setCenter(new GeoPoint(108149794, 16073651));
 		mc.setZoom(16);
+		OverlayItem item=new OverlayItem(new GeoPoint(1607361,108149659),"Current address", "16.07361,108.149659");
+		CustomItemizedOverlay overlayItem = new CustomItemizedOverlay(this,
+				IC_MAP_PIN_CURRENT);
+		overlayItem.addItem(item);
+		mapView.getOverlays().add(overlayItem);
 		lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				MyApplication.LOCATION_UPDATE_TIME,
