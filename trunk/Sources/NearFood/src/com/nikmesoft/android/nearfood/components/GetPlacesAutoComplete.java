@@ -13,22 +13,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 
+
+@SuppressLint({ "NewApi", "NewApi" })
 public class GetPlacesAutoComplete extends
 		AsyncTask<String, Void, ArrayList<String>> {
 
-	AutoCompleteTextView textView;
+
 	ArrayAdapter<String> adapter;
 	ArrayList<String> places = new ArrayList<String>();
 	ArrayList<String> references,res;
+	
 
-	public GetPlacesAutoComplete(AutoCompleteTextView textView,
-			ArrayAdapter<String> adapter, ArrayList<String> references) {
-		this.textView = textView;
+	public GetPlacesAutoComplete(ArrayAdapter<String> adapter, ArrayList<String> references) {
 		this.adapter = adapter;
 		this.references = references;
 		res=new ArrayList<String>();
@@ -44,12 +45,12 @@ public class GetPlacesAutoComplete extends
 			URL googlePlaces = new URL(
 					// URLEncoder.encode(url,"UTF-8");
 					"https://maps.googleapis.com/maps/api/place/autocomplete/json?input="
-							+ URLEncoder.encode(textView.getText().toString(),
+							+ URLEncoder.encode(args[0].toString(),
 									"UTF-8")
 							+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
 
 			URLConnection tc = googlePlaces.openConnection();
-			Log.d("GottaGo", URLEncoder.encode(textView.getText().toString()));
+			Log.d("GottaGo", URLEncoder.encode(args[0]));
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					tc.getInputStream()));
 
@@ -90,7 +91,7 @@ public class GetPlacesAutoComplete extends
 
 	// then our post
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({  "rawtypes" })
 	@Override
 	protected void onPostExecute(ArrayList result) {
 
@@ -105,4 +106,8 @@ public class GetPlacesAutoComplete extends
 				"onPostExecute : autoCompleteAdapter " + adapter.getCount());
 
 	}
+	/*public void onCancle(){
+		
+	}*/
+	
 }
