@@ -10,20 +10,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.maps.MapView;
 import com.nikmesoft.android.nearfood.R;
+import com.nikmesoft.android.nearfood.activities.CKIMainActivity;
 import com.nikmesoft.android.nearfood.models.Place;
 
-public class CheckInResultAdapter extends ArrayAdapter<Place>{
+public class CheckInResultAdapter extends ArrayAdapter<Place> {
 	private int resourceID;
-	private MapView mapView;
-	
-	public CheckInResultAdapter(Context context, int resourceID, List<Place> objects, MapView mapView) {
+	private CKIMainActivity activity;
+
+	public CheckInResultAdapter(Context context, int resourceID,
+			List<Place> objects) {
 		super(context, resourceID, objects);
 		this.resourceID = resourceID;
-		this.mapView=mapView;
+		activity = (CKIMainActivity) context;
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View row = convertView;
@@ -33,15 +34,19 @@ public class CheckInResultAdapter extends ArrayAdapter<Place>{
 					Context.LAYOUT_INFLATER_SERVICE);
 			row = inflater.inflate(this.resourceID, null);
 		}
-		TextView placeName= (TextView) row.findViewById(R.id.place_name);
+		TextView placeName = (TextView) row.findViewById(R.id.place_name);
 		placeName.setText(getItem(position).getName());
-		ImageView bt_mapView=(ImageView)row.findViewById(R.id.img_mapview);
+		ImageView bt_mapView = (ImageView) row.findViewById(R.id.img_mapview);
 		bt_mapView.setOnClickListener(new View.OnClickListener() {
-			
+
 			public void onClick(View v) {
 			}
 		});
 		return row;
 	}
-	
+
+	public void viewLocation(int position) {
+		activity.setChosenOverlay(position + 1);
+	}
+
 }
