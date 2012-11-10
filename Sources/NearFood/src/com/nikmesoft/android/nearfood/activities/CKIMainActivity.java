@@ -73,7 +73,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private Button bt_showhidelist;
 	LinearLayout layout_list;
 	GetPlacesAutoComplete getplaceAutoComplete = null;
-	MyHandle handle = new MyHandle(this);
+	SearchHandle handle = new SearchHandle(this);
 	ProgressDialog loading;
 
 	@Override
@@ -106,11 +106,11 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				IC_MAP_PIN_CURRENT.getIntrinsicWidth(),
 				IC_MAP_PIN_CURRENT.getIntrinsicHeight());
 		mapView = (MapView) findViewById(R.id.mapView);
+		mapView.getOverlays().add(null);
 		// Add data to list
 		list = (ListView) findViewById(R.id.list);
 		checkinResultAdapter = new CheckInResultAdapter(this,
-				R.layout.activity_checkin_list_item, new ArrayList<Place>(),
-				mapView);
+				R.layout.activity_checkin_list_item, new ArrayList<Place>());
 		checkinResultAdapter.setNotifyOnChange(true);
 		list.setAdapter(checkinResultAdapter);
 		list.setOnItemClickListener(this);
@@ -206,9 +206,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	public void actionSearch(View v) {
 		performSearch();
 
-		layout_list.setVisibility(View.VISIBLE);
-		bt_showhidelist.setVisibility(View.VISIBLE);
-
 	}
 
 	public void addOverlay(OverlayItem item) {
@@ -246,14 +243,14 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				"I'm here (" + srcGeoPoint.getLatitudeE6() / 1E6 + ","
 						+ srcGeoPoint.getLongitudeE6() / 1E6 + ")");
 		overlayItem.addItem(item);
-		if (mapView.getOverlays().size() == 0) {
-			mapView.getOverlays().add(overlayItem);
+		// if (mapView.getOverlays().size() == 0) {
+		// mapView.getOverlays().add(overlayItem);
+		// mc.animateTo(srcGeoPoint);
+		// } else {
+		mapView.getOverlays().set(0, overlayItem);
+		if (mapView.getOverlays().size() == 1)
 			mc.animateTo(srcGeoPoint);
-		} else {
-			mapView.getOverlays().set(0, overlayItem);
-			if (mapView.getOverlays().size() == 1)
-				mc.animateTo(srcGeoPoint);
-		}
+		// }
 
 	}
 
@@ -349,6 +346,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 
 		public void run() {
 			MyArrayList places = new MyArrayList();
+			Message msg = new Message();
+			Bundle b = new Bundle();
 			try {
 				URL googlePlaces = new URL(
 						"https://maps.googleapis.com/maps/api/place/textsearch/json?query="
@@ -390,17 +389,15 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				}
 
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				b.putString("ERROR", getResources().getString(R.string.error_network_connection));
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
+				b.putString("ERROR", getResources().getString(R.string.error_network_connection));
 				e.printStackTrace();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Message msg = new Message();
-			Bundle b = new Bundle();
+
 			b.putSerializable("RESULT", places);
 			msg.setData(b);
 			handle.sendMessage(msg);
@@ -421,36 +418,49 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		search.start();
 	}
 
-	static class MyHandle extends Handler {
+	static class SearchHandle extends Handler {
 		CKIMainActivity activity;
 
-		MyHandle(CKIMainActivity activity) {
+		SearchHandle(CKIMainActivity activity) {
 			this.activity = activity;
 		}
 
 		@Override
 		public void handleMessage(Message msg) {
-			MyArrayList list = (MyArrayList) msg.getData().getSerializable(
-					"RESULT");
-			activity.checkinResultAdapter.clear();
-			activity.checkinResultAdapter.addAll(list);
-			activity.checkinResultAdapter.notifyDataSetChanged();
-			try {
-				Overlay temp = activity.mapView.getOverlays().get(0);
-				activity.mapView.getOverlays().clear();
-				activity.mapView.getOverlays().add(temp);
-			} catch (Exception e) {
-				activity.mapView.getOverlays().clear();
+
+			String error = msg.getData().getString("ERROR");
+			if (error != null) {
+				CommonUtil.dialogNotify(activity, error);
 			}
 
-			for (int i = 0; i < list.size(); i++) {
-				OverlayItem item = new OverlayItem(list.get(i).getMapPoint(),
-						list.get(i).getName(), list.get(i).getAddress());
-				activity.addOverlay(item);
+			else {
+				MyArrayList list = (MyArrayList) msg.getData().getSerializable(
+						"RESULT");
+				activity.checkinResultAdapter.clear();
+				activity.checkinResultAdapter.addAll(list);
+				activity.checkinResultAdapter.notifyDataSetChanged();
+				try {
+					Overlay temp = activity.mapView.getOverlays().get(0);
+					activity.mapView.getOverlays().clear();
+					activity.mapView.getOverlays().add(temp);
+				} catch (Exception e) {
+					activity.mapView.getOverlays().clear();
+				}
+
+				for (int i = 0; i < list.size(); i++) {
+					OverlayItem item = new OverlayItem(list.get(i)
+							.getMapPoint(), list.get(i).getName(), list.get(i)
+							.getAddress());
+					activity.addOverlay(item);
+				}
+				if (list.size() > 0)
+					activity.mc.animateTo(list.get(0).getMapPoint());
+
+				activity.layout_list.setVisibility(View.VISIBLE);
+				activity.bt_showhidelist.setVisibility(View.VISIBLE);
 			}
-			if (list.size() > 0)
-				activity.mc.animateTo(list.get(0).getMapPoint());
 			activity.loading.dismiss();
+			activity.oldOverlay = -1;
 		}
 
 	}
