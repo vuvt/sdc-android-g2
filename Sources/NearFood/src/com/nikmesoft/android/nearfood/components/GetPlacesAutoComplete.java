@@ -13,6 +13,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.android.maps.GeoPoint;
+import com.nikmesoft.android.nearfood.MyApplication;
+import com.nikmesoft.android.nearfood.activities.CKIMainActivity;
+
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -26,13 +30,11 @@ public class GetPlacesAutoComplete extends
 
 	ArrayAdapter<String> adapter;
 	ArrayList<String> places = new ArrayList<String>();
-	ArrayList<String> references,res;
-	
+	GeoPoint currentPoint;
 
-	public GetPlacesAutoComplete(ArrayAdapter<String> adapter, ArrayList<String> references) {
+	public GetPlacesAutoComplete(ArrayAdapter<String> adapter,GeoPoint currentPoint) {
 		this.adapter = adapter;
-		this.references = references;
-		res=new ArrayList<String>();
+		this.currentPoint=currentPoint;
 	}
 
 	@SuppressWarnings({ "deprecation", "rawtypes" })
@@ -47,6 +49,8 @@ public class GetPlacesAutoComplete extends
 					"https://maps.googleapis.com/maps/api/place/autocomplete/json?input="
 							+ URLEncoder.encode(args[0].toString(),
 									"UTF-8")
+							+ "&location=" + currentPoint.getLatitudeE6()/1000000.0 + ","+currentPoint.getLongitudeE6()/1000000.0
+							+ "&radius=" + MyApplication.SEARCH_RADIUS
 							+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
 
 			URLConnection tc = googlePlaces.openConnection();
@@ -68,7 +72,6 @@ public class GetPlacesAutoComplete extends
 				JSONObject jo = (JSONObject) ja.get(i);
 				{
 					places.add(jo.getString("description"));
-					res.add(jo.getString("reference"));
 
 				}
 
@@ -100,8 +103,6 @@ public class GetPlacesAutoComplete extends
 
 		adapter.clear();
 		adapter.addAll(places);
-		references.clear();
-		references.addAll(res);
 		Log.d("YourApp",
 				"onPostExecute : autoCompleteAdapter " + adapter.getCount());
 
