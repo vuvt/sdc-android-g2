@@ -169,9 +169,14 @@ public class SearchActivity extends MapActivity implements OnItemClickListener {
 	}
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		Place place = places.get(arg2);
 		SearchTabGroupActivity parent = (SearchTabGroupActivity) getParent();
+		Intent intent = new Intent(parent, SearchItemActivity.class);
+		/*Bundle bundle = new Bundle();
+		bundle.putSerializable("place", place);
+		intent.putExtra("bundlePlace", bundle);*/
 		parent.startNewActivity(SearchItemActivity.class.getSimpleName(),
-				new Intent(parent, SearchItemActivity.class));
+				intent);
 	}
 
 	@Override
