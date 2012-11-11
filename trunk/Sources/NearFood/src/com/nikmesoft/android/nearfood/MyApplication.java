@@ -12,6 +12,7 @@ public class MyApplication extends Application {
 	public static int API_VERSION;
 	public static int LOCATION_UPDATE_TIME;
 	public static int LOCATION_UPDATE_DISTANCE;
+	public static int SEARCH_RADIUS;
 	private Context context;
 
 	@Override
@@ -36,5 +37,6 @@ public class MyApplication extends Application {
 		// GPS
 		LOCATION_UPDATE_TIME = 30 * 1000;
 		LOCATION_UPDATE_DISTANCE = 100;
+		SEARCH_RADIUS = 500;
 	}
 }

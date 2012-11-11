@@ -61,7 +61,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	CheckInResultAdapter checkinResultAdapter;
 	MapView mapView;
 	private MapController mc;
-	private GeoPoint currentPoint;
+	private static GeoPoint currentPoint;
 	private LocationManager lm;
 	final Handler mHandler = new Handler();
 	private ArrayAdapter<String> autoCompleteAdapter;
@@ -123,7 +123,9 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		mc = mapView.getController();
 		// mc.setCenter(new GeoPoint(108149794, 16073651));
 		mc.setZoom(16);
-		OverlayItem item=new OverlayItem(new GeoPoint(1607361,108149659),"Current address", "16.07361,108.149659");
+		currentPoint=new GeoPoint(1607361,108149659);
+		OverlayItem item=new OverlayItem(currentPoint,"Current address", "16.07361,108.149659");
+		
 		CustomItemizedOverlay overlayItem = new CustomItemizedOverlay(this,
 				IC_MAP_PIN_CURRENT);
 		overlayItem.addItem(item);
@@ -185,7 +187,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 					getplaceAutoComplete.cancel(true);
 				}
 				getplaceAutoComplete = new GetPlacesAutoComplete(
-						autoCompleteAdapter, references);
+						autoCompleteAdapter, currentPoint);
 				getplaceAutoComplete.execute(textView.getText().toString());
 
 			}
@@ -358,6 +360,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 						"https://maps.googleapis.com/maps/api/place/textsearch/json?query="
 								+ URLEncoder.encode(textView.getText()
 										.toString().trim(), "UTF-8")
+								+ "&location=" + CKIMainActivity.currentPoint.getLatitudeE6()/1000000.0 + ","+currentPoint.getLongitudeE6()/1000000.0
+								+ "&radius=" + MyApplication.SEARCH_RADIUS
 								+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
 				URLConnection tc = googlePlaces.openConnection();
 				BufferedReader in = new BufferedReader(new InputStreamReader(
