@@ -65,7 +65,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private LocationManager lm;
 	final Handler mHandler = new Handler();
 	private ArrayAdapter<String> autoCompleteAdapter;
-	private ArrayList<String> references;
 	public int oldOverlay = -1;
 	private Drawable IC_MAP_PIN_NORMAL;
 	private Drawable IC_MAP_PIN_CHOSE;
@@ -173,7 +172,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		});
 		autoCompleteAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_dropdown_item_1line);
-		references = new ArrayList<String>();
 		autoCompleteAdapter.setNotifyOnChange(true);
 		textView.setAdapter(autoCompleteAdapter);
 		textView.setOnItemClickListener(this);
