@@ -143,12 +143,6 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 
 	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_search_map, menu);
-        return true;
-    }
-
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

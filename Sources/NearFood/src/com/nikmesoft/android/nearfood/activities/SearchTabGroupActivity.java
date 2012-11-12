@@ -2,7 +2,6 @@ package com.nikmesoft.android.nearfood.activities;
 
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.R.layout;
-import com.nikmesoft.android.nearfood.R.menu;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -16,11 +15,5 @@ public class SearchTabGroupActivity extends TabGroupActivity {
         super.onCreate(savedInstanceState);
         
         startNewActivity(SearchActivity.class.getSimpleName(), new Intent(this, SearchActivity.class));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_search_tab_group, menu);
-        return true;
     }
 }

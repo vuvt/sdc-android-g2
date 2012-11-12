@@ -2,7 +2,6 @@ package com.nikmesoft.android.nearfood.activities;
 
 import java.util.ArrayList;
 
-import com.nikmesoft.android.nearfood.R;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,7 +10,6 @@ import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.Window;
 
 @SuppressWarnings("deprecation")
@@ -24,12 +22,6 @@ public class TabGroupActivity extends ActivityGroup {
 		super.onCreate(savedInstanceState);
 		nameActivitys = new ArrayList<String>();
 		localActivityManager = getLocalActivityManager();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_tab_group, menu);
-		return true;
 	}
 
 	@Override
