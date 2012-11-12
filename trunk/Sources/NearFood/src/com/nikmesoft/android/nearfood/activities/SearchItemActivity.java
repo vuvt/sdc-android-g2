@@ -12,11 +12,8 @@ import com.facebook.android.FacebookError;
 import com.facebook.android.AsyncFacebookRunner.RequestListener;
 import com.facebook.android.Facebook.DialogListener;
 import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.R.layout;
-import com.nikmesoft.android.nearfood.R.menu;
 import com.nikmesoft.android.nearfood.adapters.GalleryAdapter;
 import com.nikmesoft.android.nearfood.adapters.SearchCheckInResultAdapter;
-import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
 import com.nikmesoft.android.nearfood.models.CheckIn;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.models.User;
@@ -185,10 +182,6 @@ public class SearchItemActivity extends Activity {
 
 	}
 
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_search_item, menu);
-		return true;
-	}
 
 	public void onClickLeftArrow(View v) {
 		if (position_selected_imgview > 0)
