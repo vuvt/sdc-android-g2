@@ -92,7 +92,6 @@ public class LoginActivity extends BaseActivity {
 					|| loader.getStatus() == Status.FINISHED) {
 				loader = new WSLoader();
 				loader.execute(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
-				//MyApplication.USER_CURRENT.setEmail(email);
 				if(MyApplication.USER_CURRENT != null) {//chuyen vo main activity
 					Intent intent = new Intent(this, MainActivity.class);
 					startActivity(intent);
@@ -193,7 +192,7 @@ public class LoginActivity extends BaseActivity {
 			}else if(result!=null&&result.getClass().equals(User.class)){
 				MyApplication.USER_CURRENT = new User();
 				MyApplication.USER_CURRENT = (User)result;
-				CommonUtil.dialogNotify(LoginActivity.this, "Login successfully!");
+				//CommonUtil.dialogNotify(LoginActivity.this, "Login successfully!");
 				
 			}
 		}
