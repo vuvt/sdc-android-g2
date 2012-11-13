@@ -1,7 +1,7 @@
 package com.nikmesoft.android.nearfood.models;
 
 public class User {
-	private String fullName, email, birthday, profilePicture;
+	private String fullName, email, birthday, profilePicture, gender;
 	private long id;
 	
 	public User(){
@@ -62,5 +62,12 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	public User setGender(String gender){
+		this.gender = gender;
+		return this;
+	}
+	public String getGender(){
+		return this.gender;
 	}
 }
