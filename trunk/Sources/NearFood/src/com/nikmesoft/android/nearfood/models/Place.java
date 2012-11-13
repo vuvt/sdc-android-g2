@@ -7,7 +7,7 @@ import com.google.android.maps.GeoPoint;
 @SuppressWarnings("serial")
 public class Place implements Serializable {
 
-	private long id;
+	private int id;
 	private String name;
 	private String address;
 	private String description;
@@ -33,8 +33,7 @@ public class Place implements Serializable {
 		this.description = description;
 		this.likedCount = likedCount;
 	}
-
-	public Place(long id, String name, String address, String description,
+	public Place(int id, String name, String address, String description,
 			int likedCount, GeoPoint mapPoint, String imagePath) {
 		this.id = id;
 		this.address = address;
@@ -49,7 +48,7 @@ public class Place implements Serializable {
 		return id;
 	}
 
-	public Place setId(long id) {
+	public Place setId(int id) {
 		this.id = id;
 		return this;
 	}
