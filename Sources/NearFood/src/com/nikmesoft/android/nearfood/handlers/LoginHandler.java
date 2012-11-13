@@ -1,63 +1,47 @@
 package com.nikmesoft.android.nearfood.handlers;
 
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import org.xml.sax.helpers.DefaultHandler;
 
-public class LoginHandler extends DefaultHandler {
-	private final static String RESULT_XML = "result";
-	private final static String ERRORCODE_XML = "ErrorCode";
-	private final static String ERRORCODE_ID_XML = "errorID";
-	private final static String ERRORCODE_MSG_XML = "errorMsg";
-	private StringBuilder builder;
-	private String result;
-	private ErrorCode errorCode;
 
+import com.nikmesoft.android.nearfood.MyApplication;
+import com.nikmesoft.android.nearfood.models.User;
+
+
+public class LoginHandler extends BaseHandler {
+	private final String USER="User";
+	private User user=null;
+	
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
-		super.characters(ch, start, length);
-		builder.append(new String(ch, start, length));
-	}
-
-	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
-		super.endElement(uri, localName, qName);
-		if (this.errorCode != null) {
-			if (localName.equalsIgnoreCase(ERRORCODE_ID_XML)) {
-				errorCode.setErrorID(builder.toString().trim());
-			} else if (localName.equalsIgnoreCase(ERRORCODE_MSG_XML)) {
-				errorCode.setErrorMsg(builder.toString().trim());
-			}
-		} else if (localName.equalsIgnoreCase(RESULT_XML)) {
-			result = builder.toString().trim();
+	protected void processNotEndErrorCode(String localName) {
+		if (localName.equalsIgnoreCase("id")){
+			user.setId(Long.parseLong(builder.toString().trim()));
 		}
-		builder.setLength(0);
-
-	}
-
-	@Override
-	public void startDocument() throws SAXException {
-		super.startDocument();
-		builder = new StringBuilder();
-	}
-
-	@Override
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
-		super.startElement(uri, localName, qName, attributes);
-		if (localName.equalsIgnoreCase(ERRORCODE_XML)) {
-			this.errorCode = new ErrorCode();
+		else if (localName.equalsIgnoreCase("fullname")){
+			user.setFullName(builder.toString().trim());
 		}
-	}
-
-	public String getResult() {
-		if (errorCode == null) {
-			return result;
-		} else {
-			return errorCode.getErrorMsg();
+		else if (localName.equalsIgnoreCase("email")){
+			user.setEmail(builder.toString().trim());
 		}
+		else if (localName.equalsIgnoreCase("gender")){
+			user.setGender(Integer.parseInt(builder.toString().trim())==MyApplication.MALE?"Male":"Female");
+		}
+		else if (localName.equalsIgnoreCase("birthday")){
+			user.setBirthday(builder.toString().trim());
+		}
+		else if (localName.equalsIgnoreCase("avatar")){
+			user.setProfilePicture(builder.toString().trim());
+		}
+			
 	}
-
+	@Override
+	protected Object returnNotErrorCode() {
+		if(user!=null){
+			return user;
+		}
+		return null;
+	}
+	@Override
+	public void processNotStartErrorCode(String localName) {
+		if (localName.equalsIgnoreCase(USER)) 
+			user=new User();
+	}
 }
