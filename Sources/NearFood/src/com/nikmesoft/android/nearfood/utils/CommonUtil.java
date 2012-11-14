@@ -2,6 +2,9 @@ package com.nikmesoft.android.nearfood.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -126,5 +129,31 @@ public class CommonUtil {
 		AlertDialog alert = builder.create();
 		alert.show();
 
+	}
+	
+	
+	/**
+	 * Convert a String to md5
+	 * @param password
+	 * @return String
+	 */
+	public static String convertToMD5(String password) {
+		 
+        MessageDigest md;
+        StringBuffer sb = new StringBuffer();
+        
+		try {
+			md = MessageDigest.getInstance("MD5");
+			md.update(password.getBytes());
+			 
+	        byte byteData[] = md.digest();
+	        
+	        for (int i = 0; i < byteData.length; i++) {
+	         sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return sb.toString();
 	}
 }
