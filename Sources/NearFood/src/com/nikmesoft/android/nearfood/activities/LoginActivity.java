@@ -7,29 +7,15 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
-import org.apache.http.util.EntityUtils;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.AsyncTask.Status;
-import android.text.Html;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -48,7 +34,6 @@ public class LoginActivity extends BaseActivity {
 	private ProgressDialog dialog;
 	private WSLoader loader;
 	
-	private String email;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,7 +76,8 @@ public class LoginActivity extends BaseActivity {
 			if (loader == null || loader.isCancelled()
 					|| loader.getStatus() == Status.FINISHED) {
 				loader = new WSLoader();
-				loader.execute(edtEmail.getText().toString().trim(), edtPassword.getText().toString().trim());
+				loader.execute(edtEmail.getText().toString().trim(), CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
+				
 				if(MyApplication.USER_CURRENT != null) {//chuyen vo main activity
 					Intent intent = new Intent(this, MainActivity.class);
 					startActivity(intent);
