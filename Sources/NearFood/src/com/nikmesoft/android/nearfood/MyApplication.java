@@ -19,7 +19,7 @@ public class MyApplication extends Application {
 	
 	private Context context;
 	
-	public static User USER_CURRENT = null;
+	public static User USER_CURRENT;
 
 	@Override
 	public void onCreate() {
