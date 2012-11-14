@@ -2,7 +2,6 @@ package com.nikmesoft.android.nearfood.handlers;
 
 
 
-import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.models.User;
 
 
@@ -22,7 +21,7 @@ public class LoginHandler extends BaseHandler {
 			user.setEmail(builder.toString().trim());
 		}
 		else if (localName.equalsIgnoreCase("gender")){
-			user.setGender(Integer.parseInt(builder.toString().trim())==MyApplication.MALE?"Male":"Female");
+			user.setGender(builder.toString().trim());
 		}
 		else if (localName.equalsIgnoreCase("birthday")){
 			user.setBirthday(builder.toString().trim());
