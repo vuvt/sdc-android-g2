@@ -78,10 +78,6 @@ public class LoginActivity extends BaseActivity {
 				loader = new WSLoader();
 				loader.execute(edtEmail.getText().toString().trim(), CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
 				
-				if(MyApplication.USER_CURRENT != null) {//chuyen vo main activity
-					Intent intent = new Intent(this, MainActivity.class);
-					startActivity(intent);
-				}
 			}
 		}
 	}
@@ -170,15 +166,17 @@ public class LoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
-			//String html = "<h4><font face='verdana' color='green'>" + result + "</font></h4>";
-			//Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-			dialog.dismiss();
+			
 			if(result!=null&&result.getClass().equals(ErrorCode.class)){
+				dialog.dismiss();
 				CommonUtil.dialogNotify(LoginActivity.this, ((ErrorCode)result).getErrorMsg());
 			}else if(result!=null&&result.getClass().equals(User.class)){
 				MyApplication.USER_CURRENT = new User();
 				MyApplication.USER_CURRENT = (User)result;
-				//CommonUtil.dialogNotify(LoginActivity.this, "Login successfully!");
+				dialog.dismiss();
+				Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+				startActivity(intent);
 				
 			}
 		}
