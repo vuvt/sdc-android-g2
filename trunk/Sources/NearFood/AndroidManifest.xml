@@ -153,7 +153,14 @@
             android:label="@string/title_activity_search_map"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
-            </activity>
+         </activity>
+         <activity
+            android:name=".activities.SettingsTabGroupActivity"
+            android:label="@string/activity_profile_title"
+            android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
     </application>
 
 </manifest>
