@@ -93,7 +93,7 @@ public class ProfileActivity extends BaseActivity {
 			@Override
 			public void run() {
 				try {
-					imageView.setImageDrawable(Utilities.LoadImageFromWebOperations("http://nikmesoft.com/apis/SFoodServices/resources/avatars/"+String.valueOf(MyApplication.USER_CURRENT.getId())+".png", "Avatar"));
+					imageView.setImageDrawable(Utilities.LoadImageFromWebOperations(MyApplication.USER_CURRENT.getProfilePicture(), "Avatar"));
 					
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
