@@ -20,6 +20,102 @@
     </LinearLayout>
 
     <RelativeLayout style="@style/Body" >
+        <LinearLayout
+            android:id="@+id/layout_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" >
+
+            <Button
+                android:id="@+id/bt_filter"
+                style="@style/SearchButton"
+                android:layout_height="30dp"
+                android:layout_gravity="left|center_vertical"
+                android:layout_margin="5dp"
+                android:onClick="onClickFilter"
+                android:text="@string/text_btn_filter" />
+
+            <FrameLayout
+                android:id="@+id/frame_search"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" >
+
+                <EditText
+                    android:id="@+id/edt_search"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:background="@drawable/frame_search_background"
+                    android:focusableInTouchMode="false"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:keepScreenOn="false"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="45dp"
+                    android:singleLine="true" >
+                </EditText>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp" >
+
+                    <ImageView
+                        style="@style/TitleBarSeparator"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="2dp"
+                        android:contentDescription="@string/app_name" />
+
+                    <Button
+                        android:id="@+id/bt_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="3dp"
+                        android:background="@drawable/ic_search"
+                        android:onClick="actionSearch" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/bt_listmap"
+                android:layout_width="42dip"
+                android:layout_height="35dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_margin="5dp"
+                android:background="@drawable/button_map"
+                android:onClick="onClickListOrMap" />
+        </LinearLayout>
+
+        <ViewFlipper
+            android:id="@+id/details"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/layout_search"
+            android:layout_margin="5dp" >
+
+            <ListView
+                android:id="@+id/lvSearch"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginTop="10dip"
+                android:cacheColorHint="#00000000" />
+
+            <com.google.android.maps.MapView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:apiKey="0sMGVA8-_D69gXCJtdsjSByEWZaiYYdeVFTBjNw"
+                android:clickable="true" />
+        </ViewFlipper>
     </RelativeLayout>
 
 </RelativeLayout>
