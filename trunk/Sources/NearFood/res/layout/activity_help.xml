@@ -16,10 +16,10 @@
 
         <TextView
             style="@style/TitleBarText"
-            android:text="@string/activity_settings_title" />
+            android:text="@string/activity_help_title" />
     </LinearLayout>
     
-    <RelativeLayout style="@style/Body" >
+    <RelativeLayout style="@style/Body">
         <WebView 
             android:id="@+id/web_help"
             android:layout_width="match_parent"
