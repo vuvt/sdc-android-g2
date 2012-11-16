@@ -110,6 +110,7 @@
                         android:layout_below="@id/tvTakeAPhoto"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="15dp"
+                        android:inputType="textCapWords"
                         android:background="@drawable/edit_text_frame"
                         android:hint="@string/activity_register_edtFullName"
                         android:singleLine="true" />

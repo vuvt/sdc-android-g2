@@ -218,9 +218,9 @@ public class ProfileActivity extends BaseActivity {
 	 * @return true if have a field is null, invert return false if haven't
 	 */
 	public boolean isNullAllFields() {
-		if ("".equals(edtFullName.getText().toString())
-				|| "".equals(edtEmail.getText().toString())
-				|| "".equals(edtBirthDay.getText().toString())
+		if ("".equals(edtFullName.getText().toString().trim())
+				|| "".equals(edtEmail.getText().toString().trim())
+				|| "".equals(edtBirthDay.getText().toString().trim())
 				|| (!rbMale.isChecked() && !rbFemale.isChecked())) {
 			return true;
 		}
