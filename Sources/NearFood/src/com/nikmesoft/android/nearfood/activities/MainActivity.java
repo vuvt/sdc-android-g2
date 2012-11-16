@@ -26,7 +26,7 @@ public class MainActivity extends TabActivity {
 				R.layout.tab_item);
 		addTab(R.drawable.ic_tab_favorites, FavoritesActivity.class,
 				R.layout.tab_item);
-		addTab(R.drawable.ic_tab_settings, SettingsActivity.class,
+		addTab(R.drawable.ic_tab_settings, SettingsTabGroupActivity.class,
 				R.layout.tab_item);
 	}
 
