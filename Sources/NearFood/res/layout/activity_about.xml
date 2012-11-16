@@ -1,12 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <WebView
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/webabout" >
-    
+    android:layout_height="match_parent" >
 
-</WebView>
+    <LinearLayout style="@style/TitleBar">
+
+        <ImageView
+            style="@style/TitleBarLogo"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/titlebar_logo" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activitity_about_title" />
+    </LinearLayout>
+    
+    <RelativeLayout style="@style/Body"
+        android:scrollbarStyle="insideOverlay" >
+        <WebView 
+             android:id="@+id/webabout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:animateLayoutChanges="false"
+            />
+    </RelativeLayout>
+
 </RelativeLayout>
