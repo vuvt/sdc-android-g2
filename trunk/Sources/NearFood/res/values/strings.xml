@@ -24,10 +24,12 @@
     </string-array>
     <!-- CheckInActivity -->
     <string name="activity_checkin_title">Check-In</string>
-
+	<!-- Help -->
+    <string name="activity_help_title">Help</string>
     <!-- FavoritesActivity -->
     <string name="activity_favorites_title">Favorites</string>
-
+	<!-- About -->
+	<string name="activitity_about_title">About</string>
     <!-- SettingsActivity -->
     <string name="activity_settings_title">Settings</string>
     <!-- Profile -->
@@ -81,7 +83,6 @@
     <string name="activity_profile_tvGender">Gender</string>
     <string name="bt_take_photo_title">Take a photo</string>
     <string name="bt_choose_image_title">Choose from gallery</string>
-    <string name="activity_help_title">Help</string>
     <string name="crop_image_no_app">Can not find Crop Image App in your device.</string>
     <string name="crop_image_dialog_title">Choose Crop Image App</string>
     <string name="error_network_connection">Cannot connect to server! Please check network connection!</string>
