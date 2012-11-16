@@ -1,13 +1,12 @@
 package com.nikmesoft.android.nearfood.activities;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -17,7 +16,6 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -30,10 +28,12 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.CropOptionAdapter;
 import com.nikmesoft.android.nearfood.models.CropOption;
 import com.nikmesoft.android.nearfood.utils.CommonUtil;
+import com.nikmesoft.android.nearfood.utils.Utilities;
 
 public class ProfileActivity extends BaseActivity {
 	
@@ -59,11 +59,15 @@ public class ProfileActivity extends BaseActivity {
 		setContentView(R.layout.activity_profile);
 		init();
 		
-		/** Get the current date */
-        final Calendar cal = Calendar.getInstance();
-        pYear = cal.get(Calendar.YEAR);
-        pMonth = cal.get(Calendar.MONTH);
-        pDay = cal.get(Calendar.DAY_OF_MONTH);
+//		/** Get the current date */
+//        final Calendar cal = Calendar.getInstance();
+//        pYear = cal.get(Calendar.YEAR);
+//        pMonth = cal.get(Calendar.MONTH);
+//        pDay = cal.get(Calendar.DAY_OF_MONTH);
+        
+        //set DatePickerDialog
+		setDateToDatePickerDialog(edtBirthDay.getText().toString().trim());
+		
 	}
 
 	private void init() {
@@ -73,6 +77,35 @@ public class ProfileActivity extends BaseActivity {
 		rbMale = (RadioButton) findViewById(R.id.rbMale);
 		rbFemale = (RadioButton) findViewById(R.id.rbFemale);
 		imageView = (ImageView) findViewById(R.id.imgProfilePicture);
+		
+		//set information to each field
+		edtFullName.setText(MyApplication.USER_CURRENT.getFullName());
+		edtEmail.setText(MyApplication.USER_CURRENT.getEmail());
+		edtBirthDay.setText(MyApplication.USER_CURRENT.getBirthday());
+		if(MyApplication.USER_CURRENT.getGender().equals("1")) {
+			rbMale.setChecked(true);
+		} else {
+			rbFemale.setChecked(true);
+		}
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					imageView.setImageDrawable(Utilities.LoadImageFromWebOperations("http://nikmesoft.com/apis/SFoodServices/resources/avatars/"+String.valueOf(MyApplication.USER_CURRENT.getId())+".png", "Avatar"));
+					
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}).start();
+		
+		
 	}
 	
 	public void onClickBack(View v) {
@@ -317,5 +350,11 @@ public class ProfileActivity extends BaseActivity {
 						pDay);
 			}
 			return null;
+		}
+		
+		private void setDateToDatePickerDialog(String date) {
+			pDay = Integer.parseInt(date.substring(0, 2));
+			pMonth = Integer.parseInt(date.substring(3, 5))-1;
+			pYear = Integer.parseInt(date.substring(6, 10));
 		}
 }
