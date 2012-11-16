@@ -1,9 +1,19 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 import com.facebook.android.AsyncFacebookRunner;
 import com.facebook.android.DialogError;
@@ -14,12 +24,17 @@ import com.facebook.android.Facebook.DialogListener;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.GalleryAdapter;
 import com.nikmesoft.android.nearfood.adapters.SearchCheckInResultAdapter;
+import com.nikmesoft.android.nearfood.handlers.ErrorCode;
+import com.nikmesoft.android.nearfood.handlers.GetCheckInsOfPlaceHander;
+import com.nikmesoft.android.nearfood.handlers.GetPlaceHander;
 import com.nikmesoft.android.nearfood.models.CheckIn;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.models.User;
 import com.nikmesoft.android.nearfood.utils.Utilities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -74,6 +89,9 @@ public class SearchItemActivity extends Activity {
 	private ListView lvCheckin;
 	ArrayList<CheckIn> checkins;
 	private LinearLayout linearlayout_list;
+	private ProgressDialog progressDialog;
+	private Place place;
+	private Handler hander = new Handler();
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_item);
@@ -81,28 +99,33 @@ public class SearchItemActivity extends Activity {
 	}
 
 	public void init() {
-
+		Intent intent = getIntent();
+		Bundle bundle = intent.getBundleExtra("bundlePlace");
+		place = (Place) bundle.getSerializable("place");
 		search_name_place = (TextView) findViewById(R.id.search_name_place);
+		search_name_place.setText(place.getName());
 		address_information = (TextView) findViewById(R.id.address_information);
+		address_information.setText(place.getAddress());
 		description_information = (TextView) findViewById(R.id.description_information);
+		description_information.setText(place.getDescription());
 		// Adapter Check In
 		linearlayout_list = (LinearLayout) findViewById(R.id.listview_layout_search);
 		scrollview = (ScrollView) findViewById(R.id.ScrollViewLayout);
 		
 		checkins = new ArrayList<CheckIn>();
-		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number One", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number two", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number One", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number two", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Dang Cong Men", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number One", "","2 days ago"));
-		checkins.add(new CheckIn(1, new User("Phan Ngoc Tu", "dcm.it.bkdn@gmail.com", "", ""), new Place("", "", "BÃ² kho Ä‘Æ°á»�ng Huá»³nh ThÃºc KhÃ¡ng, bÃ¡n buá»•i sÃ¡ng thÃ´i . Cáº¡nh quÃ¡n nÃ y buá»•i chiá»�u cÃ³ bÃ¡n bÃ¡nh canh, Äƒn cÅ©ng Ä‘Æ°á»£c.", 0), "Quan nay` Number two", "","2 days ago"));
 		addItemListViewCustomer(checkins);
+		progressDialog = new ProgressDialog(getParent());
+		progressDialog.setMessage("Loading. Please wait...");
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialog.setCancelable(false);
+		WSLoader ws = new WSLoader();
+		ws.execute();
 		// Adapter Gallery
+		listImage = new ArrayList<Drawable>();
 		gallery = (Gallery) findViewById(R.id.gallery_search);
 		left_arrow_imageview = (ImageView) findViewById(R.id.left_arrow_imageview);
 		right_arrow_imageview = (ImageView) findViewById(R.id.right_arrow_imageview);
 		selected_imageview = (ImageView) findViewById(R.id.selected_imageview);
-		getDrawable();
 		galleryAdapter = new GalleryAdapter(this, listImage);
 		gallery.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -173,16 +196,6 @@ public class SearchItemActivity extends Activity {
 		imageView.setPadding(3, 3, 3, 3);
 	}
 
-	public void getDrawable() {
-		listImage = new ArrayList<Drawable>();
-		listImage.add(getResources().getDrawable(R.drawable.natureimage1));
-		listImage.add(getResources().getDrawable(R.drawable.natureimage2));
-		listImage.add(getResources().getDrawable(R.drawable.natureimage3));
-		listImage.add(getResources().getDrawable(R.drawable.natureimage4));
-
-	}
-
-
 	public void onClickLeftArrow(View v) {
 		if (position_selected_imgview > 0)
 			position_selected_imgview--;
@@ -228,6 +241,10 @@ public class SearchItemActivity extends Activity {
 		/*SearchTabGroupActivity parent = (SearchTabGroupActivity)getParent();
 		parent.startNewActivity(SearchMapActivity.class.getSimpleName(), new Intent(parent, SearchMapActivity.class));*/
 		Intent intent = new Intent(this.getParent(), SearchMapActivity.class);
+		intent.putExtra("Latitude", place.getMapPoint().getLatitudeE6());
+		intent.putExtra("Longitude", place.getMapPoint().getLongitudeE6());
+		intent.putExtra("NamePlace", place.getName());
+		intent.putExtra("AddressPlace", place.getAddress());
 		startActivity(intent);
 	}
 	public void addItemListViewCustomer(ArrayList<CheckIn> checks) {
@@ -238,11 +255,13 @@ public class SearchItemActivity extends Activity {
 					R.layout.list_item_checkin_search, null);
 			TextView fullName = (TextView) row
 					.findViewById(R.id.fullname_item_checkin_search);
+			fullName.setText(checks.get(i).getUser().getFullName());
 			TextView description = (TextView) row
 					.findViewById(R.id.description_item_checkin_search);
+			description.setText(checks.get(i).getDescription());
 			TextView time = (TextView) row
 					.findViewById(R.id.time_item_checkin_search);
-			fullName.setText("Full Name");
+			time.setText(checks.get(i).getTimeCheck());
 			description.setText(checks.get(i).getDescription().toString());
 			time.setText(checks.get(i).getTimeCheck().toString());
 			linearlayout_list.addView(row);
@@ -251,11 +270,6 @@ public class SearchItemActivity extends Activity {
 	public void onClickFacebook(View v) {
 		dialog_share = new Dialog(this.getParent());
 		dialog_share.setContentView(R.layout.share_face);
-		/*LayoutInflater inflater = (LayoutInflater)getSystemService(
-				Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(
-				R.layout.share_face, null);*/
-		//dialog_share.setContentView(view);
 		dialog_share.setTitle("Share facebook");
 		noteShare = (TextView) dialog_share.findViewById(R.id.noteShare);
 		dialog_progressBar =(ProgressBar) dialog_share.findViewById(R.id.dialogProgressBar);
@@ -507,5 +521,171 @@ public class SearchItemActivity extends Activity {
 				}
 			});
 		}
+	}
+	private Object xmlParser(String strXml) {
+		byte xmlBytes[] = strXml.getBytes();
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+				xmlBytes);
+		SAXParserFactory saxPF = SAXParserFactory.newInstance();
+		SAXParser saxParser;
+		try {
+			saxParser = saxPF.newSAXParser();
+			XMLReader xr = saxParser.getXMLReader();
+			GetCheckInsOfPlaceHander handler = new GetCheckInsOfPlaceHander();
+			xr.setContentHandler(handler);
+			xr.parse(new InputSource(byteArrayInputStream));
+			return handler.getResult();
+
+		} catch (ParserConfigurationException ex) {
+			ex.printStackTrace();
+		} catch (SAXException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+	public String requests(){
+		
+		return null;
+	}
+  Runnable getImages = new Runnable() {
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		for (CheckIn check : checkins) {
+			try {
+				Log.d("img", "img1");
+				listImage.add(Utilities.LoadImageFromWebOperations(check.getImagePath(), check.getImagePath()));
+				Log.d("img", "img2");
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		galleryAdapter.notifyDataSetChanged();
+	}
+};
+	private class WSLoader extends AsyncTask<String, Integer, Object> {
+		@Override
+		protected Object doInBackground(String... params) {
+			String request = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+				+" <soapenv:Header/>"
+				+" <soapenv:Body>"
+					+" <getCheckIns soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+						+" <GetCheckInsRequest xsi:type=\"sfo:GetCheckInsRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
+							+" <!--You may enter the following 2 items in any order-->"
+						+" <id_place xsi:type=\"xsd:int\">"+ String.valueOf(place.getId()) +"</id_place>"
+						+" <page xsi:type=\"xsd:int\">?</page>"
+						+" </GetCheckInsRequest>"
+					+" </getCheckIns>"
+					+" </soapenv:Body>"
+				+" </soapenv:Envelope>";
+			String soapAction = "http://nikmesoft.com/apis/SFoodServices/index.php/getPlaces";
+			return xmlParser(Utilities.callWS(request, soapAction));
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+			if(result.getClass().equals(ErrorCode.class)){}
+			else{
+				checkins.clear();
+			for (CheckIn checkin : ((ArrayList<CheckIn>)result))checkins.add(checkin);
+			linearlayout_list.removeAllViews();
+			addItemListViewCustomer(checkins);
+			
+			}
+			progressDialog.dismiss();
+			getImages imgs = new getImages();
+			imgs.execute((ArrayList<CheckIn>)result);
+			//hander.post(getImages);
+			/*new Thread(){
+			public void run(){
+				for (CheckIn check : ((ArrayList<CheckIn>)result)) {
+					try {
+						Log.d("img", "img1");
+						listImage.add(Utilities.LoadImageFromWebOperations(check.getImagePath(), check.getImagePath()));
+						Log.d("img", "img2");
+					} catch (MalformedURLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}	
+			}.start();*/
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progressDialog.show();
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+		}
+
+	}	
+	private class getImages extends AsyncTask<ArrayList<CheckIn>, Integer, ArrayList<Drawable>> {
+
+		@Override
+		protected ArrayList<Drawable> doInBackground(
+				ArrayList<CheckIn>... params) {
+			for (CheckIn checkIn : params[0]) {
+				try {
+					listImage.add(Utilities.LoadImageFromWebOperations(checkIn.getImagePath(), checkIn.getImagePath()));
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(ArrayList<Drawable> result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			galleryAdapter.notifyDataSetChanged();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			// TODO Auto-generated method stub
+			super.onProgressUpdate(values);
+		}
+		
+		
+	}
+	public class MyArrayList extends ArrayList<CheckIn> implements Serializable {
+		public MyArrayList() {
+			super();
+		}
+
 	}
 }

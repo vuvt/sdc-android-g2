@@ -15,6 +15,15 @@ public class Place implements Serializable {
 	private GeoPoint mapPoint;
 	private String imagePath;
 	private String referenceKey;
+	private String distance;
+	public String getDistance() {
+		return distance;
+	}
+
+	public void setDistance(String distance) {
+		this.distance = distance;
+	}
+
 	private String phoneNumber;
 
 	
