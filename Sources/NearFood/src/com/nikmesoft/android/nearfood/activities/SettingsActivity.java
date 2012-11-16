@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -38,12 +39,7 @@ public class SettingsActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// neu chua login
 		setContentView(R.layout.activity_settings);
-		/*neu da login
-		 * setContentView(R.layout.activity_settings_login)
-		 * */
-
 	}
 	public void OnClickProfile(View v){
 		Intent intent = new Intent();
@@ -60,15 +56,17 @@ public class SettingsActivity extends BaseActivity {
 		al.setView(inflater.inflate(R.layout.web_about_view, null));
 		al.setPositiveButton("OK", null);
 		al.show();*/
-		
+/*		
 		Intent intent = new Intent();
 		intent.setClass(this, AboutActivity.class);
-		startActivity(intent);
+		startActivity(intent);*/
 		/*AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
 		LayoutInflater inflater= this.getLayoutInflater();
 		al.setView(inflater.inflate(R.layout.about_view, null));
 		al.setPositiveButton("OK", null);
 		al.show();*/
+		SettingsTabGroupActivity parent = (SettingsTabGroupActivity)getParent();
+		parent.startNewActivity(AboutActivity.class.getSimpleName(), new Intent(this,AboutActivity.class));
 	}
 	public void OnClicklogin(View v){
 		Intent intents = new Intent();
@@ -77,40 +75,28 @@ public class SettingsActivity extends BaseActivity {
 	}
 
 	public void OnClicklogout(View v){
-/*	Intent intents = new Intent();
-	intents.setClass(this, LoginActivity.class);
-	startActivity(intents);*/
+		Intent intents = new Intent();
+		intents.setClass(this, LoginActivity.class);
+		startActivity(intents);
 	}
 	public void OnClickFeedback(View v){
-
 		try {
 	        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
-
 	        String[] recipients = new String[]{"g2.bkdn@gmail.com"};
-	        String[] ccList = { "dvl101bkdn@gmail.com"};// email dang ky..
+	        String[] ccList = {"dvl101bkdn@gmail.com"};// email dang ky..
 	        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, recipients);
-	        emailIntent.putExtra(android.content.Intent.EXTRA_CC, ccList);
+	        emailIntent.putExtra(android.content.Intent.EXTRA_BCC, ccList);
 	        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Feedback for sFood v1.0!");
 	        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 	        emailIntent.setType("text/plain");
-	        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+	        startActivity(Intent.createChooser(emailIntent,"send mail..."));
 	        finish();
         } catch (Exception e) {
-        	finish();
-        }
-		
+        }		
 	}
 	public void OnClickHelp(View v){
-		//------------
-/*		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
-		LayoutInflater inflater = this.getLayoutInflater();
-		al.setTitle("Feedback");
-		al.setMessage(Html.fromHtml(getString(R.string.help)));
-		al.setPositiveButton("OK",null);
-		al.show();*/
-		Intent intent = new Intent();
-		intent.setClass(this, HelpActivity.class);
-		startActivity(intent);
+		SettingsTabGroupActivity parent = (SettingsTabGroupActivity)getParent();
+		parent.startNewActivity(HelpActivity.class.getSimpleName(), new Intent(this,HelpActivity.class));
 	}
 	
 	public void OnClickRegister(View v){
