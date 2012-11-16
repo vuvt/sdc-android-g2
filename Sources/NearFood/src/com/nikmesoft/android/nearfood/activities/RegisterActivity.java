@@ -70,11 +70,11 @@ public class RegisterActivity extends BaseActivity {
 	private int pYear;
 	private int pMonth;
 	private int pDay;
-	
+
 	private Uri mImageCaptureUri;
 	private Bitmap selectedAvatar;
 	private float AVATAR_SIZE = 60;
-	
+
 	private static final int CAPTURE_IMAGE = 100;
 	private static final int SELECT_PICTURE = 101;
 	private static final int CROP_PHOTO_CODE = 102;
@@ -181,11 +181,11 @@ public class RegisterActivity extends BaseActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (!"".equals(edtFullName.getText().toString())
-				|| !"".equals(edtEmail.getText().toString())
-				|| !"".equals(edtPassword.getText().toString())
-				|| !"".equals(edtConfirmPassword.getText().toString())
-				|| !"".equals(edtBirthDay.getText().toString())
+		if (!"".equals(edtFullName.getText().toString().trim())
+				|| !"".equals(edtEmail.getText().toString().trim())
+				|| !"".equals(edtPassword.getText().toString().trim())
+				|| !"".equals(edtConfirmPassword.getText().toString().trim())
+				|| !"".equals(edtBirthDay.getText().toString().trim())
 				|| (rbMale.isChecked() || rbFemale.isChecked())) { // not null
 																	// all
 																	// fields
@@ -220,11 +220,11 @@ public class RegisterActivity extends BaseActivity {
 	 * @return true if have a field is null, invert return false if haven't
 	 */
 	public boolean isNullAllFields() {
-		if ("".equals(edtFullName.getText().toString())
-				|| "".equals(edtEmail.getText().toString())
-				|| "".equals(edtPassword.getText().toString())
-				|| "".equals(edtConfirmPassword.getText().toString())
-				|| "".equals(edtBirthDay.getText().toString())
+		if ("".equals(edtFullName.getText().toString().trim())
+				|| "".equals(edtEmail.getText().toString().trim())
+				|| "".equals(edtPassword.getText().toString().trim())
+				|| "".equals(edtConfirmPassword.getText().toString().trim())
+				|| "".equals(edtBirthDay.getText().toString().trim())
 				|| (!rbMale.isChecked() && !rbFemale.isChecked())) {
 			return true;
 		}
@@ -294,6 +294,12 @@ public class RegisterActivity extends BaseActivity {
 	 * @return
 	 */
 	private Object xmlParser(String strXml) {
+		if (strXml == null || strXml.length() == 0) {
+			ErrorCode err = new ErrorCode();
+			err.setErrorID("errorID");
+			err.setErrorMsg("Can't connect to server!");
+			return err;
+		}
 		byte xmlBytes[] = strXml.getBytes();
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
 				xmlBytes);
@@ -376,7 +382,7 @@ public class RegisterActivity extends BaseActivity {
 				user_registed = new User();
 				user_registed = (User) result;
 				
-				//upload avatar to server				
+				// upload avatar to server
 				uploadAvatarToServer();
 			}
 		}
@@ -393,14 +399,14 @@ public class RegisterActivity extends BaseActivity {
 		}
 
 	}
-	
-	//===================avatar===================
-	
+
+	// ===================avatar===================
+
 	public void onClickTakeAPhoto(View v) {
-//		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        startActivityForResult(intent, CAPTURE_IMAGE);
-        
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		// Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		// startActivityForResult(intent, CAPTURE_IMAGE);
+
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		mImageCaptureUri = Uri.fromFile(new File(Environment
 				.getExternalStorageDirectory(), "tmp_avatar_"
 				+ String.valueOf(System.currentTimeMillis()) + ".jpg"));
@@ -413,16 +419,17 @@ public class RegisterActivity extends BaseActivity {
 
 	public void onClickChooseFromGallery(View v) {
 		Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
-        
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+				SELECT_PICTURE);
+
 	}
-	
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
+
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
 			case CAPTURE_IMAGE:
@@ -453,16 +460,17 @@ public class RegisterActivity extends BaseActivity {
 
 		}
 	}
-	
+
 	public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-        @SuppressWarnings("deprecation")
+		String[] projection = { MediaStore.Images.Media.DATA };
+		@SuppressWarnings("deprecation")
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(column_index);
-    }
-	
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+		return cursor.getString(column_index);
+	}
+
 	private void doCrop() {
 		final ArrayList<CropOption> cropOptions = new ArrayList<CropOption>();
 
@@ -544,26 +552,24 @@ public class RegisterActivity extends BaseActivity {
 			}
 		}
 	}
-	
-	
-	//============upload avatar to server==============
-	
+
+	// ============upload avatar to server==============
+
 	public void uploadAvatarToServer() {
 		String url = "http://nikmesoft.com/apis/SFoodServices/avatarUploader.php";
-		String filename = String.valueOf(user_registed.getId())+".png";
+		String filename = String.valueOf(user_registed.getId()) + ".png";
 		String s_data = "";
 		Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bm.compress(CompressFormat.JPEG, 100, bos);
 		byte[] data = bos.toByteArray();
-		
+
 		uploader.execute((Object) url, (Object) data, (Object) s_data,
 				(Object) filename);
 	}
 
 	private AsyncTask<Object, Void, String> uploader = new AsyncTask<Object, Void, String>() {
 
-		
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
@@ -584,12 +590,18 @@ public class RegisterActivity extends BaseActivity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			dialog.dismiss();
-			
-			Toast.makeText(getApplicationContext(), "Register successfully!",
-					Toast.LENGTH_LONG).show();
-			Intent intent = new Intent(RegisterActivity.this,
-					LoginActivity.class);
-			startActivity(intent);
+
+			if (!result.equals("")) {
+				dialog.dismiss();
+				CommonUtil.dialogNotify(RegisterActivity.this, result);
+			} else {
+				Toast.makeText(getApplicationContext(),
+						"Register successfully!", Toast.LENGTH_LONG).show();
+				Intent intent = new Intent(RegisterActivity.this,
+						LoginActivity.class);
+				startActivity(intent);
+			}
+
 		}
 
 	};

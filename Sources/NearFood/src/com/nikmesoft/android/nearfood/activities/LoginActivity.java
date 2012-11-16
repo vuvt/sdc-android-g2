@@ -111,7 +111,14 @@ public class LoginActivity extends BaseActivity {
 	 * @param strXml
 	 * @return
 	 */
+	
 	private Object xmlParser(String strXml) {
+		if(strXml == null || strXml.length()==0) {
+			ErrorCode err = new ErrorCode();
+			err.setErrorID("errorID");
+			err.setErrorMsg("Can't connect to server!");
+			return err;
+		}
 		byte xmlBytes[] = strXml.getBytes();
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
 				xmlBytes);
@@ -166,14 +173,14 @@ public class LoginActivity extends BaseActivity {
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
-			
+			dialog.dismiss();
 			if(result!=null&&result.getClass().equals(ErrorCode.class)){
-				dialog.dismiss();
+				
 				CommonUtil.dialogNotify(LoginActivity.this, ((ErrorCode)result).getErrorMsg());
 			}else if(result!=null&&result.getClass().equals(User.class)){
 				MyApplication.USER_CURRENT = new User();
 				MyApplication.USER_CURRENT = (User)result;
-				dialog.dismiss();
+				
 				Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(intent);
