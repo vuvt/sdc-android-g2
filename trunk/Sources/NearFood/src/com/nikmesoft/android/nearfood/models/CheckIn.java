@@ -2,7 +2,7 @@ package com.nikmesoft.android.nearfood.models;
 
 public class CheckIn {
         private String description, imagePath;
-        private long id;
+        private int id;
         private User user;
         private Place place;
         private String TimeCheck;
@@ -10,13 +10,13 @@ public class CheckIn {
                 
         }
         
-        public CheckIn(long id, String description, String imagePath) {
+        public CheckIn(int id, String description, String imagePath) {
                 this.id = id;
                 this.description = description;
                 this.imagePath = imagePath;
         }
 
-        public CheckIn(long id, User user, Place place, String description,
+        public CheckIn(int id, User user, Place place, String description,
                         String imagePath) {
                 this.id = id;
                 this.user = user;
@@ -24,7 +24,7 @@ public class CheckIn {
                 this.description = description;
                 this.imagePath = imagePath;
         }
-        public CheckIn(long id, User user, Place place, String description,
+        public CheckIn(int id, User user, Place place, String description,
                 String imagePath, String TimeCheck) {
         this.id = id;
         this.user = user;
@@ -62,7 +62,7 @@ public class CheckIn {
                 return id;
         }
 
-        public void setId(long id) {
+        public void setId(int id) {
                 this.id = id;
         }
 

@@ -22,6 +22,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.view.Menu;
@@ -35,8 +36,7 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 	private GeoPoint currentPoint;
 	private LocationManager lm;
 	private Drawable IC_MAP_PIN_NORMAL;
-	private Drawable IC_MAP_PIN_CHOSE;
-	private Drawable IC_MAP_PIN_CURRENT;
+	String NamePlace, AddressPlace;
 	final Handler mHandler = new Handler();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,20 +51,16 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 	};
 
 	private void init() {
+		Intent intent = getIntent();
+		currentPoint = new GeoPoint(intent.getIntExtra("Latitude", 16000000), 
+				intent.getIntExtra("Longitude", 108000000));
+		NamePlace = intent.getStringExtra("NamePlace");
+		AddressPlace = intent.getStringExtra("AddressPlace");
 		IC_MAP_PIN_NORMAL = getResources().getDrawable(
 				R.drawable.ic_map_pin_normal);
 		IC_MAP_PIN_NORMAL.setBounds(0, 0,
 				IC_MAP_PIN_NORMAL.getIntrinsicWidth(),
 				IC_MAP_PIN_NORMAL.getIntrinsicHeight());
-		IC_MAP_PIN_CHOSE = getResources().getDrawable(
-				R.drawable.ic_map_pin_chose);
-		IC_MAP_PIN_CHOSE.setBounds(0, 0, IC_MAP_PIN_CHOSE.getIntrinsicWidth(),
-				IC_MAP_PIN_CHOSE.getIntrinsicHeight());
-		IC_MAP_PIN_CURRENT = getResources().getDrawable(
-				R.drawable.ic_map_pin_current);
-		IC_MAP_PIN_CURRENT.setBounds(0, 0,
-				IC_MAP_PIN_CURRENT.getIntrinsicWidth(),
-				IC_MAP_PIN_CURRENT.getIntrinsicHeight());
 		mapView = (MapView) findViewById(R.id.mapview);
 		mapView.setBuiltInZoomControls(true);
 		mc = mapView.getController();
@@ -73,6 +69,7 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 		lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
 				MyApplication.LOCATION_UPDATE_TIME,
 				MyApplication.LOCATION_UPDATE_DISTANCE, this);
+		mHandler.post(mUpdateResults);
 		CommonUtil.toastNotify(this, "Waiting for location");
 		new Thread() {
 			public void run() {
@@ -98,48 +95,15 @@ public class SearchMapActivity extends MapActivity implements LocationListener{
 			}
 		}.start();
 	}
-	private String getInforAtPoint(Context context, GeoPoint p) {
-		if (p == null) {
-			return null;
-		}
-		Geocoder geoCoder = new Geocoder(context, Locale.getDefault());
-		try {
-			List<Address> addresses = geoCoder.getFromLocation(
-					p.getLatitudeE6() / 1E6, p.getLongitudeE6() / 1E6, 1);
-
-			StringBuffer add = new StringBuffer();
-			if (addresses.size() > 0) {
-				for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++) {
-
-					add.append(addresses.get(0).getAddressLine(i));
-					if (i < addresses.get(0).getMaxAddressLineIndex() - 1) {
-						add.append(" - ");
-					}
-				}
-			}
-
-			return add.toString();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
 
 	private void showCurrentLocation(GeoPoint srcGeoPoint) {
 		CustomItemizedOverlay overlayItem = new CustomItemizedOverlay(this,
-				IC_MAP_PIN_CURRENT);
-		OverlayItem item = new OverlayItem(srcGeoPoint, "Location",
-				"I'm here (" + srcGeoPoint.getLatitudeE6() / 1E6 + ","
-						+ srcGeoPoint.getLongitudeE6() / 1E6 + ")");
+				IC_MAP_PIN_NORMAL);
+		OverlayItem item = new OverlayItem(srcGeoPoint, NamePlace,
+				AddressPlace);
 		overlayItem.addItem(item);
-		if (mapView.getOverlays().size() == 0) {
-			mapView.getOverlays().add(overlayItem);
-			mc.animateTo(srcGeoPoint);
-		} else {
-			mapView.getOverlays().set(0, overlayItem);
-			if (mapView.getOverlays().size() == 1)
-				mc.animateTo(srcGeoPoint);
-		}
+		mapView.getOverlays().add(overlayItem);
+		mc.animateTo(srcGeoPoint);
 
 	}
 
