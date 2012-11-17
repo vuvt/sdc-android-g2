@@ -84,8 +84,8 @@ public class LoginActivity extends BaseActivity {
 	
 	public void onClickCancel(View v) {
 		//TODO vo main ma ko login
-		Intent intent = new Intent(this, MainActivity.class);
-		startActivity(intent);
+		setResult(RESULT_CANCELED);
+		finish();
 	}
 	
 	/**
@@ -183,6 +183,7 @@ public class LoginActivity extends BaseActivity {
 				MyApplication.USER_CURRENT.setPassword(CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
 				
 				Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_LONG).show();
+				finish();
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
 				startActivity(intent);
 				

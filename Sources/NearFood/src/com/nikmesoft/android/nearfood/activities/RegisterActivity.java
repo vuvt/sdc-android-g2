@@ -196,6 +196,8 @@ public class RegisterActivity extends BaseActivity {
 		} else {
 			setResult(RESULT_CANCELED);
 			finish();
+			Intent intentMain = new Intent(this, MainActivity.class);
+			startActivity(intentMain);
 		}
 	}
 
@@ -597,9 +599,10 @@ public class RegisterActivity extends BaseActivity {
 			} else {
 				Toast.makeText(getApplicationContext(),
 						"Register successfully!", Toast.LENGTH_LONG).show();
-				Intent intent = new Intent(RegisterActivity.this,
-						LoginActivity.class);
-				startActivity(intent);
+				setResult(RESULT_CANCELED);
+				finish();
+				Intent intentLogin = new Intent(RegisterActivity.this, LoginActivity.class);
+				startActivity(intentLogin);
 			}
 
 		}

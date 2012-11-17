@@ -100,6 +100,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/edit_text_frame"
+                    android:inputType="textCapWords"
                     android:hint="@string/activity_register_edtFullName"
                     android:singleLine="true" />
             </TableRow>
