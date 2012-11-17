@@ -14,7 +14,7 @@ import android.view.Window;
 
 @SuppressWarnings("deprecation")
 public class TabGroupActivity extends ActivityGroup {
-	private ArrayList<String> nameActivitys;
+	protected ArrayList<String> nameActivitys;
 	private LocalActivityManager localActivityManager;
 
 	@Override
@@ -44,6 +44,20 @@ public class TabGroupActivity extends ActivityGroup {
 					activityPrevious.getIntent());
 			setContentView(windowCurrent.getDecorView());
 		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(nameActivitys.get(nameActivitys.size()-1).equals(CKICheckInActivity.class.getName())){
+			Activity activityCurrent= localActivityManager
+					.getActivity(nameActivitys.get(nameActivitys.size()-1));
+			//Window windowCurrent = localActivityManager.startActivity(
+					//nameActivitys.get(nameActivitys.size()-1),
+					//activityCurrent.getIntent());
+			//setContentView(windowCurrent.getDecorView());
+			((CKICheckInActivity)activityCurrent).onActivityResult(requestCode, resultCode, data);
+		}
+		//super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	public void startNewActivity(String id, Intent intent) {
