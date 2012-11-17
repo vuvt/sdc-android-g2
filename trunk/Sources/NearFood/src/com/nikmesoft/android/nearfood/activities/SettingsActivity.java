@@ -27,8 +27,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.R.xml;
+import com.nikmesoft.android.nearfood.models.User;
 
 public class SettingsActivity extends BaseActivity {
 	
@@ -39,7 +41,11 @@ public class SettingsActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_settings);
+		if(MyApplication.USER_CURRENT!=null){
+			setContentView(R.layout.activity_settings_login);
+			}
+		else
+			setContentView(R.layout.activity_settings);
 	}
 	public void OnClickProfile(View v){
 		Intent intent = new Intent();
@@ -74,7 +80,7 @@ public class SettingsActivity extends BaseActivity {
 		startActivity(intents);
 	}
 
-	public void OnClicklogout(View v){
+	public void OnClickLogout(View v){
 		Intent intents = new Intent();
 		intents.setClass(this, LoginActivity.class);
 		startActivity(intents);
@@ -105,12 +111,14 @@ public class SettingsActivity extends BaseActivity {
 		startActivity(intents);
 	}
 	public void OnClickChangepass(View v){
-		AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
+		/*AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
 		LayoutInflater inflater = this.getLayoutInflater();
 		al.setTitle("Change password");
 		al.setView(inflater.inflate(R.layout.change_password, null));
 		al.setPositiveButton("OK",null);
         al.setNegativeButton("Cancel",null);
-		al.show();
+		al.show();*/
+		SettingsTabGroupActivity parent = (SettingsTabGroupActivity)getParent();
+		parent.startNewActivity(ChangePasswordActivity.class.getSimpleName(), new Intent(this,ChangePasswordActivity.class));
 	}
 }
