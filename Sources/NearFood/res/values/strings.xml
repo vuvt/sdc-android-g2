@@ -34,6 +34,15 @@
     <string name="activity_settings_title">Settings</string>
     <!-- Profile -->
     <string name="activity_profile">Profile</string>
+    <!-- Change password -->
+    <string name="activity_change_password">Change Password</string>
+    <string name="Change_Old_pass">Old password...</string>
+    <string name="Change_New_pass">New password...</string>
+    <string name="Change_Conf_pass">Confirm password...</string>
+    <string name="Change_Save">Save</string>
+    <string name="Change_Cancel">Cancel</string>
+    <string name="Change_title_text">To change your password, please complete the following information.</string>
+    
     <!-- RegisterActivity -->
     <string name="activity_register_title">Create New Account</string>
     <string name="hello_world">Hello world!</string>
