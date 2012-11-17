@@ -22,6 +22,7 @@ public class FirstUseActivity extends BaseActivity {
 		Intent intent = new Intent();
 		intent.setClass(this, RegisterActivity.class);
 		startActivity(intent);
+		finish();
 	}
 
 	public void onClickNotNow(View v) {
@@ -29,16 +30,5 @@ public class FirstUseActivity extends BaseActivity {
 		intent.setClass(this, MainActivity.class);
 		startActivity(intent);
 		finish();
-	}
-	
-	//Test login - hoan thanh thi xoa di
-	public void onClickLogin(View v) {
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivity(intent);
-	}
-	
-	public void onClickProfile(View v) {
-		Intent intent = new Intent(this, ProfileActivity.class);
-		startActivity(intent);
 	}
 }
