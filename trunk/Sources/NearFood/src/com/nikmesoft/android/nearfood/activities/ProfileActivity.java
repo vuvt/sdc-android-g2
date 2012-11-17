@@ -5,8 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -29,11 +32,12 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.AsyncTask.Status;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.AsyncTask.Status;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -109,25 +113,39 @@ public class ProfileActivity extends BaseActivity {
 		}
 		Log.d("IMGGGGGGGGG", MyApplication.USER_CURRENT.getProfilePicture());
 		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					imageView.setImageDrawable(Utilities.LoadImageFromWebOperations(MyApplication.USER_CURRENT.getProfilePicture(), "Avatar"));
-					
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}).start();
-		
-		
+		loadAvatar.execute(MyApplication.USER_CURRENT.getProfilePicture());
 	}
+	
+	private AsyncTask<String, Void, Drawable> loadAvatar = new AsyncTask<String, Void, Drawable>() {
+
+		@Override
+		protected Drawable doInBackground(String... params) {
+			Drawable dr = null;
+			try {
+				dr =  Utilities.LoadImageFromWebOperations(params[0], "Avatar");
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return dr;
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Drawable result) {
+			imageView.setImageDrawable(result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+		}
+	};
 	
 	public void onClickBack(View v) {
 		setResult(RESULT_CANCELED);
@@ -181,26 +199,11 @@ public class ProfileActivity extends BaseActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
         
-//        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//		photoPickerIntent.setType("image/*");
-//		startActivityForResult(photoPickerIntent, PICK_PHOTO_CODE);
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-//		if (requestCode == CAPTURE_IMAGE && resultCode == RESULT_OK) {
-//            Bitmap photo = (Bitmap) data.getExtras().get("data"); 
-//            imageView.setImageBitmap(photo);
-//        } else if (resultCode == RESULT_OK) {
-//            if (requestCode == SELECT_PICTURE) {
-//                Uri selectedImageUri = data.getData();
-//                selectedImagePath = getPath(selectedImageUri);
-//                //System.out.println("Image Path : " + selectedImagePath);
-//                imageView.setImageURI(selectedImageUri);
-//            }
-//        }
 		
 		if (resultCode == RESULT_OK) {
 			switch (requestCode) {
@@ -383,10 +386,22 @@ public class ProfileActivity extends BaseActivity {
 			return null;
 		}
 		
-		private void setDateToDatePickerDialog(String date) {
-			pDay = Integer.parseInt(date.substring(0, 2));
-			pMonth = Integer.parseInt(date.substring(3, 5))-1;
-			pYear = Integer.parseInt(date.substring(6, 10));
+		private void setDateToDatePickerDialog(String dateString) {
+			
+			DateFormat parseFormat = new SimpleDateFormat("dd/MM/yy");
+		    DateFormat formattingFormat = new SimpleDateFormat("dd/MM/yyyy");
+		    
+		    String date;
+			try {
+				date = formattingFormat.format(parseFormat.parse(dateString));
+				pDay = Integer.parseInt(date.substring(0, 2));
+				pMonth = Integer.parseInt(date.substring(3, 5))-1;
+				pYear = Integer.parseInt(date.substring(6, 10));
+				
+				Log.d("DATE", date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		//=============call WS============
@@ -473,7 +488,6 @@ public class ProfileActivity extends BaseActivity {
 					//MyApplication.USER_CURRENT = new User();
 					//MyApplication.USER_CURRENT = (User)result;
 					MyApplication.USER_CURRENT.setFullName(edtFullName.getText().toString().trim());
-					MyApplication.USER_CURRENT.setEmail(edtEmail.getText().toString().trim());
 					MyApplication.USER_CURRENT.setBirthday(edtBirthDay.getText().toString().trim());
 					MyApplication.USER_CURRENT.setGender(rbMale.isChecked()?"1":"0");
 					
@@ -537,7 +551,7 @@ public class ProfileActivity extends BaseActivity {
 				if (!result.equals("")) { //have error
 					CommonUtil.dialogNotify(ProfileActivity.this, result);
 				} else {
-					Toast.makeText(getApplicationContext(), "Update frofile successfully!", Toast.LENGTH_LONG).show();
+					Toast.makeText(getApplicationContext(), "Update profile successfully!", Toast.LENGTH_LONG).show();
 //					Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
 //					startActivity(intent);
 					setResult(RESULT_CANCELED);

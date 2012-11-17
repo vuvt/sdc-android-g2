@@ -194,7 +194,7 @@ public class RegisterActivity extends BaseActivity {
 					.setPositiveButton("Yes", dialogClickListener)
 					.setNegativeButton("No", dialogClickListener).show();
 		} else {
-			setResult(RESULT_CANCELED);
+			//setResult(RESULT_CANCELED);
 			finish();
 			Intent intentMain = new Intent(this, MainActivity.class);
 			startActivity(intentMain);
