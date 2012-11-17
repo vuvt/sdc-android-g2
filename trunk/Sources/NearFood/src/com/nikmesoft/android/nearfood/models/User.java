@@ -1,7 +1,7 @@
 package com.nikmesoft.android.nearfood.models;
 
 public class User {
-	private String fullName, email, birthday, profilePicture, gender;
+	private String fullName, email, birthday, profilePicture, gender, password;
 	private long id;
 	
 	public User(){
@@ -69,5 +69,12 @@ public class User {
 	}
 	public String getGender(){
 		return this.gender;
+	}
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
