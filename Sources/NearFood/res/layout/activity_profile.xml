@@ -119,6 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
+                    android:focusable="false"
                     android:background="@drawable/edit_text_frame"
                     android:hint="@string/activity_register_edtEmail"
                     android:inputType="textEmailAddress"
@@ -130,8 +131,8 @@
                 <TextView
                     android:id="@+id/tvBirthDay"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
                     android:text="@string/activity_profile_tvBirthDay" />
 
                 <LinearLayout
@@ -152,6 +153,7 @@
                         android:id="@+id/btnBirthDay"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:gravity="center"
                         android:background="@drawable/ic_calendar_birthday"
                         android:onClick="onClickDatePicker" />
                 </LinearLayout>
@@ -162,8 +164,8 @@
                 <TextView
                     android:id="@+id/tvGender"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
                     android:text="@string/activity_profile_tvGender" />
 
                 <RadioGroup
