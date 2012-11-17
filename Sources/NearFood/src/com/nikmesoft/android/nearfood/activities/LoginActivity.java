@@ -180,6 +180,7 @@ public class LoginActivity extends BaseActivity {
 			}else if(result!=null&&result.getClass().equals(User.class)){
 				MyApplication.USER_CURRENT = new User();
 				MyApplication.USER_CURRENT = (User)result;
+				MyApplication.USER_CURRENT.setPassword(CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
 				
 				Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_LONG).show();
 				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
