@@ -45,6 +45,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.CropOptionAdapter;
 import com.nikmesoft.android.nearfood.handlers.ErrorCode;
@@ -137,8 +138,8 @@ public class RegisterActivity extends BaseActivity {
 								CommonUtil.convertToMD5(edtPassword.getText()
 										.toString().trim()), edtBirthDay
 										.getText().toString().trim(),
-								rbMale.isChecked() ? "1" : "0", "108.149665",
-								"16.074641");
+								rbMale.isChecked() ? "1" : "0", String.valueOf(MyApplication.LONGITUDE),
+								String.valueOf(MyApplication.LATITUDE));
 
 					}
 				}
