@@ -24,6 +24,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.method.BaseKeyListener;
 import android.util.Log;
@@ -105,7 +108,7 @@ public class CKICheckInActivity extends BaseActivity {
 
 	public void actionTakePhoto(View v) {
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		startActivityForResult(intent, REQ_CODE_TAKE_PHOTO);
+		getParent().startActivityForResult(intent, REQ_CODE_TAKE_PHOTO);
 	}
 
 	@Override
@@ -155,7 +158,7 @@ public class CKICheckInActivity extends BaseActivity {
 	}
 
 	public void checkIn(View v) {
-		loader.execute(String.valueOf(MyApplication.USER_CURRENT.getId()),place.getReferenceKey(),
+		loader.execute(/*String.valueOf(MyApplication.USER_CURRENT.getId())*/"1",place.getReferenceKey(),
 					place.getName(),place.getPhoneNumber(),place.getAddress(),
 					place.getDescription(),edt_description.getText().toString(),
 					String.valueOf(place.getMapPoint().getLongitudeE6() / 1000000.0),
@@ -166,6 +169,29 @@ public class CKICheckInActivity extends BaseActivity {
 	public void imgCheckInClick(View v) {
 		bt_choose_image.setVisibility(View.VISIBLE);
 		bt_take_photo.setVisibility(View.VISIBLE);
+		final ImgCheckInClickHandler handler=new ImgCheckInClickHandler();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				for(int i=0;i<3;i++){
+					SystemClock.sleep(1000);
+				}
+				Bundle bundle=new Bundle();
+				bundle.putBoolean("IS_END", true);
+				Message msg=new Message();
+				msg.setData(bundle);
+				handler.handleMessage(msg);
+			}
+		}).start();
+	}
+	public class ImgCheckInClickHandler extends Handler{
+		public void handleMessage(Message msg) {
+			if(msg.getData().getBoolean("IS_END", false)){
+				bt_choose_image.setVisibility(View.INVISIBLE);
+				bt_take_photo.setVisibility(View.INVISIBLE);
+			}
+		}
 	}
 
 	public void shareFacebook(View v) {
@@ -469,7 +495,7 @@ public class CKICheckInActivity extends BaseActivity {
 				place.setId(((Integer[]) result)[0]);
 				id_checkin = ((Integer[]) result)[1];
 				dialog.dismiss();
-				upload();
+				//upload();
 			}
 		}
 
