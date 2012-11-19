@@ -36,16 +36,24 @@ public class SettingsActivity extends BaseActivity {
 	
 	private static final String key_log="login";
 	private ListView myListView,myLi;
+	private LinearLayout login,not_login;
 	private ArrayAdapter<String> myAdapter,myad;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_settings);
+		login=(LinearLayout) findViewById(R.id.layout_Login);
+		not_login = (LinearLayout) findViewById(R.id.layout_notLogin);
 		if(MyApplication.USER_CURRENT!=null){
-			setContentView(R.layout.activity_settings_login);
+			login.setVisibility(View.VISIBLE);
+			not_login.setVisibility(View.GONE);
 			}
-		else
-			setContentView(R.layout.activity_settings);
+		else {
+			login.setVisibility(View.GONE);
+			not_login.setVisibility(View.VISIBLE);
+			}
+			//setContentView(R.layout.activity_settings);
 	}
 	public void OnClickProfile(View v){
 		Intent intent = new Intent();
