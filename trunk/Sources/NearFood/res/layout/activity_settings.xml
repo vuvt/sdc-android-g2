@@ -51,7 +51,13 @@
             android:layout_height="2dp"
             android:background="#8B7E66"/>
     </LinearLayout> 
-    	
+    <!-- Account setting not login -->
+    <LinearLayout
+        android:id="@+id/layout_notLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">	
 	<RelativeLayout
 	    android:id="@+id/llay_login"
 	    android:onClick="OnClicklogin"
@@ -94,7 +100,78 @@
             android:layout_below="@+id/tvregister"/>	
 	</RelativeLayout>
 	
+	</LinearLayout>
 	<!-- end -->
+	<!-- account settings login -->
+	<LinearLayout
+	    android:id="@+id/layout_Login"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:visibility="gone">
+		<RelativeLayout
+	    android:id="@+id/llay_profile"
+	    android:onClick="OnClickProfile"
+	    android:layout_marginTop="5dp"
+	    android:background="@drawable/bground_setting"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	    <ImageView 
+	        style="@style/Img_stylt_setting"
+	        android:id="@+id/img_profile"
+	        android:src="@drawable/ic_profile"/>
+	    <TextView
+	        style="@style/TextSettings"
+	        android:id="@+id/tvprofile"
+	        android:layout_toRightOf="@+id/img_profile"
+	        android:text="Profile"/>
+	   <RelativeLayout
+			style="@style/Line_setting"
+            android:layout_below="@+id/tvprofile"/>
+	</RelativeLayout>
+	    
+	<!-- Change password -->
+	<RelativeLayout
+	    android:id="@+id/llay_changepass"
+	    android:onClick="OnClickChangepass"
+	    android:background="@drawable/bground_setting"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	    <ImageView 
+	        style="@style/Img_stylt_setting"
+	        android:id="@+id/img_changepass"
+	        android:src="@drawable/ic_change_password"/>
+	    <TextView
+	        style="@style/TextSettings"
+	        android:id="@+id/tvchangepass"
+	        android:layout_toRightOf="@+id/img_changepass"
+	        android:text="Change password"/>
+		<RelativeLayout
+			style="@style/Line_setting"
+            android:layout_below="@+id/tvchangepass"/>	
+	</RelativeLayout>
+	<!-- Logout -->
+	<RelativeLayout
+	    android:id="@+id/llay_logout"
+	    android:onClick="OnClickLogout"
+	    android:background="@drawable/bground_setting"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content">
+	    <ImageView 
+	        style="@style/Img_stylt_setting"
+	        android:id="@+id/img_logout"
+	        android:src="@drawable/ic_logout"/>
+	    <TextView
+	        style="@style/TextSettings"
+	        android:id="@+id/tvlogout"
+	        android:layout_toRightOf="@+id/img_logout"
+	        android:text="Logout"/>
+		<RelativeLayout
+			style="@style/Line_setting"
+            android:layout_below="@+id/tvlogout"/>	
+	</RelativeLayout>
+	<!-- end -->
+	</LinearLayout>
 	<!-- Infomation -->
 	<LinearLayout
 	    android:id="@+id/llayout_title2"
