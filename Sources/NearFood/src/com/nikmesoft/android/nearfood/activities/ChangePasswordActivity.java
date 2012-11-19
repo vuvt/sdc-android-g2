@@ -14,12 +14,10 @@ import org.xml.sax.XMLReader;
 
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.forgotpassword.GetLoveHandler;
 import com.nikmesoft.android.nearfood.handlers.ChangePasswordHandler;
 import com.nikmesoft.android.nearfood.handlers.ErrorCode;
 import com.nikmesoft.android.nearfood.utils.CommonUtil;
 import com.nikmesoft.android.nearfood.utils.Utilities;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -33,8 +31,8 @@ public class ChangePasswordActivity extends BaseActivity {
 
 	private EditText new_pass,old_pass,conf_pass;
 	private ProgressDialog dialog;
-	private String newpass,oldpass,condpass;
-	private WScall loader;
+	private WSLoader loader;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -43,11 +41,13 @@ public class ChangePasswordActivity extends BaseActivity {
 		init();
 	}
 	private void init(){
+		dialog = new ProgressDialog(getParent());
+		dialog.setMessage("Loading...Please wait!");
+		dialog.setCancelable(false);
+		
 		new_pass=(EditText) findViewById(R.id.edtNew_Password);
 		old_pass=(EditText) findViewById(R.id.edtOld_Password);
 		conf_pass=(EditText) findViewById(R.id.edtConf_Password);
-		dialog = new ProgressDialog(this);
-		dialog.setMessage("Loading...please wait !");
 	}
 	public void onClickSave(View v){
 		if(new_pass.getText().toString().length()==0 || old_pass.getText().toString().length()==0 || conf_pass.getText().toString().length()==0)
@@ -61,93 +61,106 @@ public class ChangePasswordActivity extends BaseActivity {
 			   else 
 				   if (loader == null || loader.isCancelled()
 							|| loader.getStatus() == Status.FINISHED) {
-						loader = new WScall();
+						loader = new WSLoader();
 						loader.execute(String.valueOf(MyApplication.USER_CURRENT.getId()),CommonUtil.convertToMD5(new_pass.getText().toString().trim()));
 			   		}
 	}
 	public void onClickCancel(View v){
-		this.finish();
+		setResult(RESULT_CANCELED);
+		finish();
 	}
-	private class WScall extends AsyncTask<String, Integer, Object>{
-
-		@Override
-		protected Object doInBackground(String... params) {
-			String body="<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"+
-					    "<soapenv:Header/>"+
-					    "<soapenv:Body>"+
-					    "<changePassword soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"+
-					    "<ChangePasswordRequest xsi:type=\"sfo:ChangePasswordRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"+
-					    "<!--You may enter the following 2 items in any order-->"+
-					    "<id xsi:type=\"xsd:int\">"+Integer.parseInt(params[0])+"</id>"+
-					    "<newpassword xsi:type=\"xsd:string\">"+params[1]+"</newpassword>"+
-					    "</ChangePasswordRequest>"+
-					    "</changePassword>"+
-					    "</soapenv:Body>"+
-					    "</soapenv:Envelope>";
-			return xmlParser(Utilities.callWS(body, "http://nikmesoft.com/apis/SFoodServices/index.php/changePassword"));
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Object result) {
-			super.onPostExecute(result);
-			try{
-				if(result.toString().equals("")){
-					Toast.makeText(getApplicationContext(), "Successfuly !", Toast.LENGTH_LONG).show();
-					setResult(RESULT_CANCELED);
-					dialog.dismiss();
-				}
-				else{
-					Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_LONG).show();
-					setResult(RESULT_CANCELED);
-					dialog.dismiss();
-				    }
-				}
-				catch(Exception e)
-				{
-					
-				}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
+	
+	public void onClickBack(View v) {
+		setResult(RESULT_CANCELED);
+		finish();
+	}
+	
+	//=============call WS============
+	
+			/**
+			 * phan tich xml WS tra ve
+			 * @param strXml
+			 * @return
+			 */
 			
-			dialog.show();Log.d("JHJJHJHJHJ", "HJGHGHHGHGGGGGGGGGGG");
-		}
+			private Object xmlParser(String strXml) {
+				byte xmlBytes[] = strXml.getBytes();
+				ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+						xmlBytes);
+				SAXParserFactory saxPF = SAXParserFactory.newInstance();
+				SAXParser saxParser;
+				try {
+					saxParser = saxPF.newSAXParser();
+					XMLReader xr = saxParser.getXMLReader();
+					ChangePasswordHandler handler = new ChangePasswordHandler();
+					xr.setContentHandler(handler);
+					xr.parse(new InputSource(byteArrayInputStream));
+					return handler.getResult();
 
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-		}
-		
-	}
-	private Object xmlParser(String strXml) {
-		Log.d("LLLLLLLLLLLLL", "LLLLLLLLLLLLLLLLLLLLLLLLLGGGGGGGGGGGGGGGGGGGGGGGG");
-		byte xmlBytes[] = strXml.getBytes();
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-				xmlBytes);
-		SAXParserFactory saxPF = SAXParserFactory.newInstance();
-		SAXParser saxParser;
-		try {
-			saxParser = saxPF.newSAXParser();
-			XMLReader xr = saxParser.getXMLReader();
-			ChangePasswordHandler handler = new ChangePasswordHandler();
-			xr.setContentHandler(handler);
-			xr.parse(new InputSource(byteArrayInputStream));
-			return handler.getResult();
+				} catch (ParserConfigurationException ex) {
+					ex.printStackTrace();
+				} catch (SAXException ex) {
+					ex.printStackTrace();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+				return null;
+			}
+			
+			private class WSLoader extends AsyncTask<String, Integer, Object> {
 
-		} catch (ParserConfigurationException ex) {
-			ex.printStackTrace();
-		} catch (SAXException ex) {
-			ex.printStackTrace();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}
+				@Override
+				protected Object doInBackground(String... params) {
+					String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
+							"<soapenv:Header/>" +
+							"<soapenv:Body>" +
+							"<changePassword soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">" +
+							"<ChangePasswordRequest xsi:type=\"sfo:ChangePasswordRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">" +
+							"<!--You may enter the following 2 items in any order-->" +
+							"<id xsi:type=\"xsd:int\">" +
+							Integer.parseInt(params[0]) +
+							"</id>" +
+							"<newpassword xsi:type=\"xsd:string\">" +
+							params[1] +
+							"</newpassword>" +
+							"</ChangePasswordRequest>" +
+							"</changePassword>" +
+							"</soapenv:Body>" +
+							"</soapenv:Envelope>";
+					return xmlParser(Utilities.callWS(body, "http://nikmesoft.com/apis/SFoodServices/index.php/changePassword"));
+				}
+
+				@Override
+				protected void onCancelled() {
+					super.onCancelled();
+				}
+
+				@Override
+				protected void onPostExecute(Object result) {
+					super.onPostExecute(result);
+					
+					dialog.dismiss();
+					if(result!=null&&result.getClass().equals(ErrorCode.class)){
+						//truong hop co loi
+						CommonUtil.dialogNotify(ChangePasswordActivity.this, ((ErrorCode)result).getErrorMsg());
+					}else if(result!=null) { //ko loi
+						MyApplication.USER_CURRENT.setFullName(CommonUtil.convertToMD5(new_pass.getText().toString().trim()));
+						
+						Toast.makeText(getApplicationContext(), "Change password successfully!", Toast.LENGTH_LONG).show();
+						finish();
+					}
+				}
+
+				@Override
+				protected void onPreExecute() {
+					super.onPreExecute();
+					dialog.show();
+				}
+
+				@Override
+				protected void onProgressUpdate(Integer... values) {
+					super.onProgressUpdate(values);
+				}
+
+			}
 }
