@@ -44,7 +44,7 @@ public class HttpFileUploader {
 			// Open a HTTP connection to the URL
 
 			conn = (HttpURLConnection) connectURL.openConnection();
-			conn.setReadTimeout(100);
+			conn.setReadTimeout(30*1000);
 			conn.setUseCaches(true);
 			// Allow Inputs
 			conn.setDoInput(true);
