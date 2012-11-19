@@ -144,7 +144,7 @@ public class ChangePasswordActivity extends BaseActivity {
 						//truong hop co loi
 						CommonUtil.dialogNotify(ChangePasswordActivity.this, ((ErrorCode)result).getErrorMsg());
 					}else if(result!=null) { //ko loi
-						MyApplication.USER_CURRENT.setFullName(CommonUtil.convertToMD5(new_pass.getText().toString().trim()));
+						MyApplication.USER_CURRENT.setPassword(CommonUtil.convertToMD5(new_pass.getText().toString().trim()));
 						
 						Toast.makeText(getApplicationContext(), "Change password successfully!", Toast.LENGTH_LONG).show();
 						finish();
