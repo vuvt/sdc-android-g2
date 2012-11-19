@@ -20,6 +20,8 @@ public class MyApplication extends Application {
 	private Context context;
 	
 	public static User USER_CURRENT;
+	public static double LONGITUDE = 108.149665; // DH BK DN is location default
+	public static double LATITUDE = 16.074641; //
 
 	@Override
 	public void onCreate() {
