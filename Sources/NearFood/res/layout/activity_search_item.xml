@@ -106,49 +106,50 @@
                         android:id="@id/selected_imageview"
                         android:layout_width="match_parent"
                         android:layout_height="200dip"
-                        android:layout_marginBottom="5dip" />
+                        android:layout_marginBottom="5dip"
+                        android:visibility="gone" />
 
-                    <RelativeLayout
+                    <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" >
-
-                        <ImageView
-                            android:id="@id/left_arrow_imageview"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="4dip"
-                            android:onClick="onClickLeftArrow"
-                            android:src="@drawable/arrow_left_enabled" />
-
                         <Gallery
                             android:id="@id/gallery_search"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="4dip"
-                            android:layout_toLeftOf="@id/right_arrow_imageview"
-                            android:layout_toRightOf="@id/left_arrow_imageview" />
+                            android:scaleType="fitCenter"
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:id="@id/right_arrow_imageview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dip"
+                            android:layout_gravity="right|center_vertical"
                             android:onClick="onClickRightArrow"
-                            android:src="@drawable/arrow_right_enabled" />
-                    </RelativeLayout>
+                            android:src="@drawable/ic_arrow_right" 
+                            android:visibility="gone"/>
+                        <ImageView
+                            android:id="@id/left_arrow_imageview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_marginLeft="10dip"
+                            android:onClick="onClickLeftArrow"
+                            android:src="@drawable/ic_arrow_left" 
+                            android:visibility="gone"/>
+                    </FrameLayout>
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/separator"
                     android:layout_width="match_parent"
                     android:layout_height="2dip"
                     android:layout_marginBottom="5dip"
                     android:layout_marginLeft="5dip"
                     android:layout_marginRight="5dip"
                     android:layout_marginTop="5dip"
-                    android:background="@color/titlebar_separator" />
+                    android:background="@color/titlebar_separator" 
+                    android:visibility="gone"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -199,7 +200,7 @@
                                         android:id="@id/description_information"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="Bò kho đường Huỳnh Thúc Kháng, bán buổi sáng thôi . Cạnh quán này buổi chiều có bán bánh canh, ăn cũng được. Buổi sáng gần đó cũng có một quán bún mắm, thấy mọi người ăn đông" />
+                                        android:text="Bò kho du?ng Hu?nh Thúc Kháng, bán bu?i sáng thôi . C?nh quán này bu?i chi?u có bán bánh canh, an cung du?c. Bu?i sáng g?n dó cung có m?t quán bún m?m, th?y m?i ngu?i an dông" />
                                 </RelativeLayout>
 
                                 <!-- This is the title label -->
@@ -239,7 +240,8 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-/
+/
+
         </ScrollView>
     </LinearLayout>
 

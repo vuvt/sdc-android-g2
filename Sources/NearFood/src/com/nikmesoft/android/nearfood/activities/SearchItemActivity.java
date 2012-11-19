@@ -36,6 +36,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -73,7 +74,8 @@ public class SearchItemActivity extends Activity {
 	Facebook facebook = new Facebook("302093569905424");
 	private SharedPreferences mPrefs;
 	private Button btnShare, btnShareOnFacebook, btnCancel;
-	private TextView nameFacebook, namePlace, link, description, noteShare, search_name_place, address_information, description_information;
+	private TextView nameFacebook, namePlace, link, description, noteShare,
+			search_name_place, address_information, description_information;
 	private EditText contentShare;
 	Dialog dialog_share;
 	ProgressBar dialog_progressBar;
@@ -81,8 +83,8 @@ public class SearchItemActivity extends Activity {
 	private ArrayList<Drawable> listImage;
 	private ScrollView scrollview;
 	private Gallery gallery;
-	private ImageView left_arrow_imageview, right_arrow_imageview, imgFacebook, 
-			selected_imageview;
+	private ImageView left_arrow_imageview, right_arrow_imageview, imgFacebook,
+			selected_imageview, separator;
 	private int position_selected_imgview = 0;
 	private GalleryAdapter galleryAdapter;
 	private SearchCheckInResultAdapter checkInApdapter;
@@ -92,6 +94,7 @@ public class SearchItemActivity extends Activity {
 	private ProgressDialog progressDialog;
 	private Place place;
 	private Handler hander = new Handler();
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search_item);
@@ -102,6 +105,8 @@ public class SearchItemActivity extends Activity {
 		Intent intent = getIntent();
 		Bundle bundle = intent.getBundleExtra("bundlePlace");
 		place = (Place) bundle.getSerializable("place");
+		Log.d("Information",
+				String.valueOf(place.getName() + "  " + place.getAddress()));
 		search_name_place = (TextView) findViewById(R.id.search_name_place);
 		search_name_place.setText(place.getName());
 		address_information = (TextView) findViewById(R.id.address_information);
@@ -111,7 +116,7 @@ public class SearchItemActivity extends Activity {
 		// Adapter Check In
 		linearlayout_list = (LinearLayout) findViewById(R.id.listview_layout_search);
 		scrollview = (ScrollView) findViewById(R.id.ScrollViewLayout);
-		
+
 		checkins = new ArrayList<CheckIn>();
 		addItemListViewCustomer(checkins);
 		progressDialog = new ProgressDialog(getParent());
@@ -123,6 +128,7 @@ public class SearchItemActivity extends Activity {
 		// Adapter Gallery
 		listImage = new ArrayList<Drawable>();
 		gallery = (Gallery) findViewById(R.id.gallery_search);
+		separator = (ImageView) findViewById(R.id.separator);
 		left_arrow_imageview = (ImageView) findViewById(R.id.left_arrow_imageview);
 		right_arrow_imageview = (ImageView) findViewById(R.id.right_arrow_imageview);
 		selected_imageview = (ImageView) findViewById(R.id.selected_imageview);
@@ -132,10 +138,12 @@ public class SearchItemActivity extends Activity {
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
+				Log.d("Position", String.valueOf(arg2));
+				Log.d("Count", String.valueOf(galleryAdapter.getCount()));
 				position_selected_imgview = arg2;
 				if (position_selected_imgview > 0
-						&& position_selected_imgview < galleryAdapter
-								.getCount() - 1) {
+						&& position_selected_imgview < (galleryAdapter
+								.getCount() - 1)) {
 					left_arrow_imageview.setImageDrawable(getResources()
 							.getDrawable(R.drawable.ic_arrow_left));
 					right_arrow_imageview.setImageDrawable(getResources()
@@ -158,14 +166,7 @@ public class SearchItemActivity extends Activity {
 
 			}
 		});
-		if (listImage.size() > 0) {
-			left_arrow_imageview.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_nocolor));
-			right_arrow_imageview.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_arrow_right));
-		}
 		gallery.setAdapter(galleryAdapter);
-		
 
 	}
 
@@ -238,8 +239,11 @@ public class SearchItemActivity extends Activity {
 	}
 
 	public void onClickMap(View v) {
-		/*SearchTabGroupActivity parent = (SearchTabGroupActivity)getParent();
-		parent.startNewActivity(SearchMapActivity.class.getSimpleName(), new Intent(parent, SearchMapActivity.class));*/
+		/*
+		 * SearchTabGroupActivity parent = (SearchTabGroupActivity)getParent();
+		 * parent.startNewActivity(SearchMapActivity.class.getSimpleName(), new
+		 * Intent(parent, SearchMapActivity.class));
+		 */
 		Intent intent = new Intent(this.getParent(), SearchMapActivity.class);
 		intent.putExtra("Latitude", place.getMapPoint().getLatitudeE6());
 		intent.putExtra("Longitude", place.getMapPoint().getLongitudeE6());
@@ -247,12 +251,12 @@ public class SearchItemActivity extends Activity {
 		intent.putExtra("AddressPlace", place.getAddress());
 		startActivity(intent);
 	}
+
 	public void addItemListViewCustomer(ArrayList<CheckIn> checks) {
-		for(int i=0; i<checks.size(); i++){
-			LayoutInflater inflater = (LayoutInflater)getSystemService(
-					Context.LAYOUT_INFLATER_SERVICE);
-			View row = inflater.inflate(
-					R.layout.list_item_checkin_search, null);
+		for (int i = 0; i < checks.size(); i++) {
+			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View row = inflater
+					.inflate(R.layout.list_item_checkin_search, null);
 			TextView fullName = (TextView) row
 					.findViewById(R.id.fullname_item_checkin_search);
 			fullName.setText(checks.get(i).getUser().getFullName());
@@ -267,19 +271,23 @@ public class SearchItemActivity extends Activity {
 			linearlayout_list.addView(row);
 		}
 	}
+
 	public void onClickFacebook(View v) {
 		dialog_share = new Dialog(this.getParent());
 		dialog_share.setContentView(R.layout.share_face);
 		dialog_share.setTitle("Share facebook");
 		noteShare = (TextView) dialog_share.findViewById(R.id.noteShare);
-		dialog_progressBar =(ProgressBar) dialog_share.findViewById(R.id.dialogProgressBar);
-		
-		
-		imgFacebook = (ImageView ) dialog_share.findViewById(R.id.imgFacebook);
-		imgFacebook.setImageBitmap(Utilities.drawableToBitmap(listImage.get(0)));
+		dialog_progressBar = (ProgressBar) dialog_share
+				.findViewById(R.id.dialogProgressBar);
+
+		imgFacebook = (ImageView) dialog_share.findViewById(R.id.imgFacebook);
+		Drawable draw = getResources().getDrawable(R.drawable.ic_launcher);
+		if (listImage.size() > 0)
+			draw = listImage.get(0);
+		imgFacebook.setImageBitmap(Utilities.drawableToBitmap(draw));
 		btnShare = (Button) dialog_share.findViewById(R.id.btnShare);
 		btnShare.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -292,24 +300,25 @@ public class SearchItemActivity extends Activity {
 				shareOnFacebook();
 			}
 		});
-    	contentShare = (EditText) dialog_share.findViewById(R.id.contentShare);
-    	namePlace = (TextView) dialog_share.findViewById(R.id.namePlace) ;
-    	link = (TextView) dialog_share.findViewById(R.id.link);
-    	description  = (TextView) dialog_share.findViewById(R.id.description);
-    	btnShareOnFacebook = (Button) dialog_share.findViewById(R.id.btnShareOnFacebook);
-    	btnCancel = (Button) dialog_share.findViewById(R.id.btnCancel);
-    	btnCancel.setOnClickListener(new View.OnClickListener() {
-			
+		contentShare = (EditText) dialog_share.findViewById(R.id.contentShare);
+		namePlace = (TextView) dialog_share.findViewById(R.id.namePlace);
+		link = (TextView) dialog_share.findViewById(R.id.link);
+		description = (TextView) dialog_share.findViewById(R.id.description);
+		btnShareOnFacebook = (Button) dialog_share
+				.findViewById(R.id.btnShareOnFacebook);
+		btnCancel = (Button) dialog_share.findViewById(R.id.btnCancel);
+		btnCancel.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+
 				dialog_share.dismiss();
 				dialog_progressBar.setVisibility(View.GONE);
 			}
 		});
-    	btnShareOnFacebook.setOnClickListener(new View.OnClickListener() {
-			
+		btnShareOnFacebook.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -321,16 +330,18 @@ public class SearchItemActivity extends Activity {
 				btnCancel.setVisibility(View.VISIBLE);
 			}
 		});
-    	dialog_share.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-    	dialog_share.show();
+		dialog_share
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		dialog_share.show();
 	}
+
 	@SuppressWarnings({ "deprecation", "deprecation", "deprecation" })
 	public void shareOnFacebook() {
 		mPrefs = getPreferences(MODE_PRIVATE);
@@ -345,51 +356,64 @@ public class SearchItemActivity extends Activity {
 
 		if (!facebook.isSessionValid()) {
 
-			facebook.authorize(this.getParent(), new String[] {},-1, new DialogListener() {
-				@Override
-				public void onComplete(Bundle values) {
-					SharedPreferences.Editor editor = mPrefs.edit();
-					editor.putString("access_token", facebook.getAccessToken());
-					editor.putLong("access_expires",
-							facebook.getAccessExpires());
-					editor.commit();
-					postPhotoWithMsg();
-				}
+			facebook.authorize(this.getParent(), new String[] {}, -1,
+					new DialogListener() {
+						@Override
+						public void onComplete(Bundle values) {
+							SharedPreferences.Editor editor = mPrefs.edit();
+							editor.putString("access_token",
+									facebook.getAccessToken());
+							editor.putLong("access_expires",
+									facebook.getAccessExpires());
+							editor.commit();
+							postPhotoWithMsg();
+						}
 
-				@Override
-				public void onFacebookError(FacebookError error) {
+						@Override
+						public void onFacebookError(FacebookError error) {
 
-					Log.e("Facebook", "Error");
-					SearchItemActivity.this.runOnUiThread(new Runnable() {
-						public void run() {
-							dialog_progressBar.setVisibility(View.GONE);
-							btnShare.setVisibility(View.GONE);
-							noteShare.setVisibility(View.VISIBLE);
-							noteShare.setText("No connected to Facebook.");
-							btnShareOnFacebook.setVisibility(View.VISIBLE);
-							btnCancel.setVisibility(View.VISIBLE);
+							Log.e("Facebook", "Error");
+							SearchItemActivity.this
+									.runOnUiThread(new Runnable() {
+										public void run() {
+											dialog_progressBar
+													.setVisibility(View.GONE);
+											btnShare.setVisibility(View.GONE);
+											noteShare
+													.setVisibility(View.VISIBLE);
+											noteShare
+													.setText("No connected to Facebook.");
+											btnShareOnFacebook
+													.setVisibility(View.VISIBLE);
+											btnCancel
+													.setVisibility(View.VISIBLE);
+										}
+									});
+
+						}
+
+						@Override
+						public void onError(DialogError e) {
+
+						}
+
+						@Override
+						public void onCancel() {
+							Log.e("Facebook", "Error");
+							SearchItemActivity.this
+									.runOnUiThread(new Runnable() {
+										public void run() {
+											dialog_progressBar
+													.setVisibility(View.GONE);
+											btnShare.setVisibility(View.GONE);
+											btnShareOnFacebook
+													.setVisibility(View.VISIBLE);
+											btnCancel
+													.setVisibility(View.VISIBLE);
+										}
+									});
 						}
 					});
-
-				}
-
-				@Override
-				public void onError(DialogError e) {
-
-				}
-
-				@Override
-				public void onCancel() {Log.e("Facebook", "Error");
-				SearchItemActivity.this.runOnUiThread(new Runnable() {
-					public void run() {
-						dialog_progressBar.setVisibility(View.GONE);
-						btnShare.setVisibility(View.GONE);
-						btnShareOnFacebook.setVisibility(View.VISIBLE);
-						btnCancel.setVisibility(View.VISIBLE);
-					}
-				});
-}
-			});
 		} else {
 			postPhotoWithMsg();
 		}
@@ -398,19 +422,21 @@ public class SearchItemActivity extends Activity {
 
 	public void postPhotoWithMsg() {
 		if (Utilities.isNetworkAvailable(getApplicationContext())) {
-			
+
 			byte[] data = null;
-			//data = Utilities.getBytes(bitmap);
+			// data = Utilities.getBytes(bitmap);
 			Bundle params = new Bundle();
-			/*params.putString("message", msg);
-			params.putByteArray("picture", data)*/;
+			/*
+			 * params.putString("message", msg); params.putByteArray("picture",
+			 * data)
+			 */;
 			params.putString("message", contentShare.getText().toString());
 			Log.d("Message", contentShare.getText().toString());
 			params.putString("name", namePlace.getText().toString());
 			params.putString("link", link.getText().toString());
 			params.putString("description", description.getText().toString());
 			params.putString("picture", "http://twitpic.com/show/thumb/6hqd44");
-			
+
 			AsyncFacebookRunner mAsyncRunner = new AsyncFacebookRunner(facebook);
 			mAsyncRunner.request("me/feed", params, "POST",
 					new SampleUploadListener(), null);
@@ -447,7 +473,6 @@ public class SearchItemActivity extends Activity {
 					btnCancel.setVisibility(View.VISIBLE);
 				}
 			});
-
 
 		}
 
@@ -522,6 +547,7 @@ public class SearchItemActivity extends Activity {
 			});
 		}
 	}
+
 	private Object xmlParser(String strXml) {
 		byte xmlBytes[] = strXml.getBytes();
 		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
@@ -545,46 +571,51 @@ public class SearchItemActivity extends Activity {
 		}
 		return null;
 	}
-	public String requests(){
-		
+
+	public String requests() {
+
 		return null;
 	}
-  Runnable getImages = new Runnable() {
-	
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-		for (CheckIn check : checkins) {
-			try {
-				Log.d("img", "img1");
-				listImage.add(Utilities.LoadImageFromWebOperations(check.getImagePath(), check.getImagePath()));
-				Log.d("img", "img2");
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+
+	Runnable getImages = new Runnable() {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			for (CheckIn check : checkins) {
+				try {
+					Log.d("img", "img1");
+					listImage.add(Utilities.LoadImageFromWebOperations(
+							check.getImagePath(), check.getImagePath()));
+					Log.d("img", "img2");
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			galleryAdapter.notifyDataSetChanged();
 		}
-		galleryAdapter.notifyDataSetChanged();
-	}
-};
+	};
+
 	private class WSLoader extends AsyncTask<String, Integer, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
 			String request = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-				+" <soapenv:Header/>"
-				+" <soapenv:Body>"
-					+" <getCheckIns soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-						+" <GetCheckInsRequest xsi:type=\"sfo:GetCheckInsRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
-							+" <!--You may enter the following 2 items in any order-->"
-						+" <id_place xsi:type=\"xsd:int\">"+ String.valueOf(place.getId()) +"</id_place>"
-						+" <page xsi:type=\"xsd:int\">?</page>"
-						+" </GetCheckInsRequest>"
-					+" </getCheckIns>"
-					+" </soapenv:Body>"
-				+" </soapenv:Envelope>";
+					+ " <soapenv:Header/>"
+					+ " <soapenv:Body>"
+					+ " <getCheckIns soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+					+ " <GetCheckInsRequest xsi:type=\"sfo:GetCheckInsRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
+					+ " <!--You may enter the following 2 items in any order-->"
+					+ " <id_place xsi:type=\"xsd:int\">"
+					+ String.valueOf(place.getId())
+					+ "</id_place>"
+					+ " <page xsi:type=\"xsd:int\">?</page>"
+					+ " </GetCheckInsRequest>"
+					+ " </getCheckIns>"
+					+ " </soapenv:Body>" + " </soapenv:Envelope>";
 			String soapAction = "http://nikmesoft.com/apis/SFoodServices/index.php/getPlaces";
 			return xmlParser(Utilities.callWS(request, soapAction));
 		}
@@ -597,35 +628,37 @@ public class SearchItemActivity extends Activity {
 		@Override
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
-			if(result.getClass().equals(ErrorCode.class)){}
-			else{
-				checkins.clear();
-			for (CheckIn checkin : ((ArrayList<CheckIn>)result))checkins.add(checkin);
-			linearlayout_list.removeAllViews();
-			addItemListViewCustomer(checkins);
-			
+			if (result == null) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getParent());
+				builder.setTitle("Connect to network.");
+				builder.setMessage("Error when connect to network. Please try again!");
+				builder.setNegativeButton("Yes",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+									getParent().finish();
+							}
+						});
+				builder.show();
+			} else {
+				if (result.getClass().equals(ErrorCode.class)) {
+				} else {
+					checkins.clear();
+					for (CheckIn checkin : ((ArrayList<CheckIn>) result))
+						checkins.add(checkin);
+					linearlayout_list.removeAllViews();
+					addItemListViewCustomer(checkins);
+
+				}
+				progressDialog.dismiss();
+				getImages imgs = new getImages();
+				imgs.execute((ArrayList<CheckIn>) result);
 			}
 			progressDialog.dismiss();
-			getImages imgs = new getImages();
-			imgs.execute((ArrayList<CheckIn>)result);
-			//hander.post(getImages);
-			/*new Thread(){
-			public void run(){
-				for (CheckIn check : ((ArrayList<CheckIn>)result)) {
-					try {
-						Log.d("img", "img1");
-						listImage.add(Utilities.LoadImageFromWebOperations(check.getImagePath(), check.getImagePath()));
-						Log.d("img", "img2");
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}	
-			}.start();*/
 		}
 
 		@Override
@@ -639,15 +672,18 @@ public class SearchItemActivity extends Activity {
 			super.onProgressUpdate(values);
 		}
 
-	}	
-	private class getImages extends AsyncTask<ArrayList<CheckIn>, Integer, ArrayList<Drawable>> {
+	}
+
+	private class getImages extends
+			AsyncTask<ArrayList<CheckIn>, Integer, ArrayList<Drawable>> {
 
 		@Override
 		protected ArrayList<Drawable> doInBackground(
 				ArrayList<CheckIn>... params) {
 			for (CheckIn checkIn : params[0]) {
 				try {
-					listImage.add(Utilities.LoadImageFromWebOperations(checkIn.getImagePath(), checkIn.getImagePath()));
+					listImage.add(Utilities.LoadImageFromWebOperations(
+							checkIn.getImagePath(), checkIn.getImagePath()));
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -656,7 +692,7 @@ public class SearchItemActivity extends Activity {
 					e.printStackTrace();
 				}
 			}
-			
+
 			// TODO Auto-generated method stub
 			return null;
 		}
@@ -665,6 +701,17 @@ public class SearchItemActivity extends Activity {
 		protected void onPostExecute(ArrayList<Drawable> result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			if (listImage.size() == 0) {
+				right_arrow_imageview.setVisibility(View.GONE);
+				left_arrow_imageview.setVisibility(View.GONE);
+				gallery.setVisibility(View.GONE);
+				separator.setVisibility(View.GONE);
+			} else {
+				right_arrow_imageview.setVisibility(View.VISIBLE);
+				left_arrow_imageview.setVisibility(View.VISIBLE);
+				gallery.setVisibility(View.VISIBLE);
+				separator.setVisibility(View.VISIBLE);
+			}
 			galleryAdapter.notifyDataSetChanged();
 		}
 
@@ -679,9 +726,9 @@ public class SearchItemActivity extends Activity {
 			// TODO Auto-generated method stub
 			super.onProgressUpdate(values);
 		}
-		
-		
+
 	}
+
 	public class MyArrayList extends ArrayList<CheckIn> implements Serializable {
 		public MyArrayList() {
 			super();
