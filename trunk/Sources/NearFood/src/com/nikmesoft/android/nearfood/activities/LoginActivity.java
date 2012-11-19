@@ -177,15 +177,17 @@ public class LoginActivity extends BaseActivity {
 			if(result!=null&&result.getClass().equals(ErrorCode.class)){
 				
 				CommonUtil.dialogNotify(LoginActivity.this, ((ErrorCode)result).getErrorMsg());
+				
 			}else if(result!=null&&result.getClass().equals(User.class)){
 				MyApplication.USER_CURRENT = new User();
 				MyApplication.USER_CURRENT = (User)result;
 				MyApplication.USER_CURRENT.setPassword(CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
 				
 				Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_LONG).show();
+				
+				Intent intent = new Intent();
+				setResult(RESULT_OK,intent);
 				finish();
-				Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-				startActivity(intent);
 				
 			}
 		}

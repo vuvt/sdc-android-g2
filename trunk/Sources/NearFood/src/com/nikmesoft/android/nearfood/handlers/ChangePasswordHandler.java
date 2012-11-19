@@ -1,5 +1,7 @@
 package com.nikmesoft.android.nearfood.handlers;
 
+import com.nikmesoft.android.nearfood.MyApplication;
+
 public class ChangePasswordHandler extends BaseHandler{
 
 	String result;
@@ -17,7 +19,7 @@ public class ChangePasswordHandler extends BaseHandler{
 	@Override
 	protected Object returnNotErrorCode() {
 		// TODO Auto-generated method stub
-		return null;
+		return MyApplication.USER_CURRENT;
 	}
 
 }

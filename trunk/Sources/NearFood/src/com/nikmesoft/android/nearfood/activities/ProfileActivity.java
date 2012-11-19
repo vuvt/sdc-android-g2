@@ -50,6 +50,7 @@ import android.widget.Toast;
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.CropOptionAdapter;
+import com.nikmesoft.android.nearfood.handlers.AvatarUploadHandler;
 import com.nikmesoft.android.nearfood.handlers.ErrorCode;
 import com.nikmesoft.android.nearfood.handlers.ProfileHandler;
 import com.nikmesoft.android.nearfood.models.CropOption;
@@ -202,7 +203,7 @@ public class ProfileActivity extends BaseActivity {
 	}
 	
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
 		if (resultCode == RESULT_OK) {
@@ -510,11 +511,34 @@ public class ProfileActivity extends BaseActivity {
 		}
 		
 		// ============upload avatar to server==============
+		
+		private Object xmlParserUploadAvatar(String strXml) {
+			byte xmlBytes[] = strXml.getBytes();
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+					xmlBytes);
+			SAXParserFactory saxPF = SAXParserFactory.newInstance();
+			SAXParser saxParser;
+			try {
+				saxParser = saxPF.newSAXParser();
+				XMLReader xr = saxParser.getXMLReader();
+				AvatarUploadHandler handler = new AvatarUploadHandler();
+				xr.setContentHandler(handler);
+				xr.parse(new InputSource(byteArrayInputStream));
+				return handler.getResult();
+
+			} catch (ParserConfigurationException ex) {
+				ex.printStackTrace();
+			} catch (SAXException ex) {
+				ex.printStackTrace();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+			return null;
+		}
 
 		public void uploadAvatarToServer() {
 			String url = "http://nikmesoft.com/apis/SFoodServices/avatarUploader.php";
 			String filename = String.valueOf(MyApplication.USER_CURRENT.getId()) + ".png";
-			Log.d("IDIDIDIDIDI", filename);
 			String s_data = "";
 			Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -525,7 +549,7 @@ public class ProfileActivity extends BaseActivity {
 					(Object) filename);
 		}
 
-		private AsyncTask<Object, Void, String> uploader = new AsyncTask<Object, Void, String>() {
+		private AsyncTask<Object, Void, Object> uploader = new AsyncTask<Object, Void, Object>() {
 
 			@Override
 			protected void onPreExecute() {
@@ -533,27 +557,29 @@ public class ProfileActivity extends BaseActivity {
 			}
 
 			@Override
-			protected String doInBackground(Object... params) {
+			protected Object doInBackground(Object... params) {
 				String url = (String) params[0];
 				byte[] data = (byte[]) params[1];
 				String s_data = (String) params[2];
 				String fileName = (String) params[3];
 				HttpFileUploader fileUploader = new HttpFileUploader(url, fileName,
 						data, s_data);
-				return fileUploader.doUpload();
+				return xmlParserUploadAvatar(fileUploader.doUpload());
 			}
 
 			@Override
-			protected void onPostExecute(String result) {
+			protected void onPostExecute(Object result) {
 				super.onPostExecute(result);
 				dialog.dismiss();
 
-				if (!result.equals("")) { //have error
-					CommonUtil.dialogNotify(ProfileActivity.this, result);
-				} else {
+				if (result!=null&&result.getClass().equals(ErrorCode.class)){
+					//truong hop co loi
+					dialog.dismiss();
+					CommonUtil.dialogNotify(ProfileActivity.this, ((ErrorCode)result).getErrorMsg());
+				} else if (result!=null) {
 					Toast.makeText(getApplicationContext(), "Update profile successfully!", Toast.LENGTH_LONG).show();
-//					Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
-//					startActivity(intent);
+					MyApplication.USER_CURRENT.setProfilePicture(result.toString());
+					
 					setResult(RESULT_CANCELED);
 					finish();
 				}
