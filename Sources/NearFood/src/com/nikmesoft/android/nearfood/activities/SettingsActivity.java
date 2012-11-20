@@ -17,7 +17,7 @@ import com.nikmesoft.android.nearfood.R;
 public class SettingsActivity extends BaseActivity {
 	
 	private static final int REQUEST_LOGIN = 100;
-	private static final int REQUEST_LOGOUT = 101;
+	private static final int REQUEST_REGISTER = 101;
 	
 	private static final String key_log="login";
 	private ListView myListView,myLi;
@@ -89,9 +89,10 @@ public class SettingsActivity extends BaseActivity {
 	}
 	
 	public void OnClickRegister(View v){
-		Intent intents = new Intent();
-		intents.setClass(this, RegisterActivity.class);
-		startActivity(intents);
+		Intent intent = new Intent();
+		intent.setClass(this, RegisterActivity.class);
+		intent.putExtra("FromActivity", "Settings");
+		getParent().startActivityForResult(intent, REQUEST_REGISTER);
 	}
 	public void OnClickChangepass(View v){
 		/*AlertDialog.Builder al = new AlertDialog.Builder(SettingsActivity.this);
@@ -125,10 +126,10 @@ public class SettingsActivity extends BaseActivity {
 			} else {
 				//nothing...
 			}
-		} //else if(requestCode == REQUEST_LOGOUT) {
-//			if(resultCode == RESULT_OK) {
-//				checkLoginedOrNotLogin();
-//			}
-//		}
+		} else if(requestCode == REQUEST_REGISTER) {
+			if(resultCode == RESULT_OK) {
+				checkLoginedOrNotLogin();
+			}
+		}
 	}
 }
