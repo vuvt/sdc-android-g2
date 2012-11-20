@@ -78,6 +78,7 @@ public class ProfileActivity extends BaseActivity {
 	
 	private ProgressDialog dialog;
 	private WSLoader loader;
+	private Uploader uploader;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -167,8 +168,8 @@ public class ProfileActivity extends BaseActivity {
 						edtFullName.getText().toString().trim(),
 						 edtBirthDay.getText().toString().trim(),
 						rbMale.isChecked() ? "1" : "0",
-						"108.149665",
-						"16.074641");
+						String.valueOf(MyApplication.LONGITUDE),
+						String.valueOf(MyApplication.LATITUDE));
 
 			}
 		}
@@ -545,11 +546,15 @@ public class ProfileActivity extends BaseActivity {
 			bm.compress(CompressFormat.JPEG, 100, bos);
 			byte[] data = bos.toByteArray();
 
-			uploader.execute((Object) url, (Object) data, (Object) s_data,
-					(Object) filename);
+			if (uploader == null || uploader.isCancelled()
+					|| uploader.getStatus() == Status.FINISHED) {
+				uploader = new Uploader();
+				uploader.execute((Object) url, (Object) data, (Object) s_data,
+						(Object) filename);
+			}
 		}
 
-		private AsyncTask<Object, Void, Object> uploader = new AsyncTask<Object, Void, Object>() {
+		private class Uploader extends AsyncTask<Object, Void, Object> {
 
 			@Override
 			protected void onPreExecute() {

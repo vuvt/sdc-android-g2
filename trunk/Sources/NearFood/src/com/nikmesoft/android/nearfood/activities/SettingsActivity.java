@@ -1,5 +1,7 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +37,9 @@ public class SettingsActivity extends BaseActivity {
 		Intent intent = new Intent();
 		intent.setClass(this, ProfileActivity.class);
 		startActivity(intent);
+		
+//		SettingsTabGroupActivity parent = (SettingsTabGroupActivity)getParent();
+//		parent.startNewActivity(ProfileActivity.class.getSimpleName(), new Intent(this,ProfileActivity.class));
 	}
 	public void OnClickAbout(View v){
 		SettingsTabGroupActivity parent = (SettingsTabGroupActivity)getParent();
@@ -44,13 +49,24 @@ public class SettingsActivity extends BaseActivity {
 	public void OnClicklogin(View v){
 		Intent intent = new Intent();
 		intent.setClass(this, LoginActivity.class);
-		startActivityForResult(intent, REQUEST_LOGIN);
+		getParent().startActivityForResult(intent, REQUEST_LOGIN);
 	}
 	
 	public void OnClickLogout(View v){
-		MyApplication.USER_CURRENT = null;
-		Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_LONG).show();
-		checkLoginedOrNotLogin();
+		
+		new AlertDialog.Builder(getParent())
+        .setMessage("Are you sure you want to logout?")
+        .setCancelable(false)
+        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            	MyApplication.USER_CURRENT = null;
+        		Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_LONG).show();
+        		checkLoginedOrNotLogin();
+            }
+        })
+        .setNegativeButton("No", null)
+        .show();
+		
 	}
 	public void OnClickFeedback(View v){
 		try {
@@ -100,7 +116,7 @@ public class SettingsActivity extends BaseActivity {
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	public void onGroupActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		
 		if(requestCode == REQUEST_LOGIN) {
