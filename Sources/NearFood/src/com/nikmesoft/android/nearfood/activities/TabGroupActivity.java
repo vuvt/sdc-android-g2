@@ -53,6 +53,7 @@ public class TabGroupActivity extends ActivityGroup {
 		if (activityCurrent.getClass().getSuperclass().getName()
 				.equals(BaseActivity.class.getName())){
 			((BaseActivity)activityCurrent).onActivityResult(requestCode, resultCode, data);
+			((BaseActivity)activityCurrent).onGroupActivityResult(requestCode, resultCode, data);
 		}else if(activityCurrent.getClass().getSuperclass().getName()
 						.equals(BaseMapsActivity.class.getName())){
 			((BaseMapsActivity)activityCurrent).onActivityResult(requestCode, resultCode, data);

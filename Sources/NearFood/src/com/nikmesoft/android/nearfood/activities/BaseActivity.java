@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 
 public abstract class BaseActivity extends Activity {
 
@@ -25,6 +26,11 @@ public abstract class BaseActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	public void onGroupActivityResult(int requestCode, int resultCode, Intent data) {
+		// nothing...
+		Log.d("BaseActivity", "onGroupActivityResult");
 	}
 	
 }

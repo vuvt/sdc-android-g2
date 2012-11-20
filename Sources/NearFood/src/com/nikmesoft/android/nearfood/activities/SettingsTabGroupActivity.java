@@ -10,7 +10,9 @@ public class SettingsTabGroupActivity extends TabGroupActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		startNewActivity(SettingsActivity.class.getName(), new Intent(this,SettingsActivity.class));
+		//startNewActivity(SettingsActivity.class.getName(), new Intent(this,SettingsActivity.class));
+		startNewActivity(SettingsActivity.class.getSimpleName(), new Intent(this,
+				SettingsActivity.class));
 	}
 	
 }

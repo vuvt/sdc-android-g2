@@ -54,7 +54,7 @@ public class ChangePasswordActivity extends BaseActivity {
 			Toast.makeText(getApplicationContext(), "Please fill all fields!", Toast.LENGTH_LONG).show();
 		else 
 		   if(!MyApplication.USER_CURRENT.getPassword().equals(CommonUtil.convertToMD5(old_pass.getText().toString())))
-			   Toast.makeText(getApplicationContext(), "Wrong password old!", Toast.LENGTH_LONG).show();
+			   Toast.makeText(getApplicationContext(), "Wrong old password!", Toast.LENGTH_LONG).show();
 		   else
 			   if(!conf_pass.getText().toString().equals(new_pass.getText().toString()))
 				   Toast.makeText(getApplicationContext(), "Please check confirm password!", Toast.LENGTH_LONG).show();
@@ -64,10 +64,6 @@ public class ChangePasswordActivity extends BaseActivity {
 						loader = new WSLoader();
 						loader.execute(String.valueOf(MyApplication.USER_CURRENT.getId()),CommonUtil.convertToMD5(new_pass.getText().toString().trim()));
 			   		}
-	}
-	public void onClickCancel(View v){
-		setResult(RESULT_CANCELED);
-		finish();
 	}
 	
 	public void onClickBack(View v) {
