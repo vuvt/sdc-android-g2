@@ -48,6 +48,7 @@ import android.widget.Toast;
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.CropOptionAdapter;
+import com.nikmesoft.android.nearfood.handlers.AvatarUploadHandler;
 import com.nikmesoft.android.nearfood.handlers.ErrorCode;
 import com.nikmesoft.android.nearfood.handlers.RegisterHandler;
 import com.nikmesoft.android.nearfood.models.CropOption;
@@ -66,7 +67,7 @@ public class RegisterActivity extends BaseActivity {
 	private ImageView imageView;
 	private ProgressDialog dialog;
 	private WSLoader loader;
-	private User user_registed;
+	private Uploader uploader;
 
 	private int pYear;
 	private int pMonth;
@@ -382,8 +383,8 @@ public class RegisterActivity extends BaseActivity {
 				CommonUtil.dialogNotify(RegisterActivity.this,
 						((ErrorCode) result).getErrorMsg());
 			} else if (result != null && result.getClass().equals(User.class)) {
-				user_registed = new User();
-				user_registed = (User) result;
+				MyApplication.USER_CURRENT = new User();
+				MyApplication.USER_CURRENT = (User) result;
 				
 				// upload avatar to server
 				uploadAvatarToServer();
@@ -557,21 +558,49 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	// ============upload avatar to server==============
+	
+	private Object xmlParserUploadAvatar(String strXml) {
+		byte xmlBytes[] = strXml.getBytes();
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+				xmlBytes);
+		SAXParserFactory saxPF = SAXParserFactory.newInstance();
+		SAXParser saxParser;
+		try {
+			saxParser = saxPF.newSAXParser();
+			XMLReader xr = saxParser.getXMLReader();
+			AvatarUploadHandler handler = new AvatarUploadHandler();
+			xr.setContentHandler(handler);
+			xr.parse(new InputSource(byteArrayInputStream));
+			return handler.getResult();
+
+		} catch (ParserConfigurationException ex) {
+			ex.printStackTrace();
+		} catch (SAXException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
 
 	public void uploadAvatarToServer() {
 		String url = "http://nikmesoft.com/apis/SFoodServices/avatarUploader.php";
-		String filename = String.valueOf(user_registed.getId()) + ".png";
+		String filename = String.valueOf(MyApplication.USER_CURRENT.getId()) + ".png";
 		String s_data = "";
 		Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		bm.compress(CompressFormat.JPEG, 100, bos);
 		byte[] data = bos.toByteArray();
 
-		uploader.execute((Object) url, (Object) data, (Object) s_data,
-				(Object) filename);
+		if (uploader == null || uploader.isCancelled()
+				|| uploader.getStatus() == Status.FINISHED) {
+			uploader = new Uploader();
+			uploader.execute((Object) url, (Object) data, (Object) s_data,
+					(Object) filename);
+		}
 	}
 
-	private AsyncTask<Object, Void, String> uploader = new AsyncTask<Object, Void, String>() {
+	private class Uploader extends AsyncTask<Object, Void, Object> {
 
 		@Override
 		protected void onPreExecute() {
@@ -579,31 +608,49 @@ public class RegisterActivity extends BaseActivity {
 		}
 
 		@Override
-		protected String doInBackground(Object... params) {
+		protected Object doInBackground(Object... params) {
 			String url = (String) params[0];
 			byte[] data = (byte[]) params[1];
 			String s_data = (String) params[2];
 			String fileName = (String) params[3];
 			HttpFileUploader fileUploader = new HttpFileUploader(url, fileName,
 					data, s_data);
-			return fileUploader.doUpload();
+			return xmlParserUploadAvatar(fileUploader.doUpload());
 		}
-
+		
 		@Override
-		protected void onPostExecute(String result) {
+		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
 			dialog.dismiss();
 
-			if (!result.equals("")) {
-				dialog.dismiss();
-				CommonUtil.dialogNotify(RegisterActivity.this, result);
-			} else {
+			
+//				CommonUtil.dialogNotify(RegisterActivity.this, result.toString());
+//				Log.d("NULL NE NULL", result.toString());
+			if (result!=null&&result.getClass().equals(ErrorCode.class)){
+				//truong hop co loi
+				CommonUtil.dialogNotify(RegisterActivity.this, ((ErrorCode)result).getErrorMsg());
+			} else if (result!=null) { //thanh cong
 				Toast.makeText(getApplicationContext(),
 						"Register successfully!", Toast.LENGTH_LONG).show();
-				setResult(RESULT_CANCELED);
-				finish();
-				Intent intentLogin = new Intent(RegisterActivity.this, LoginActivity.class);
-				startActivity(intentLogin);
+				
+				MyApplication.USER_CURRENT.setFullName(edtFullName.getText().toString().trim());
+				MyApplication.USER_CURRENT.setEmail(edtEmail.getText().toString().trim());
+				MyApplication.USER_CURRENT.setPassword(edtPassword.getText().toString().trim());
+				MyApplication.USER_CURRENT.setBirthday(edtBirthDay.getText().toString().trim());
+				MyApplication.USER_CURRENT.setGender(rbMale.isChecked()?"1":"0");
+				MyApplication.USER_CURRENT.setProfilePicture(result.toString());
+				
+				Bundle bundle = getIntent().getExtras();
+		        if(bundle.getString("FromActivity").equals("FirstUse")) {
+		        	setResult(RESULT_CANCELED);
+					finish();
+					Intent intentLogin = new Intent(RegisterActivity.this, MainActivity.class);
+					startActivity(intentLogin); 
+		        } else if(bundle.getString("FromActivity").equals("Settings")) {
+		        	Intent intent = new Intent();
+					setResult(RESULT_OK,intent);
+					finish();
+		        }
 			}
 
 		}

@@ -21,6 +21,7 @@ public class FirstUseActivity extends BaseActivity {
 	public void onClickRegister(View v) {
 		Intent intent = new Intent();
 		intent.setClass(this, RegisterActivity.class);
+		intent.putExtra("FromActivity", "FirstUse");
 		startActivity(intent);
 		finish();
 	}
