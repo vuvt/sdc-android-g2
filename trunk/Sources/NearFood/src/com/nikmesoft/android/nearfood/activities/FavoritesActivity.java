@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.android.maps.MapActivity;
 import com.nikmesoft.android.nearfood.R;
+import com.nikmesoft.android.nearfood.adapters.FavoriteResultAdapter;
 import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory;
@@ -30,7 +31,7 @@ import android.widget.AdapterView.OnItemClickListener;
 public class FavoritesActivity extends MapActivity implements OnItemClickListener {
 
 	private ListView lvSearch;
-	protected SearchResultAdapter placeAdapter;
+	protected FavoriteResultAdapter placeAdapter;
 	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
 	private int imgIndex = 1;
@@ -62,8 +63,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
 				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
-		placeAdapter = new SearchResultAdapter(this, R.layout.list_item_search,
-				places);
+		placeAdapter = new FavoriteResultAdapter(this, R.layout.list_item_search,places);
 		lvSearch.setAdapter(placeAdapter);
 		lvSearch.setOnItemClickListener(this);
 		flipper = (ViewFlipper) findViewById(R.id.details);
