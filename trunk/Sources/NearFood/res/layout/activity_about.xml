@@ -8,7 +8,8 @@
         <ImageView
             style="@style/TitleBarLogo"
             android:contentDescription="@string/app_name"
-            android:src="@drawable/titlebar_logo" />
+            android:onClick="onClick_ImgAboutBack"
+            android:src="@drawable/titlebar_back" />
 
         <ImageView
             style="@style/TitleBarSeparator"

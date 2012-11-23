@@ -4,6 +4,7 @@ import com.nikmesoft.android.nearfood.R;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 
 public class AboutActivity extends Activity {
@@ -17,5 +18,7 @@ public class AboutActivity extends Activity {
 		webAbout = (WebView) findViewById(R.id.webabout);
 		webAbout.loadUrl("file:///android_asset/about.html");
 	}
-
+	public void onClick_ImgAboutBack(View v){
+		this.finishFromChild(getParent());
+	}
 }
