@@ -4,6 +4,7 @@ import com.nikmesoft.android.nearfood.R;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 
 public class HelpActivity extends Activity {
@@ -17,6 +18,9 @@ public class HelpActivity extends Activity {
 		help = (WebView) findViewById(R.id.web_help);
 		help.loadUrl("file:///android_asset/help.html");
 		
+	}
+	public void onClick_ImgHelpBack(View v){
+		this.finishFromChild(getParent());
 	}
 
 }
