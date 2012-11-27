@@ -34,6 +34,8 @@ public class LoginActivity extends BaseActivity {
 	private ProgressDialog dialog;
 	private WSLoader loader;
 	
+	private static final int REQUEST_REGISTER = 101;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,8 +64,13 @@ public class LoginActivity extends BaseActivity {
 	}
 	
 	public void onClickRegister(View v) {
-		Intent intent = new Intent(this, RegisterActivity.class);
-		startActivity(intent);
+//		Intent intent = new Intent(this, RegisterActivity.class);
+//		startActivity(intent);
+		
+		Intent intent = new Intent();
+		intent.setClass(this, RegisterActivity.class);
+		intent.putExtra("FromActivity", "Settings");
+		startActivityForResult(intent, REQUEST_REGISTER);
 	}
 	
 	public void onClickLogin(View v) {
