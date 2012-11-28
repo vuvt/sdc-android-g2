@@ -26,7 +26,7 @@
             android:id="@+id/popupAddress"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="15dip"
+            android:layout_marginTop="5dip"
             android:text="Quna ay ngon thiet. Moi nguoi vo an de cho biet."
             android:textColor="#ff000000"
             android:textSize="18sp" >

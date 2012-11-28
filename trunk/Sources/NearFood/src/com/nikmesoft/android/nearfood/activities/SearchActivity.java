@@ -75,15 +75,13 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 	protected SearchResultAdapter placeAdapter;
 	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
-	private int imgIndex = 1, distanceByKms = 0;
+	private int imgIndex = 1;
 	private EditText ed_distance, ed_search;
-	ArrayList<CheckBox> checkboxs;
 	private Spinner spinner_distance;
 	String str_filter = "";
 	private ProgressDialog progressDialog;
-	private double distance;
 	private MapView mapView;
-	private MapController mc;
+	public MapController mc;
 	private GeoPoint currentPoint;
 	private LocationManager lm;
 	private TextView tvNoResult;
@@ -100,19 +98,11 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 
 	@SuppressLint("ParserError")
 	public void init() {
-		distance = 8235;
 		progressDialog = new ProgressDialog(getParent());
 		progressDialog.setMessage("Loading. Please wait...");
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setCancelable(false);
 		lvSearch = (ListView) findViewById(R.id.lvSearch);
-		checkboxs = new ArrayList<CheckBox>();
-		CheckBox x = new CheckBox(this);
-		x.setChecked(true);
-		checkboxs.add(x);
-		checkboxs.add(new CheckBox(this));
-		checkboxs.add(new CheckBox(this));
-		checkboxs.add(new CheckBox(this));
 		places = new ArrayList<Place>();
 		placeAdapter = new SearchResultAdapter(this, R.layout.list_item_search,
 				places);
@@ -122,6 +112,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		ed_distance = new EditText(this);
 		ed_search = (EditText) findViewById(R.id.edt_search);
+		ed_search.setText(MyApplication.contentSearch);
 		ed_search.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
@@ -145,6 +136,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 									.hideSoftInputFromWindow(getCurrentFocus()
 											.getWindowToken(),
 											InputMethodManager.HIDE_NOT_ALWAYS);
+							MyApplication.contentSearch = ed_search.getText().toString().trim();
 							WSLoader ws = new WSLoader();
 							ws.execute();
 							return true;
@@ -288,7 +280,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 				R.layout.menu_filter, null);
 		final CheckBox check_distance = (CheckBox) view
 				.findViewById(R.id.check_distance);
-		if (checkboxs.get(0).isChecked())
+		if (MyApplication.checkboxs.get(0).isChecked())
 			check_distance.setChecked(true);
 		check_distance
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -303,7 +295,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 				});
 		final CheckBox check_location = (CheckBox) view
 				.findViewById(R.id.check_location);
-		if (checkboxs.get(1).isChecked())
+		if (MyApplication.checkboxs.get(1).isChecked())
 			check_location.setChecked(true);
 		check_location
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -318,7 +310,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 				});
 		final CheckBox check_place = (CheckBox) view
 				.findViewById(R.id.check_place);
-		if (checkboxs.get(2).isChecked())
+		if (MyApplication.checkboxs.get(2).isChecked())
 			check_place.setChecked(true);
 		check_place
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -331,9 +323,8 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 						processCheckBoxs(check_place, isChecked, 2);
 					}
 				});
-		final CheckBox check_dishes = (CheckBox) view
-				.findViewById(R.id.check_dishes);
-		if (checkboxs.get(3).isChecked())
+		final CheckBox check_dishes = (CheckBox) view.findViewById(R.id.check_dishes);
+		if (MyApplication.checkboxs.get(3).isChecked())
 			check_dishes.setChecked(true);
 		check_dishes
 				.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -347,23 +338,23 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					}
 				});
 		ed_distance = (EditText) view.findViewById(R.id.ed_distance);
-		ed_distance.setText(String.valueOf(distance));
+		ed_distance.setText(String.valueOf(MyApplication.distance));
 		spinner_distance = (Spinner) view.findViewById(R.id.spinner);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
 				getParent(), R.array.distance_array,
 				android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner_distance.setAdapter(adapter);
-		spinner_distance.setSelection(distanceByKms);
+		spinner_distance.setSelection(MyApplication.distanceByKms);
 		alert.setTitle("Serach Filter");
 		alert.setView(view);
 		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				distance = Double.parseDouble(ed_distance.getText().toString()
+				MyApplication.distance = Double.parseDouble(ed_distance.getText().toString()
 						.trim());
-				distanceByKms = spinner_distance.getSelectedItemPosition();
+				MyApplication.distanceByKms = spinner_distance.getSelectedItemPosition();
 			}
 		});
 		AlertDialog dialog = alert.create();
@@ -400,13 +391,13 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 	public void processCheckBoxs(CheckBox checkbox, boolean isChecked,
 			int position) {
 		int count = 0;
-		checkboxs.get(position).setChecked(isChecked);
-		for (int i = 0; i < checkboxs.size(); i++)
-			if (checkboxs.get(i).isChecked())
+		MyApplication.checkboxs.get(position).setChecked(isChecked);
+		for (int i = 0; i < MyApplication.checkboxs.size(); i++)
+			if (MyApplication.checkboxs.get(i).isChecked())
 				count++;
 		if (count < 1) {
 			checkbox.setChecked(true);
-			checkboxs.get(position).setChecked(true);
+			MyApplication.checkboxs.get(position).setChecked(true);
 			if (isCheckDistance) {
 				isCheckDistance = false;
 				Toast.makeText(getApplicationContext(),
@@ -434,6 +425,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					.hideSoftInputFromWindow(
 							getCurrentFocus().getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
+			MyApplication.contentSearch = ed_search.getText().toString().trim();
 			WSLoader ws = new WSLoader();
 			ws.execute();
 		}
@@ -471,10 +463,10 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 	private class WSLoader extends AsyncTask<String, Integer, Object> {
 		@Override
 		protected Object doInBackground(String... params) {
-			double distance_ = distance;
+			double distance_ = MyApplication.distance;
 			if (!ed_distance.getText().toString().trim().equals(""))
 				Double.parseDouble(ed_distance.getText().toString().trim());
-			if (distanceByKms == 1) {
+			if (MyApplication.distanceByKms == 1) {
 				distance_ *= 1.60934;
 			}
 			String request = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
@@ -486,19 +478,19 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					+ "<latitude xsi:type=\"xsd:double\">108</latitude>"
 					+ "<longitude xsi:type=\"xsd:double\">16</longitude>"
 					+ "<filter_distance xsi:type=\"xsd:boolean\">"
-					+ String.valueOf(checkboxs.get(0).isChecked())
+					+ String.valueOf(MyApplication.checkboxs.get(0).isChecked())
 					+ "</filter_distance>"
 					+ "<distance xsi:type=\"xsd:double\">"
 					+ String.valueOf(distance_)
 					+ "</distance>"
 					+ "<filter_address xsi:type=\"xsd:boolean\">"
-					+ String.valueOf(checkboxs.get(1).isChecked())
+					+ String.valueOf(MyApplication.checkboxs.get(1).isChecked())
 					+ "</filter_address>"
 					+ "<filter_name xsi:type=\"xsd:boolean\">"
-					+ String.valueOf(checkboxs.get(2).isChecked())
+					+ String.valueOf(MyApplication.checkboxs.get(2).isChecked())
 					+ "</filter_name>"
 					+ "<filter_dishes xsi:type=\"xsd:boolean\">"
-					+ String.valueOf(checkboxs.get(3).isChecked())
+					+ String.valueOf(MyApplication.checkboxs.get(3).isChecked())
 					+ "</filter_dishes>"
 					+ "<key xsi:type=\"xsd:string\">"
 					+ ed_search.getText().toString().trim()
