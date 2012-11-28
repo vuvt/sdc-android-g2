@@ -1,11 +1,15 @@
 package com.nikmesoft.android.nearfood;
 
+import java.util.ArrayList;
+
 import com.nikmesoft.android.nearfood.helpers.FileHelper;
 import com.nikmesoft.android.nearfood.helpers.SharedPreferencesHelper;
 import com.nikmesoft.android.nearfood.models.User;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
+import android.widget.CheckBox;
 
 public class MyApplication extends Application {
 	public static String PACKAGE_NAME;
@@ -16,9 +20,11 @@ public class MyApplication extends Application {
 	public static int SEARCH_RADIUS;
 	public static final int MALE = 0;
 	public static final int FEMALE =1;
-	
+	public static final ArrayList<CheckBox> checkboxs = new ArrayList<CheckBox>();
 	private Context context;
-	
+	public static  String contentSearch = null;
+	public static double distance = 8235;
+	public static int distanceByKms = 0;
 	public static User USER_CURRENT;
 	public static double LONGITUDE = 108.149665; // DH BK DN is location default
 	public static double LATITUDE = 16.074641; //
@@ -46,5 +52,12 @@ public class MyApplication extends Application {
 		LOCATION_UPDATE_TIME = 30 * 1000;
 		LOCATION_UPDATE_DISTANCE = 100;
 		SEARCH_RADIUS = 500;
+		CheckBox checkbox = new CheckBox(this);
+		checkbox.setChecked(true);
+		checkboxs.add(checkbox);
+		checkboxs.add(new CheckBox(this));
+		checkboxs.add(new CheckBox(this));
+		checkboxs.add(new CheckBox(this));
+		Log.d("MyApplication", "Runed");
 	}
 }

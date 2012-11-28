@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,11 +55,12 @@ public class CustomItemizedOverlaySearch extends ItemizedOverlay {
 	protected boolean onTap(int i) {
 		if (places.get(i) != null) {
 			place = places.get(i);
+			activity.mc.animateTo(place.getMapPoint());
 			LayoutInflater inflater = (LayoutInflater) activity
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			// Here x is the name of the xml which contains the popup components
 			View view = inflater.inflate(activity.getIdPopup(), null);
-			pw = new PopupWindow(view, 300, 300, true);
+			pw = new PopupWindow(view, activity.getWindowManager().getDefaultDisplay().getWidth()*2/3, activity.getWindowManager().getDefaultDisplay().getWidth()/2, true);
 			pw.setAnimationStyle(android.R.style.Animation_Dialog);
 			// Here y is the id of the root component
 			view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
@@ -72,9 +74,10 @@ public class CustomItemizedOverlaySearch extends ItemizedOverlay {
 					.getHeight();
 			@SuppressWarnings("unused")
 			int x = screenWidth / 2 - view.getMeasuredWidth() / 2;
+			
 			@SuppressWarnings("unused")
 			int y = screenHeight / 2 - view.getMeasuredHeight() / 2;
-			pw.showAtLocation(view, Gravity.CENTER, 0, 0);
+			
 			@SuppressWarnings("unused")
 			DisplayMetrics metrics = new DisplayMetrics();
 			TextView popUpName = (TextView) view.findViewById(activity.getPopupName());
@@ -102,6 +105,9 @@ public class CustomItemizedOverlaySearch extends ItemizedOverlay {
 					pw.dismiss();
 				}
 			});
+			
+			pw.showAtLocation(view, Gravity.NO_GRAVITY, (screenWidth - screenWidth*2/3)/2	, screenHeight/2);
+			
 		}
 		return true;
 	}
