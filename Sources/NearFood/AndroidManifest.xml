@@ -170,6 +170,20 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
         </activity>
+        <activity
+            android:name=".activities.FavoritesTabGroupActivity"
+            android:label="@string/activity_profile_title"
+            android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+        </activity>
+        <activity
+            android:name=".activities.FavoritesItemActivity"
+            android:label="@string/activity_profile_title"
+            android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+         </activity>   
     </application>
 
 </manifest>
