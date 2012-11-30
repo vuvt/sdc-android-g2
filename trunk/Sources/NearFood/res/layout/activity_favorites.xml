@@ -84,14 +84,14 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <ImageButton
+<!--             <ImageButton
                 android:id="@+id/bt_listmap"
                 android:layout_width="42dip"
                 android:layout_height="35dp"
                 android:layout_gravity="right|center_vertical"
                 android:layout_margin="5dp"
                 android:background="@drawable/button_map"
-                android:onClick="onClickListOrMap" />
+                android:onClick="onClickListOrMap" /> -->
         </LinearLayout>
 
         <ViewFlipper
