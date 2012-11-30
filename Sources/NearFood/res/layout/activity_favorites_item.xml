@@ -1,0 +1,241 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout style="@style/TitleBar">
+
+        <ImageView
+            style="@style/TitleBarBack"
+            android:contentDescription="@string/app_name"
+            android:onClick="onClickBack" />
+
+        <ImageView
+            style="@style/TitleBarSeparator"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            style="@style/TitleBarText"
+            android:text="@string/activity_favorites_title" />
+		<ImageView
+            android:layout_width="1dip" 
+            android:layout_height="match_parent"
+            android:background="@color/titlebar_separator"
+            android:contentDescription="@string/app_name" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/Body"
+        android:orientation="vertical"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" 
+            android:layout_marginTop="10dip">
+
+            <TextView                
+                android:id="@+id/favorites_name_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:text="Quan nhau Pipo"
+                android:textColor="#4169E1"
+                android:textSize="18sp"
+                android:textStyle="bold|normal" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center_vertical"
+                android:layout_toRightOf="@+id/favorites_name_item"
+                android:layout_marginRight="5dp">
+		            <ViewFlipper 
+		                android:id="@+id/map"
+		                android:layout_width="wrap_content"
+		                android:layout_height="wrap_content">     
+				            <ImageButton
+				                android:id="@+id/bt_maplist"
+				                android:layout_width="wrap_content"
+				                android:layout_height="wrap_content"
+				                android:onClick="onClickMap"
+				                android:background="@drawable/button_map"/>
+				             <ImageButton
+				                android:id="@+id/bt_listmap"
+				                android:onClick="onClickMap"
+				                android:layout_width="wrap_content"
+				                android:layout_height="wrap_content"
+				                android:background="@drawable/button_list"/>
+		            </ViewFlipper>
+            </RelativeLayout>
+        </RelativeLayout>
+        <ViewFlipper
+            android:id="@+id/details"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_below="@+id/layout_search"
+            android:layout_margin="5dp" >
+        <ScrollView
+            android:id="@+id/ScrollViewLayout"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" 
+            android:layout_marginTop="5dip">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="2dip" >
+
+                    <ImageView
+                        android:id="@id/selected_imageview"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dip"
+                        android:layout_marginBottom="5dip"
+                        android:visibility="gone" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+                        <Gallery
+                            android:id="@id/gallery_search"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitCenter"
+                            android:visibility="gone"/>
+
+                        <ImageView
+                            android:id="@id/right_arrow_imageview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dip"
+                            android:layout_gravity="right|center_vertical"
+                            android:onClick="onClickRightArrow"
+                            android:src="@drawable/ic_arrow_right" 
+                            android:visibility="gone"/>
+                        <ImageView
+                            android:id="@id/left_arrow_imageview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_marginLeft="10dip"
+                            android:onClick="onClickLeftArrow"
+                            android:src="@drawable/ic_arrow_left" 
+                            android:visibility="gone"/>
+                    </FrameLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/separator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dip"
+                    android:layout_marginBottom="5dip"
+                    android:layout_marginLeft="5dip"
+                    android:layout_marginRight="5dip"
+                    android:layout_marginTop="5dip"
+                    android:background="@color/titlebar_separator" 
+                    android:visibility="gone"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            style="@style/TextTitelItemSearch"
+                            android:text="@string/text_information" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingLeft="15dip"
+                            android:paddingRight="15dip"
+                            android:paddingTop="5dip" >
+
+                            <TextView
+                                android:id="@id/address_information"
+                                style="@style/TextInfomation"
+                                android:text="240 - Nguyen Luong Bang, Quan Lien chieu, Da Nang" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content" >
+
+                                <!-- This is the main content -->
+
+                                <RelativeLayout
+                                    android:layout_width="fill_parent"
+                                    android:layout_height="fill_parent"
+                                    android:layout_marginBottom="12dp"
+                                    android:layout_marginTop="12dp"
+                                    android:background="@drawable/bg_border"
+                                    android:orientation="vertical"
+                                    android:paddingBottom="15dp"
+                                    android:paddingLeft="10dp"
+                                    android:paddingRight="10dp"
+                                    android:paddingTop="15dp" >
+
+                                    <TextView
+                                        android:id="@id/description_information"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Bò kho du?ng Hu?nh Thúc Kháng, bán bu?i sáng thôi . C?nh quán này bu?i chi?u có bán bánh canh, an cung du?c. Bu?i sáng g?n dó cung có m?t quán bún m?m, th?y m?i ngu?i an dông" />
+                                </RelativeLayout>
+
+                                <!-- This is the title label -->
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="30dp"
+                                    android:background="@drawable/bg_border"
+                                    android:padding="3dp"
+                                    android:text="Description"
+                                    android:textColor="@android:color/black" />
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dip"
+                        android:orientation="vertical" >
+                        <LinearLayout
+                            android:id="@id/listview_layout_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingLeft="15dip"
+                            android:layout_marginTop="2dip"
+                            android:paddingRight="15dip" 
+                            >
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+        <com.google.android.maps.MapView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/mapview"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:apiKey="0sMGVA8-_D69gXCJtdsjSByEWZaiYYdeVFTBjNw"
+                android:clickable="true" />
+        </ViewFlipper>
+    </LinearLayout>
+
+</RelativeLayout>

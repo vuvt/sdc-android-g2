@@ -12,6 +12,7 @@ import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +53,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		lvSearch = (ListView) findViewById(R.id.lvSearch);
 		places = new ArrayList<Place>();
 		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
+				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "cung kha la do", 100));
 		places.add(new Place("Quán Thanh Trúc",
 				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		places.add(new Place("Quán Thanh Trúc",
@@ -161,13 +162,20 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
+		Place place = places.get(arg2);
+		FavoritesTabGroupActivity parent = (FavoritesTabGroupActivity) getParent();
+		Intent intent = new Intent(parent, FavoritesItemActivity.class);
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("place", place);
+		intent.putExtra("bundlePlace", bundle);
+		parent.startNewActivity(FavoritesItemActivity.class.getSimpleName(),
+				intent);
 		
 	}
 
 	@Override
 	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 }
