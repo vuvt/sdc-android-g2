@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -27,6 +28,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -38,6 +40,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
@@ -56,24 +59,27 @@ import com.nikmesoft.android.nearfood.utils.CommonUtil;
 public class CKIMainActivity extends BaseMapsActivity implements
 		LocationListener, AdapterView.OnItemClickListener {
 
-	ListView list;
-	AutoCompleteTextView textView;
-	CheckInResultAdapter checkinResultAdapter;
+	private Drawable IC_MAP_PIN_NORMAL;
+	private Drawable IC_MAP_PIN_CHOSE;
+	private Drawable IC_MAP_PIN_CURRENT;
+	private ListView list;
+	private AutoCompleteTextView textView;
+	private CheckInResultAdapter checkinResultAdapter;
 	MapView mapView;
 	private MapController mc;
 	private static GeoPoint currentPoint;
 	private LocationManager lm;
-	final Handler mHandler = new Handler();
+	private final Handler mHandler = new Handler();
 	private ArrayAdapter<String> autoCompleteAdapter;
 	public int oldOverlay = -1;
-	private Drawable IC_MAP_PIN_NORMAL;
-	private Drawable IC_MAP_PIN_CHOSE;
-	private Drawable IC_MAP_PIN_CURRENT;
+
 	private Button bt_showhidelist;
-	LinearLayout layout_list;
-	GetPlacesAutoComplete getplaceAutoComplete = null;
-	SearchHandle handle = new SearchHandle(this);
-	ProgressDialog loading;
+	private LinearLayout layout_list;
+	private GetPlacesAutoComplete getplaceAutoComplete = null;
+	private SearchHandle handle = new SearchHandle(this);
+	private ProgressDialog loading;
+
+	// private TextView txtNoResult;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -105,7 +111,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				IC_MAP_PIN_CURRENT.getIntrinsicWidth(),
 				IC_MAP_PIN_CURRENT.getIntrinsicHeight());
 		mapView = (MapView) findViewById(R.id.mapView);
-		
+		// txtNoResult=(TextView)findViewById(R.id.txt_noresults);
 		// Add data to list
 		list = (ListView) findViewById(R.id.list);
 		checkinResultAdapter = new CheckInResultAdapter(this,
@@ -122,9 +128,10 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		mc = mapView.getController();
 		// mc.setCenter(new GeoPoint(108149794, 16073651));
 		mc.setZoom(16);
-		currentPoint=new GeoPoint(1607361,108149659);
-		OverlayItem item=new OverlayItem(currentPoint,"Current address", "16.07361,108.149659");
-		
+		currentPoint = new GeoPoint(1607361, 108149659);
+		OverlayItem item = new OverlayItem(currentPoint, "Current address",
+				"16.07361,108.149659");
+
 		CustomItemizedOverlay overlayItem = new CustomItemizedOverlay(this,
 				IC_MAP_PIN_CURRENT);
 		overlayItem.addItem(item);
@@ -187,7 +194,6 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				getplaceAutoComplete = new GetPlacesAutoComplete(
 						autoCompleteAdapter, currentPoint);
 				getplaceAutoComplete.execute(textView.getText().toString());
-
 			}
 
 			public void afterTextChanged(Editable s) {
@@ -206,6 +212,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		loading.setMessage("Loading. Please wait...");
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
+		
 	}
 
 	public void actionSearch(View v) {
@@ -354,13 +361,21 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			Message msg = new Message();
 			Bundle b = new Bundle();
 			try {
+				String text_search = URLEncoder.encode(textView.getText()
+						.toString().trim(), "UTF-8");
 				URL googlePlaces = new URL(
-						"https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-								+ URLEncoder.encode(textView.getText()
-										.toString().trim(), "UTF-8")
-								+ "&location=" + CKIMainActivity.currentPoint.getLatitudeE6()/1000000.0 + ","+currentPoint.getLongitudeE6()/1000000.0
-								+ "&radius=" + MyApplication.SEARCH_RADIUS
-								+ "&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
+						"https://maps.googleapis.com/maps/api/place/nearbysearch/json?keyword="
+								+ text_search
+								+ "&location="
+								+ currentPoint.getLatitudeE6()
+								/ 1000000.0
+								+ ","
+								+ currentPoint.getLongitudeE6()
+								/ 1000000.0
+								+ "&radius="
+								+ MyApplication.SEARCH_RADIUS
+								+ "&type=establisment&sensor=true&key=AIzaSyC1VTuBKDDynoLGUZqS9141VJ0KIF1wXss");
+
 				URLConnection tc = googlePlaces.openConnection();
 				BufferedReader in = new BufferedReader(new InputStreamReader(
 						tc.getInputStream()));
@@ -370,6 +385,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				while ((line = in.readLine()) != null) {
 					sb.append(line);
 				}
+				Log.d("Respone", sb.toString());
+				// b.putString("RESPONE", sb.toString());
 				JSONObject search = new JSONObject(sb.toString());
 				JSONArray jresults = new JSONArray(search.getString("results"));
 
@@ -379,8 +396,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 							.getJSONObject("location");
 					Place place = new Place();
 					place.setNamePlace(jo.getString("name"))
-							.setAddress(jo.getString("formatted_address"))
-							.setReferenceKey(jo.getString("reference"))
+							.setAddress(jo.getString("vicinity"))
+							.setReferenceKey(jo.getString("id"))
 							.setMapPoint(
 									new GeoPoint(
 											(int) (point.getDouble("lat") * 1E6),
@@ -396,13 +413,16 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				}
 
 			} catch (MalformedURLException e) {
-				b.putString("ERROR", getResources().getString(R.string.error_network_connection));
+				b.putString("ERROR", e.getMessage());
 			} catch (IOException e) {
-				b.putString("ERROR", getResources().getString(R.string.error_network_connection));
+				b.putString(
+						"ERROR",
+						getResources().getString(
+								R.string.error_network_connection));
 				e.printStackTrace();
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				b.putString("ERROR", e.getMessage());
 			}
 
 			b.putSerializable("RESULT", places);
@@ -435,16 +455,18 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		@Override
 		public void handleMessage(Message msg) {
 
+			// activity.txtNoResult.setText(
+			// msg.getData().getString("RESPONE"));
 			String error = msg.getData().getString("ERROR");
 			if (error != null) {
-				CommonUtil.dialogNotify(activity, error);
+				CommonUtil.dialogNotify(activity.getParent(), error);
 			}
 
 			else {
-				MyArrayList list = (MyArrayList) msg.getData().getSerializable(
-						"RESULT");
+				MyArrayList results = (MyArrayList) msg.getData()
+						.getSerializable("RESULT");
 				activity.checkinResultAdapter.clear();
-				activity.checkinResultAdapter.addAll(list);
+				activity.checkinResultAdapter.addAll(results);
 				activity.checkinResultAdapter.notifyDataSetChanged();
 				try {
 					Overlay temp = activity.mapView.getOverlays().get(0);
@@ -454,20 +476,29 @@ public class CKIMainActivity extends BaseMapsActivity implements
 					activity.mapView.getOverlays().clear();
 				}
 
-				for (int i = 0; i < list.size(); i++) {
-					OverlayItem item = new OverlayItem(list.get(i)
-							.getMapPoint(), list.get(i).getName(), list.get(i)
-							.getAddress());
+				for (int i = 0; i < results.size(); i++) {
+					OverlayItem item = new OverlayItem(results.get(i)
+							.getMapPoint(), results.get(i).getName(), results
+							.get(i).getAddress());
 					activity.addOverlay(item);
 				}
-				if (list.size() > 0)
-					activity.mc.animateTo(list.get(0).getMapPoint());
-
+				if (results.size() > 0)
+					activity.mc.animateTo(results.get(0).getMapPoint());
+				// if(results.size()==0){
+				// activity.list.setVisibility(View.INVISIBLE);
+				// activity.txtNoResult.setVisibility(View.VISIBLE);
+				// }
+				// else {
+				activity.list.setVisibility(View.VISIBLE);
+				// activity.txtNoResult.setVisibility(View.INVISIBLE);
+				// }
 				activity.layout_list.setVisibility(View.VISIBLE);
 				activity.bt_showhidelist.setVisibility(View.VISIBLE);
 			}
 			activity.loading.dismiss();
 			activity.oldOverlay = -1;
+			// String url;
+
 		}
 
 	}
