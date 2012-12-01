@@ -20,6 +20,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -102,7 +103,8 @@ public class CKICheckInActivity extends BaseActivity {
 		Intent intent = new Intent();
 		intent.setType("image/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+		getParent().startActivityForResult(
+				Intent.createChooser(intent, "Select Picture"),
 				REQ_CODE_PICK_IMAGE);
 	}
 
@@ -125,21 +127,9 @@ public class CKICheckInActivity extends BaseActivity {
 		} else if (requestCode == REQ_CODE_PICK_IMAGE
 				&& resultCode == RESULT_OK) {
 			Uri selectedImageUri = data.getData();
-			// System.out.println("Image Path : " + selectedImagePath);
-
-			try {
-				Bitmap photo = MediaStore.Images.Media.getBitmap(
-						this.getContentResolver(),
-						Uri.parse(getPath(selectedImageUri)));
-				img_checkin.setImageBitmap(photo);
-				photoShareOnFb = photo;
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			img_checkin.setImageURI(Uri.parse(getPath(selectedImageUri)));
+			img_checkin.buildDrawingCache();
+			photoShareOnFb = img_checkin.getDrawingCache();
 			hasImage = true;
 			bt_choose_image.setVisibility(View.INVISIBLE);
 			bt_take_photo.setVisibility(View.INVISIBLE);
@@ -149,7 +139,6 @@ public class CKICheckInActivity extends BaseActivity {
 
 	public String getPath(Uri uri) {
 		String[] projection = { MediaStore.Images.Media.DATA };
-
 		Cursor cursor = managedQuery(uri, projection, null, null, null);
 		int column_index = cursor
 				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
@@ -158,41 +147,203 @@ public class CKICheckInActivity extends BaseActivity {
 	}
 
 	public void checkIn(View v) {
-		loader.execute(/*String.valueOf(MyApplication.USER_CURRENT.getId())*/"1",place.getReferenceKey(),
-					place.getName(),place.getPhoneNumber(),place.getAddress(),
-					place.getDescription(),edt_description.getText().toString(),
+		if (checkImage()) {
+			loader.execute(
+					/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
+					place.getReferenceKey(),
+					place.getName(),
+					place.getPhoneNumber() == null ? "" : place
+							.getPhoneNumber(),
+					place.getAddress(),
+					"",
+					edt_description.getText().toString(),
 					String.valueOf(place.getMapPoint().getLongitudeE6() / 1000000.0),
 					String.valueOf(place.getMapPoint().getLatitudeE6() / 1000000.0));
-		
+		}
 	}
 
 	public void imgCheckInClick(View v) {
-		bt_choose_image.setVisibility(View.VISIBLE);
-		bt_take_photo.setVisibility(View.VISIBLE);
-		final ImgCheckInClickHandler handler=new ImgCheckInClickHandler();
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				for(int i=0;i<3;i++){
-					SystemClock.sleep(1000);
-				}
-				Bundle bundle=new Bundle();
-				bundle.putBoolean("IS_END", true);
-				Message msg=new Message();
-				msg.setData(bundle);
-				handler.handleMessage(msg);
-			}
-		}).start();
+		if (bt_choose_image.getVisibility() == View.VISIBLE) {
+			bt_choose_image.setVisibility(View.INVISIBLE);
+			bt_take_photo.setVisibility(View.INVISIBLE);
+		} else {
+			bt_choose_image.setVisibility(View.VISIBLE);
+			bt_take_photo.setVisibility(View.VISIBLE);
+		}
+		/*
+		 * final ImgCheckInClickHandler handler = new ImgCheckInClickHandler();
+		 * new Thread(new Runnable() {
+		 * 
+		 * @Override public void run() { for (int i = 0; i < 3; i++) {
+		 * SystemClock.sleep(1000); } Bundle bundle = new Bundle();
+		 * bundle.putBoolean("IS_END", true); Message msg = new Message();
+		 * msg.setData(bundle); handler.handleMessage(msg); } }).start();
+		 */
 	}
-	public class ImgCheckInClickHandler extends Handler{
-		public void handleMessage(Message msg) {
-			if(msg.getData().getBoolean("IS_END", false)){
-				bt_choose_image.setVisibility(View.INVISIBLE);
-				bt_take_photo.setVisibility(View.INVISIBLE);
+
+	/*
+	 * public class ImgCheckInClickHandler extends Handler { public void
+	 * handleMessage(Message msg) { //if (msg.getData().getBoolean("IS_END",
+	 * false)) { bt_choose_image.setVisibility(View.INVISIBLE);
+	 * bt_take_photo.setVisibility(View.INVISIBLE); //} } }
+	 */
+
+	private Object xmlParser(String strXml) {
+		byte xmlBytes[] = strXml.getBytes();
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+				xmlBytes);
+		SAXParserFactory saxPF = SAXParserFactory.newInstance();
+		SAXParser saxParser;
+		try {
+			saxParser = saxPF.newSAXParser();
+			XMLReader xr = saxParser.getXMLReader();
+			CheckInHandler handler = new CheckInHandler();
+			xr.setContentHandler(handler);
+			xr.parse(new InputSource(byteArrayInputStream));
+			return handler.getResult();
+
+		} catch (ParserConfigurationException ex) {
+			ex.printStackTrace();
+		} catch (SAXException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	private AsyncTask<String, Integer, Object> loader = new AsyncTask<String, Integer, Object>() {
+
+		@Override
+		protected Object doInBackground(String... params) {
+			String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+					+ "<soapenv:Header/>"
+					+ "<soapenv:Body>"
+					+ "<addCheckIn soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+					+ "<AddCheckInRequest xsi:type=\"sfo:AddCheckInRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
+					+ "<!--You may enter the following 9 items in any order-->"
+					+ "<id_user xsi:type=\"xsd:int\">"
+					+ params[0]
+					+ "</id_user>"
+					+ "<reference_key xsi:type=\"xsd:string\">"
+					+ params[1]
+					+ "</reference_key>"
+					+ "<name xsi:type=\"xsd:string\">"
+					+ params[2]
+					+ "</name>"
+					+ "<phone xsi:type=\"xsd:string\">"
+					+ params[3]
+					+ "</phone>"
+					+ "<address xsi:type=\"xsd:string\">"
+					+ params[4]
+					+ "</address>"
+					+ "<description xsi:type=\"xsd:string\">"
+					+ params[5]
+					+ "</description>"
+					+ "<checkin_description xsi:type=\"xsd:string\">"
+					+ params[6]
+					+ "</checkin_description>"
+					+ "<longitude xsi:type=\"xsd:double\">"
+					+ params[7]
+					+ "</longitude>"
+					+ "<latitude xsi:type=\"xsd:double\">"
+					+ params[8]
+					+ "</latitude>"
+					+ "</AddCheckInRequest>"
+					+ "</addCheckIn>"
+					+ "</soapenv:Body>"
+					+ "</soapenv:Envelope>";
+			Log.d("request", body);
+
+			return xmlParser(Utilities
+					.callWS(body,
+							"http://nikmesoft.com/apis/SFoodServices/index.php/addCheckIn"));
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+
+			if (result != null && result.getClass().equals(ErrorCode.class)) {
+				dialog.dismiss();
+				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
+						((ErrorCode) result).getErrorMsg());
+			} else if (result != null && result.getClass().equals(User.class)) {
+				place.setId(((Integer[]) result)[0]);
+				id_checkin = ((Integer[]) result)[1];
+				dialog.dismiss();
+				upload();
+			}
+			if (result == null) {
+				dialog.dismiss();
+				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
+						"Result is null!");
 			}
 		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			dialog.show();
+		}
+
+	};
+	//Upload image
+	public void upload() {
+		String url = "http://nikmesoft.com/apis/SFoodServices/checkInUploader.php";
+		String filename = String.valueOf(id_checkin) + ".png";
+		String s_data = "";
+		Bitmap bm = ((BitmapDrawable) img_checkin.getDrawable()).getBitmap();
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		bm.compress(CompressFormat.JPEG, 100, bos);
+		byte[] data = bos.toByteArray();
+
+		uploader.execute((Object) url, (Object) data, (Object) s_data,
+				(Object) filename);
 	}
+
+	// Share facebook
+	private AsyncTask<Object, Void, String> uploader = new AsyncTask<Object, Void, String>() {
+
+		@Override
+		protected void onPreExecute() {
+			dialog = new ProgressDialog(CKICheckInActivity.this.getParent());
+			dialog.setMessage("Uploading...Please wait!");
+			dialog.setCancelable(false);
+			dialog.show();
+			super.onPreExecute();
+		}
+
+		@Override
+		protected String doInBackground(Object... params) {
+			String url = (String) params[0];
+			byte[] data = (byte[]) params[1];
+			String s_data = (String) params[2];
+			String fileName = (String) params[3];
+			HttpFileUploader fileUploader = new HttpFileUploader(url, fileName,
+					data, s_data);
+			return fileUploader.doUpload();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			dialog.dismiss();
+			CKIGroupActivity parent = (CKIGroupActivity) getParent();
+			Intent intent = new Intent(parent, CKIViewCheckInActivity.class);
+			Bundle bundle = new Bundle();
+			bundle.putSerializable(ExtraBinding.PLACE_BINDING, place);
+			intent.putExtras(bundle);
+			parent.startNewActivity(
+					CKIViewCheckInActivity.class.getSimpleName(), intent);
+		}
+
+	};
 
 	public void shareFacebook(View v) {
 		if (checkImage()) {
@@ -296,23 +447,12 @@ public class CKICheckInActivity extends BaseActivity {
 
 	private boolean checkImage() {
 		if (!hasImage)
-			bt_share_facebook.setVisibility(View.GONE);
-		edt_description.setVisibility(View.GONE);
-		bt_choose_image.setVisibility(View.GONE);
-		bt_take_photo.setVisibility(View.GONE);
-		Toast.makeText(this, "Please choose image!", Toast.LENGTH_LONG).show();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Toast.makeText(this, "Please set image!", Toast.LENGTH_LONG).show();
 		bt_share_facebook.setVisibility(View.VISIBLE);
 		edt_description.setVisibility(View.VISIBLE);
 		bt_choose_image.setVisibility(View.VISIBLE);
 		bt_take_photo.setVisibility(View.VISIBLE);
 		return hasImage;
-
 	}
 
 	public class SampleUploadListener extends BaseKeyListener implements
@@ -409,158 +549,6 @@ public class CKICheckInActivity extends BaseActivity {
 			});
 		}
 	}
-
-	private Object xmlParser(String strXml) {
-		byte xmlBytes[] = strXml.getBytes();
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
-				xmlBytes);
-		SAXParserFactory saxPF = SAXParserFactory.newInstance();
-		SAXParser saxParser;
-		try {
-			saxParser = saxPF.newSAXParser();
-			XMLReader xr = saxParser.getXMLReader();
-			CheckInHandler handler = new CheckInHandler();
-			xr.setContentHandler(handler);
-			xr.parse(new InputSource(byteArrayInputStream));
-			return handler.getResult();
-
-		} catch (ParserConfigurationException ex) {
-			ex.printStackTrace();
-		} catch (SAXException ex) {
-			ex.printStackTrace();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-		return null;
-	}
-
-	private AsyncTask<String, Integer, Object> loader=new AsyncTask<String, Integer, Object>() {
-
-		@Override
-		protected Object doInBackground(String... params) {
-			String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-					+ "<soapenv:Header/>"
-					+ "<soapenv:Body>"
-					+ "<addCheckIn soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-					+ "<AddCheckInRequest xsi:type=\"sfo:AddCheckInRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
-					+ "<id_user xsi:type=\"xsd:int\">"
-					+ params[0]
-					+ "</id_user>"
-					+ "<reference_key xsi:type=\"xsd:string\">"
-					+ params[1]
-					+ "</reference_key>"
-					+ "<name xsi:type=\"xsd:string\">"
-					+ params[2]
-					+ "</name>"
-					+ "<phone xsi:type=\"xsd:string\">"
-					+ params[3]
-					+ "</phone>"
-					+ "<address xsi:type=\"xsd:string\">"
-					+ params[4]
-					+ "</address>"
-					+ "<description xsi:type=\"xsd:string\">"
-					+ params[5]
-					+ "</description>"
-					+ "<checkin_description xsi:type=\"xsd:string\">"
-					+ params[6]
-					+ "</checkin_description>"
-					+ "<longitude xsi:type=\"xsd:double\">"
-					+ params[7]
-					+ "</longitude>"
-					+ "<latitude xsi:type=\"xsd:double\">"
-					+ params[8]
-					+ "</latitude>"
-					+ "</AddCheckInRequest>"
-					+ "</addCheckIn>"
-					+ "</soapenv:Body>" + "</soapenv:Envelope>";
-			return xmlParser(Utilities
-					.callWS(body,
-							"http://nikmesoft.com/apis/SFoodServices/index.php/addCheckIn"));
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-		}
-
-		@Override
-		protected void onPostExecute(Object result) {
-			super.onPostExecute(result);
-
-			if (result != null && result.getClass().equals(ErrorCode.class)) {
-				dialog.dismiss();
-				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
-						((ErrorCode) result).getErrorMsg());
-			} else if (result != null && result.getClass().equals(User.class)) {
-				place.setId(((Integer[]) result)[0]);
-				id_checkin = ((Integer[]) result)[1];
-				dialog.dismiss();
-				//upload();
-			}
-		}
-
-		@Override
-		protected void onPreExecute() {
-			super.onPreExecute();
-			// dialog.show();
-		}
-
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			super.onProgressUpdate(values);
-		}
-
-	};
-
-	public void upload() {
-		String url = "http://nikmesoft.com/apis/SFoodServices/checkInUploader.php";
-		String filename = String.valueOf(id_checkin) + ".png";
-		String s_data = "";
-		Bitmap bm = ((BitmapDrawable) img_checkin.getDrawable()).getBitmap();
-		ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		bm.compress(CompressFormat.JPEG, 100, bos);
-		byte[] data = bos.toByteArray();
-
-		uploader.execute((Object) url, (Object) data, (Object) s_data,
-				(Object) filename);
-	}
-
-	private AsyncTask<Object, Void, String> uploader = new AsyncTask<Object, Void, String>() {
-
-		@Override
-		protected void onPreExecute() {
-			dialog = new ProgressDialog(CKICheckInActivity.this.getParent());
-			dialog.setMessage("Uploading...Please wait!");
-			dialog.setCancelable(false);
-			dialog.show();
-			super.onPreExecute();
-		}
-
-		@Override
-		protected String doInBackground(Object... params) {
-			String url = (String) params[0];
-			byte[] data = (byte[]) params[1];
-			String s_data = (String) params[2];
-			String fileName = (String) params[3];
-			HttpFileUploader fileUploader = new HttpFileUploader(url, fileName,
-					data, s_data);
-			return fileUploader.doUpload();
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			super.onPostExecute(result);
-			dialog.dismiss();
-			CKIGroupActivity parent = (CKIGroupActivity) getParent();
-			Intent intent = new Intent(parent, CKIViewCheckInActivity.class);
-			Bundle bundle = new Bundle();
-			bundle.putSerializable(ExtraBinding.PLACE_BINDING, place);
-			intent.putExtras(bundle);
-			parent.startNewActivity(CKIViewCheckInActivity.class.getSimpleName(),
-					intent);
-		}
-
-	};
 	// private void share(String nameApp, String imagePath) {
 	// List<Intent> targetedShareIntents = new ArrayList<Intent>();
 	// Intent share = new Intent(android.content.Intent.ACTION_SEND);
