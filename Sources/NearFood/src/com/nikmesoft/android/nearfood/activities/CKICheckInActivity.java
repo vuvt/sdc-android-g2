@@ -72,6 +72,8 @@ public class CKICheckInActivity extends BaseActivity {
 	private SharedPreferences mPrefs;
 	ProgressBar progressbar;
 	ProgressDialog dialog;
+	AddCheckInLoadder loader;
+	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -148,6 +150,9 @@ public class CKICheckInActivity extends BaseActivity {
 
 	public void checkIn(View v) {
 		if (checkImage()) {
+			if(loader==null||loader.isCancelled()){
+				loader=new AddCheckInLoadder();
+			}
 			loader.execute(
 					/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
 					place.getReferenceKey(),
@@ -212,47 +217,47 @@ public class CKICheckInActivity extends BaseActivity {
 		return null;
 	}
 
-	private AsyncTask<String, Integer, Object> loader = new AsyncTask<String, Integer, Object>() {
+	private class AddCheckInLoadder extends AsyncTask<String, Integer, Object>{
 
 		@Override
 		protected Object doInBackground(String... params) {
-			String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
-					+ "<soapenv:Header/>"
-					+ "<soapenv:Body>"
-					+ "<addCheckIn soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
-					+ "<AddCheckInRequest xsi:type=\"sfo:AddCheckInRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
-					+ "<!--You may enter the following 9 items in any order-->"
-					+ "<id_user xsi:type=\"xsd:int\">"
+			String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+					+ "<soapenv:Header/>\n"
+					+ "\t<soapenv:Body>\n"
+					+ "\t\t<addCheckIn soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">\n"
+					+ "\t\t\t<AddCheckInRequest xsi:type=\"sfo:AddCheckInRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">\n"
+					+ "<!--You may enter the following 9 items in any order-->\n"
+					+ "\t\t\t\t<id_user xsi:type=\"xsd:int\">"
 					+ params[0]
-					+ "</id_user>"
-					+ "<reference_key xsi:type=\"xsd:string\">"
+					+ "</id_user>\n"
+					+ "\t\t\t\t<reference_key xsi:type=\"xsd:string\">"
 					+ params[1]
-					+ "</reference_key>"
-					+ "<name xsi:type=\"xsd:string\">"
+					+ "</reference_key>\n"
+					+ "\t\t\t\t<name xsi:type=\"xsd:string\">"
 					+ params[2]
-					+ "</name>"
-					+ "<phone xsi:type=\"xsd:string\">"
+					+ "</name>\n"
+					+ "\t\t\t\t<phone xsi:type=\"xsd:string\">"
 					+ params[3]
-					+ "</phone>"
-					+ "<address xsi:type=\"xsd:string\">"
+					+ "</phone>\n"
+					+ "\t\t\t\t<address xsi:type=\"xsd:string\">"
 					+ params[4]
-					+ "</address>"
-					+ "<description xsi:type=\"xsd:string\">"
+					+ "</address>\n"
+					+ "\t\t\t\t<description xsi:type=\"xsd:string\">"
 					+ params[5]
-					+ "</description>"
-					+ "<checkin_description xsi:type=\"xsd:string\">"
+					+ "</description>\n"
+					+ "\t\t\t\t<checkin_description xsi:type=\"xsd:string\">"
 					+ params[6]
-					+ "</checkin_description>"
-					+ "<longitude xsi:type=\"xsd:double\">"
+					+ "</checkin_description>\n"
+					+ "\t\t\t\t<longitude xsi:type=\"xsd:double\">"
 					+ params[7]
-					+ "</longitude>"
-					+ "<latitude xsi:type=\"xsd:double\">"
+					+ "</longitude>\n"
+					+ "\t\t\t\t<latitude xsi:type=\"xsd:double\">"
 					+ params[8]
-					+ "</latitude>"
-					+ "</AddCheckInRequest>"
-					+ "</addCheckIn>"
-					+ "</soapenv:Body>"
-					+ "</soapenv:Envelope>";
+					+ "</latitude>\n"
+					+ "\t\t\t</AddCheckInRequest>\n"
+					+ "\t\t</addCheckIn>\n"
+					+ "\t</soapenv:Body>\n"
+					+ "</soapenv:Envelope>\n";
 			Log.d("request", body);
 
 			return xmlParser(Utilities
@@ -273,13 +278,13 @@ public class CKICheckInActivity extends BaseActivity {
 				dialog.dismiss();
 				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
 						((ErrorCode) result).getErrorMsg());
-			} else if (result != null && result.getClass().equals(User.class)) {
+			} else if (result != null) {
 				place.setId(((Integer[]) result)[0]);
 				id_checkin = ((Integer[]) result)[1];
 				dialog.dismiss();
 				upload();
 			}
-			if (result == null) {
+			else {
 				dialog.dismiss();
 				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
 						"Result is null!");
