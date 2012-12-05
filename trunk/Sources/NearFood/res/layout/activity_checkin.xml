@@ -79,7 +79,7 @@
                 style="@style/BodyRow"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentTop="true"
-                android:apiKey="0m4xhkR2pW3ezKZ1zF5R4S4v7yKK8wFQDStSKMQ"
+                android:apiKey="0m4xhkR2pW3d8H3Pc1HX3uEkP_0Mo3B5eAZqbJg"
                 android:clickable="true"
                 android:enabled="true" />
 
@@ -91,14 +91,13 @@
                 android:layout_marginBottom="0dp"
                 android:layout_marginLeft="10dp"
                 android:background="#00ffffff"
-                android:visibility="invisible" >
-
+                 >
+				
                 <ListView
                     android:id="@+id/list"
                     style="@style/BodyRow"
                     android:layout_gravity="bottom"
-                    android:background="#ffffff"
-                    android:choiceMode="singleChoice" />
+                    android:background="#ffffff"/>
             </LinearLayout>
 
             <Button
