@@ -9,7 +9,10 @@ import com.nikmesoft.android.nearfood.models.User;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TabHost;
+import android.widget.TabHost.TabSpec;
 
 public class MyApplication extends Application {
 	public static String PACKAGE_NAME;
@@ -28,7 +31,11 @@ public class MyApplication extends Application {
 	public static User USER_CURRENT;
 	public static double LONGITUDE = 108.149665; // DH BK DN is location default
 	public static double LATITUDE = 16.074641; //
-
+	public static boolean isSwitchTab = false, isSwitchTabLogin = false,isSwitchTabLoginChild = false;
+	public static TabHost tabHost;
+	public static int countCheckin = 0;
+	public static Button btn_Login;
+	public static int tabCurrent = 0;
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -58,6 +65,5 @@ public class MyApplication extends Application {
 		checkboxs.add(new CheckBox(this));
 		checkboxs.add(new CheckBox(this));
 		checkboxs.add(new CheckBox(this));
-		Log.d("MyApplication", "Runed");
 	}
 }
