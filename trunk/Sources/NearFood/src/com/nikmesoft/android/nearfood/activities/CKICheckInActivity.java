@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -63,7 +62,6 @@ public class CKICheckInActivity extends BaseActivity {
 	ImageView img_checkin;
 	EditText edt_description;
 	Button bt_take_photo, bt_choose_image, bt_share_facebook;
-	private boolean hasImage = false;
 	private int REQ_CODE_PICK_IMAGE = 100, REQ_CODE_TAKE_PHOTO = 101;
 	Facebook facebook = new Facebook("302093569905424");
 	private Bitmap photoShareOnFb = null;
@@ -74,10 +72,9 @@ public class CKICheckInActivity extends BaseActivity {
 	AddCheckInLoadder loader;
 	private ImageView imgFacebook;
 	private Button btnShare, btnShareOnFacebook, btnCancel;
-	private TextView noteShare,namePlace,link,description;
+	private TextView noteShare, namePlace, link, description;
 	ProgressBar dialog_progressBar;
 	private EditText contentShare;
-	
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -99,7 +96,6 @@ public class CKICheckInActivity extends BaseActivity {
 		bt_choose_image = (Button) findViewById(R.id.bt_choose_img);
 		bt_take_photo = (Button) findViewById(R.id.bt_take_photo);
 		bt_share_facebook = (Button) findViewById(R.id.bt_share_facebook);
-		progressbar = (ProgressBar) findViewById(R.id.progressbar);
 		dialog = new ProgressDialog(CKICheckInActivity.this.getParent());
 		dialog.setMessage("Loading...Please wait!");
 		dialog.setCancelable(false);
@@ -126,7 +122,6 @@ public class CKICheckInActivity extends BaseActivity {
 			Bitmap photo = (Bitmap) data.getExtras().get("data");
 			img_checkin.setImageBitmap(photo);
 			photoShareOnFb = photo;
-			hasImage = true;
 			bt_choose_image.setVisibility(View.INVISIBLE);
 			bt_take_photo.setVisibility(View.INVISIBLE);
 			return;
@@ -136,7 +131,6 @@ public class CKICheckInActivity extends BaseActivity {
 			img_checkin.setImageURI(Uri.parse(getPath(selectedImageUri)));
 			img_checkin.buildDrawingCache();
 			photoShareOnFb = img_checkin.getDrawingCache();
-			hasImage = true;
 			bt_choose_image.setVisibility(View.INVISIBLE);
 			bt_take_photo.setVisibility(View.INVISIBLE);
 		} else
@@ -153,9 +147,9 @@ public class CKICheckInActivity extends BaseActivity {
 	}
 
 	public void checkIn(View v) {
-		if (checkImage()) {
-			if(loader==null||loader.isCancelled()){
-				loader=new AddCheckInLoadder();
+		if (checkConditionCheckIn()) {
+			if (loader == null || loader.isCancelled()) {
+				loader = new AddCheckInLoadder();
 			}
 			loader.execute(
 					/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
@@ -221,7 +215,7 @@ public class CKICheckInActivity extends BaseActivity {
 		return null;
 	}
 
-	private class AddCheckInLoadder extends AsyncTask<String, Integer, Object>{
+	private class AddCheckInLoadder extends AsyncTask<String, Integer, Object> {
 
 		@Override
 		protected Object doInBackground(String... params) {
@@ -287,8 +281,7 @@ public class CKICheckInActivity extends BaseActivity {
 				id_checkin = ((Integer[]) result)[1];
 				dialog.dismiss();
 				upload();
-			}
-			else {
+			} else {
 				dialog.dismiss();
 				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
 						"Result is null!");
@@ -302,7 +295,8 @@ public class CKICheckInActivity extends BaseActivity {
 		}
 
 	};
-	//Upload image
+
+	// Upload image
 	public void upload() {
 		String url = "http://nikmesoft.com/apis/SFoodServices/checkInUploader.php";
 		String filename = String.valueOf(id_checkin) + ".png";
@@ -354,15 +348,18 @@ public class CKICheckInActivity extends BaseActivity {
 
 	};
 
-	private boolean checkImage() {
-		if (!hasImage)
+	private boolean checkConditionCheckIn() {
+		if (edt_description.getText().toString().trim().length() == 0) {
+			Toast.makeText(this, "Please enter description!", Toast.LENGTH_LONG).show();
+			return false;
+		}
+		if (photoShareOnFb!=null){
 			Toast.makeText(this, "Please set image!", Toast.LENGTH_LONG).show();
-		bt_share_facebook.setVisibility(View.VISIBLE);
-		edt_description.setVisibility(View.VISIBLE);
-		bt_choose_image.setVisibility(View.VISIBLE);
-		bt_take_photo.setVisibility(View.VISIBLE);
-		return hasImage;
+			return false;
+		}
+		return true;
 	}
+
 	public void shareFacebook(View v) {
 		dialog_share = new Dialog(this.getParent());
 		dialog_share.setContentView(R.layout.share_face);
@@ -372,7 +369,7 @@ public class CKICheckInActivity extends BaseActivity {
 				.findViewById(R.id.dialogProgressBar);
 
 		imgFacebook = (ImageView) dialog_share.findViewById(R.id.imgFacebook);
-		
+
 		imgFacebook.setImageBitmap(photoShareOnFb);
 		btnShare = (Button) dialog_share.findViewById(R.id.btnShare);
 		btnShare.setOnClickListener(new View.OnClickListener() {
@@ -393,6 +390,7 @@ public class CKICheckInActivity extends BaseActivity {
 		namePlace = (TextView) dialog_share.findViewById(R.id.namePlace);
 		link = (TextView) dialog_share.findViewById(R.id.link);
 		description = (TextView) dialog_share.findViewById(R.id.description);
+		description.setText(edt_description.getText().toString().trim());
 		btnShareOnFacebook = (Button) dialog_share
 				.findViewById(R.id.btnShareOnFacebook);
 		btnCancel = (Button) dialog_share.findViewById(R.id.btnCancel);
@@ -511,7 +509,7 @@ public class CKICheckInActivity extends BaseActivity {
 	public void postPhotoWithMsg() {
 		if (Utilities.isNetworkAvailable(getApplicationContext())) {
 
-			//byte[] data = null;
+			// byte[] data = null;
 			// data = Utilities.getBytes(bitmap);
 			Bundle params = new Bundle();
 			/*
@@ -636,7 +634,6 @@ public class CKICheckInActivity extends BaseActivity {
 		}
 	}
 
-	
 	// private void share(String nameApp, String imagePath) {
 	// List<Intent> targetedShareIntents = new ArrayList<Intent>();
 	// Intent share = new Intent(android.content.Intent.ACTION_SEND);

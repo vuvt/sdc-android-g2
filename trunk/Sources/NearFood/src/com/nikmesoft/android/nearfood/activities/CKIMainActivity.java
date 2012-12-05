@@ -78,6 +78,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private GetPlacesAutoComplete getplaceAutoComplete = null;
 	private SearchHandle handle = new SearchHandle(this);
 	private ProgressDialog loading;
+	private TextView txt_no_results;
 
 	// private TextView txtNoResult;
 
@@ -212,7 +213,8 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		loading.setMessage("Loading. Please wait...");
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
-		
+		txt_no_results = (TextView) findViewById(R.id.txt_no_results);
+
 	}
 
 	public void actionSearch(View v) {
@@ -484,14 +486,13 @@ public class CKIMainActivity extends BaseMapsActivity implements
 				}
 				if (results.size() > 0)
 					activity.mc.animateTo(results.get(0).getMapPoint());
-				// if(results.size()==0){
-				// activity.list.setVisibility(View.INVISIBLE);
-				// activity.txtNoResult.setVisibility(View.VISIBLE);
-				// }
-				// else {
-				activity.list.setVisibility(View.VISIBLE);
-				// activity.txtNoResult.setVisibility(View.INVISIBLE);
-				// }
+				if (results.size() == 0) {
+					activity.list.setVisibility(View.GONE);
+					activity.txt_no_results.setVisibility(View.VISIBLE);
+				} else {
+					activity.list.setVisibility(View.VISIBLE);
+					activity.txt_no_results.setVisibility(View.GONE);
+				}
 				activity.layout_list.setVisibility(View.VISIBLE);
 				activity.bt_showhidelist.setVisibility(View.VISIBLE);
 			}
