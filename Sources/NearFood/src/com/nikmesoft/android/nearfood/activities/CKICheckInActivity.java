@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -14,20 +15,18 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.method.BaseKeyListener;
 import android.util.Log;
@@ -39,7 +38,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.binding.ExtraBinding;
 import com.nikmesoft.android.nearfood.handlers.CheckInHandler;
@@ -72,7 +70,13 @@ public class CKICheckInActivity extends BaseActivity {
 	private SharedPreferences mPrefs;
 	ProgressBar progressbar;
 	ProgressDialog dialog;
+	Dialog dialog_share;
 	AddCheckInLoadder loader;
+	private ImageView imgFacebook;
+	private Button btnShare, btnShareOnFacebook, btnCancel;
+	private TextView noteShare,namePlace,link,description;
+	ProgressBar dialog_progressBar;
+	private EditText contentShare;
 	
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -350,19 +354,84 @@ public class CKICheckInActivity extends BaseActivity {
 
 	};
 
+	private boolean checkImage() {
+		if (!hasImage)
+			Toast.makeText(this, "Please set image!", Toast.LENGTH_LONG).show();
+		bt_share_facebook.setVisibility(View.VISIBLE);
+		edt_description.setVisibility(View.VISIBLE);
+		bt_choose_image.setVisibility(View.VISIBLE);
+		bt_take_photo.setVisibility(View.VISIBLE);
+		return hasImage;
+	}
 	public void shareFacebook(View v) {
-		if (checkImage()) {
-			bt_share_facebook.setVisibility(View.GONE);
-			edt_description.setVisibility(View.GONE);
-			bt_choose_image.setVisibility(View.GONE);
-			bt_take_photo.setVisibility(View.GONE);
-			progressbar.setVisibility(View.VISIBLE);
-			shareOnFacebook(photoShareOnFb, edt_description.getText()
-					.toString());
-		}
+		dialog_share = new Dialog(this.getParent());
+		dialog_share.setContentView(R.layout.share_face);
+		dialog_share.setTitle("Share facebook");
+		noteShare = (TextView) dialog_share.findViewById(R.id.noteShare);
+		dialog_progressBar = (ProgressBar) dialog_share
+				.findViewById(R.id.dialogProgressBar);
+
+		imgFacebook = (ImageView) dialog_share.findViewById(R.id.imgFacebook);
+		
+		imgFacebook.setImageBitmap(photoShareOnFb);
+		btnShare = (Button) dialog_share.findViewById(R.id.btnShare);
+		btnShare.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				noteShare.setVisibility(View.GONE);
+				btnShareOnFacebook.setVisibility(View.GONE);
+				btnShare.setVisibility(View.GONE);
+				contentShare.setVisibility(View.VISIBLE);
+				dialog_progressBar.setVisibility(View.VISIBLE);
+				btnCancel.setVisibility(View.VISIBLE);
+				shareOnFacebook();
+			}
+		});
+		contentShare = (EditText) dialog_share.findViewById(R.id.contentShare);
+		namePlace = (TextView) dialog_share.findViewById(R.id.namePlace);
+		link = (TextView) dialog_share.findViewById(R.id.link);
+		description = (TextView) dialog_share.findViewById(R.id.description);
+		btnShareOnFacebook = (Button) dialog_share
+				.findViewById(R.id.btnShareOnFacebook);
+		btnCancel = (Button) dialog_share.findViewById(R.id.btnCancel);
+		btnCancel.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				dialog_share.dismiss();
+				dialog_progressBar.setVisibility(View.GONE);
+			}
+		});
+		btnShareOnFacebook.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				noteShare.setVisibility(View.GONE);
+				btnShareOnFacebook.setVisibility(View.GONE);
+				btnShare.setVisibility(View.VISIBLE);
+				contentShare.setVisibility(View.VISIBLE);
+				dialog_progressBar.setVisibility(View.GONE);
+				btnCancel.setVisibility(View.VISIBLE);
+			}
+		});
+		dialog_share
+				.setOnCancelListener(new DialogInterface.OnCancelListener() {
+
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+		dialog_share.show();
 	}
 
-	public void shareOnFacebook(final Bitmap photo, final String msg) {
+	public void shareOnFacebook() {
 		mPrefs = getPreferences(MODE_PRIVATE);
 		String access_token = mPrefs.getString("access_token", null);
 		long expires = mPrefs.getLong("access_expires", 0);
@@ -375,89 +444,104 @@ public class CKICheckInActivity extends BaseActivity {
 
 		if (!facebook.isSessionValid()) {
 
-			facebook.authorize(this, new String[] {}, new DialogListener() {
-				public void onComplete(Bundle values) {
-					SharedPreferences.Editor editor = mPrefs.edit();
-					editor.putString("access_token", facebook.getAccessToken());
-					editor.putLong("access_expires",
-							facebook.getAccessExpires());
-					editor.commit();
-					postPhotoWithMsg(photo, msg);
-				}
+			facebook.authorize(this.getParent(), new String[] {}, -1,
+					new DialogListener() {
+						@Override
+						public void onComplete(Bundle values) {
+							SharedPreferences.Editor editor = mPrefs.edit();
+							editor.putString("access_token",
+									facebook.getAccessToken());
+							editor.putLong("access_expires",
+									facebook.getAccessExpires());
+							editor.commit();
+							postPhotoWithMsg();
+						}
 
-				public void onFacebookError(FacebookError error) {
+						@Override
+						public void onFacebookError(FacebookError error) {
 
-					Log.e("Facebook", "Error");
-					CKICheckInActivity.this.runOnUiThread(new Runnable() {
-						public void run() {
-							progressbar.setVisibility(View.GONE);
-							CommonUtil.dialogNotify(getParent().getParent(),
-									"Please verify Network Connection!");
-							bt_share_facebook.setVisibility(View.VISIBLE);
-							edt_description.setVisibility(View.VISIBLE);
-							bt_choose_image.setVisibility(View.VISIBLE);
-							bt_take_photo.setVisibility(View.VISIBLE);
+							Log.e("Facebook", "Error");
+							CKICheckInActivity.this
+									.runOnUiThread(new Runnable() {
+										public void run() {
+											dialog_progressBar
+													.setVisibility(View.GONE);
+											btnShare.setVisibility(View.GONE);
+											noteShare
+													.setVisibility(View.VISIBLE);
+											noteShare
+													.setText("No connected to Facebook.");
+											btnShareOnFacebook
+													.setVisibility(View.VISIBLE);
+											btnCancel
+													.setVisibility(View.VISIBLE);
+										}
+									});
+
+						}
+
+						@Override
+						public void onError(DialogError e) {
+
+						}
+
+						@Override
+						public void onCancel() {
+							Log.e("Facebook", "Error");
+							CKICheckInActivity.this
+									.runOnUiThread(new Runnable() {
+										public void run() {
+											dialog_progressBar
+													.setVisibility(View.GONE);
+											btnShare.setVisibility(View.GONE);
+											btnShareOnFacebook
+													.setVisibility(View.VISIBLE);
+											btnCancel
+													.setVisibility(View.VISIBLE);
+										}
+									});
 						}
 					});
-
-				}
-
-				public void onError(DialogError e) {
-
-				}
-
-				public void onCancel() {
-					Log.e("Facebook", "Error");
-					CKICheckInActivity.this.runOnUiThread(new Runnable() {
-						public void run() {
-							progressbar.setVisibility(View.GONE);
-							CommonUtil.dialogNotify(getParent().getParent(),
-									"Please verify Network Connection!");
-							bt_share_facebook.setVisibility(View.VISIBLE);
-							edt_description.setVisibility(View.VISIBLE);
-							bt_choose_image.setVisibility(View.VISIBLE);
-							bt_take_photo.setVisibility(View.VISIBLE);
-						}
-					});
-
-				}
-			});
 		} else {
-			postPhotoWithMsg(photo, msg);
+			postPhotoWithMsg();
 		}
 
 	}
 
-	public void postPhotoWithMsg(Bitmap bitmap, String msg) {
+	public void postPhotoWithMsg() {
 		if (Utilities.isNetworkAvailable(getApplicationContext())) {
-			byte[] data = null;
-			data = Utilities.getBytes(bitmap);
+
+			//byte[] data = null;
+			// data = Utilities.getBytes(bitmap);
 			Bundle params = new Bundle();
-			params.putString("message", edt_description.getText().toString());
-			params.putByteArray("picture", data);
+			/*
+			 * params.putString("message", msg); params.putByteArray("picture",
+			 * data)
+			 */;
+			params.putString("message", contentShare.getText().toString());
+			Log.d("Message", contentShare.getText().toString());
+			params.putString("name", namePlace.getText().toString());
+			params.putString("link", link.getText().toString());
+			params.putString("description", description.getText().toString());
+			params.putString("picture", "http://twitpic.com/show/thumb/6hqd44");
+
 			AsyncFacebookRunner mAsyncRunner = new AsyncFacebookRunner(facebook);
-			mAsyncRunner.request("me/photos", params, "POST",
+			mAsyncRunner.request("me/feed", params, "POST",
 					new SampleUploadListener(), null);
 		} else {
-			progressbar.setVisibility(View.GONE);
-			CommonUtil.dialogNotify(getParent().getParent(),
-					"Please verify Network Connection!");
-			bt_share_facebook.setVisibility(View.VISIBLE);
-			edt_description.setVisibility(View.VISIBLE);
-			bt_choose_image.setVisibility(View.VISIBLE);
-			bt_take_photo.setVisibility(View.VISIBLE);
+			CKICheckInActivity.this.runOnUiThread(new Runnable() {
+				public void run() {
+					dialog_progressBar.setVisibility(View.GONE);
+					btnShare.setVisibility(View.GONE);
+					noteShare.setVisibility(View.VISIBLE);
+					noteShare.setText("Network not available");
+					btnShareOnFacebook.setVisibility(View.VISIBLE);
+					btnCancel.setVisibility(View.VISIBLE);
+				}
+			});
+
 		}
 
-	}
-
-	private boolean checkImage() {
-		if (!hasImage)
-			Toast.makeText(this, "Please set image!", Toast.LENGTH_LONG).show();
-		bt_share_facebook.setVisibility(View.VISIBLE);
-		edt_description.setVisibility(View.VISIBLE);
-		bt_choose_image.setVisibility(View.VISIBLE);
-		bt_take_photo.setVisibility(View.VISIBLE);
-		return hasImage;
 	}
 
 	public class SampleUploadListener extends BaseKeyListener implements
@@ -465,15 +549,16 @@ public class CKICheckInActivity extends BaseActivity {
 
 		public void onComplete(final String response, final Object state) {
 			Log.d("Facebook", "Response: " + response.toString());
+			Log.d("Message", contentShare.getText().toString());
 			CKICheckInActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					progressbar.setVisibility(View.GONE);
-					CommonUtil.dialogNotify(getParent().getParent(),
-							"Please verify Network Connection!");
-					bt_share_facebook.setVisibility(View.VISIBLE);
-					edt_description.setVisibility(View.VISIBLE);
-					bt_choose_image.setVisibility(View.VISIBLE);
-					bt_take_photo.setVisibility(View.VISIBLE);
+					dialog_progressBar.setVisibility(View.GONE);
+					contentShare.setVisibility(View.GONE);
+					btnShare.setVisibility(View.GONE);
+					noteShare.setVisibility(View.VISIBLE);
+					noteShare.setText("Shared");
+					btnShareOnFacebook.setVisibility(View.GONE);
+					btnCancel.setVisibility(View.VISIBLE);
 				}
 			});
 
@@ -484,13 +569,12 @@ public class CKICheckInActivity extends BaseActivity {
 			Log.e("Facebook", "Error");
 			CKICheckInActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					progressbar.setVisibility(View.GONE);
-					CommonUtil.dialogNotify(getParent().getParent(),
-							"Please verify Network Connection!");
-					bt_share_facebook.setVisibility(View.VISIBLE);
-					edt_description.setVisibility(View.VISIBLE);
-					bt_choose_image.setVisibility(View.VISIBLE);
-					bt_take_photo.setVisibility(View.VISIBLE);
+					dialog_progressBar.setVisibility(View.GONE);
+					btnShare.setVisibility(View.GONE);
+					noteShare.setVisibility(View.VISIBLE);
+					noteShare.setText("No connected to Facebook.");
+					btnShareOnFacebook.setVisibility(View.VISIBLE);
+					btnCancel.setVisibility(View.VISIBLE);
 				}
 			});
 
@@ -510,13 +594,12 @@ public class CKICheckInActivity extends BaseActivity {
 			Log.e("Facebook", "Error");
 			CKICheckInActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					progressbar.setVisibility(View.GONE);
-					CommonUtil.dialogNotify(getParent().getParent(),
-							"Please verify Network Connection!");
-					bt_share_facebook.setVisibility(View.VISIBLE);
-					edt_description.setVisibility(View.VISIBLE);
-					bt_choose_image.setVisibility(View.VISIBLE);
-					bt_take_photo.setVisibility(View.VISIBLE);
+					dialog_progressBar.setVisibility(View.GONE);
+					btnShare.setVisibility(View.GONE);
+					noteShare.setVisibility(View.VISIBLE);
+					noteShare.setText("No connected to Facebook.");
+					btnShareOnFacebook.setVisibility(View.VISIBLE);
+					btnCancel.setVisibility(View.VISIBLE);
 				}
 			});
 		}
@@ -526,13 +609,12 @@ public class CKICheckInActivity extends BaseActivity {
 			Log.e("Facebook", "Error");
 			CKICheckInActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					progressbar.setVisibility(View.GONE);
-					CommonUtil.dialogNotify(getParent().getParent(),
-							"Please verify Network Connection!");
-					bt_share_facebook.setVisibility(View.VISIBLE);
-					edt_description.setVisibility(View.VISIBLE);
-					bt_choose_image.setVisibility(View.VISIBLE);
-					bt_take_photo.setVisibility(View.VISIBLE);
+					dialog_progressBar.setVisibility(View.GONE);
+					btnShare.setVisibility(View.GONE);
+					noteShare.setVisibility(View.VISIBLE);
+					noteShare.setText("Error!");
+					btnShareOnFacebook.setVisibility(View.VISIBLE);
+					btnCancel.setVisibility(View.VISIBLE);
 				}
 			});
 		}
@@ -543,17 +625,18 @@ public class CKICheckInActivity extends BaseActivity {
 			Log.e("Facebook", "Error");
 			CKICheckInActivity.this.runOnUiThread(new Runnable() {
 				public void run() {
-					progressbar.setVisibility(View.GONE);
-					CommonUtil.dialogNotify(getParent().getParent(),
-							"Please verify Network Connection!");
-					bt_share_facebook.setVisibility(View.VISIBLE);
-					edt_description.setVisibility(View.VISIBLE);
-					bt_choose_image.setVisibility(View.VISIBLE);
-					bt_take_photo.setVisibility(View.VISIBLE);
+					dialog_progressBar.setVisibility(View.GONE);
+					btnShare.setVisibility(View.GONE);
+					noteShare.setVisibility(View.VISIBLE);
+					noteShare.setText("No connected to Facebook.");
+					btnShareOnFacebook.setVisibility(View.VISIBLE);
+					btnCancel.setVisibility(View.VISIBLE);
 				}
 			});
 		}
 	}
+
+	
 	// private void share(String nameApp, String imagePath) {
 	// List<Intent> targetedShareIntents = new ArrayList<Intent>();
 	// Intent share = new Intent(android.content.Intent.ACTION_SEND);
