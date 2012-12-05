@@ -57,7 +57,8 @@
             android:layout_alignTop="@+id/edt_description"
             android:layout_marginRight="5dp"
             android:background="@drawable/ic_facebook"
-            android:onClick="shareFacebook" />
+            android:onClick="shareFacebook" 
+            />
 
         <Button
             android:id="@+id/bt_share_twitter"
@@ -69,7 +70,7 @@
             android:background="@drawable/ic_twitter"
             android:onClick="shareTwitter" />
 
-        <Button
+ 		<Button
             android:id="@+id/bt_checkin"
             style="@style/BodyRow"
             android:layout_alignParentBottom="true"
@@ -77,14 +78,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
             android:onClick="checkIn"
-            android:text="@string/activity_checkin_title" />
-
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="invisible" />
+            android:text="@string/activity_checkin_title"
+            />
 
         <RelativeLayout
             style="@style/BodyRow"
@@ -95,7 +90,7 @@
             <ImageView
                 android:id="@+id/img_checkin"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="fill_parent"
                 android:onClick="imgCheckInClick"
                 android:scaleType="fitCenter" />
 
