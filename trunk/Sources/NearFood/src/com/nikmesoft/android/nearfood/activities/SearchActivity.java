@@ -19,9 +19,11 @@ import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -38,6 +40,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -70,7 +73,7 @@ import com.nikmesoft.android.nearfood.utils.Utilities;
 @SuppressLint("ParserError")
 public class SearchActivity extends MapActivity implements OnItemClickListener,
 		LocationListener {
-
+	private Button bt_login;
 	private ListView lvSearch;
 	protected SearchResultAdapter placeAdapter;
 	protected ArrayList<Place> places;
@@ -79,17 +82,19 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 	private EditText ed_distance, ed_search;
 	private Spinner spinner_distance;
 	String str_filter = "";
-	private ProgressDialog progressDialog;
+	private ProgressDialog progressDialog, progressDialogReloading;
 	private MapView mapView;
 	public MapController mc;
 	private GeoPoint currentPoint;
 	private LocationManager lm;
-	private TextView tvNoResult;
+	private TextView tvNoResult, tvSeeMore;
 	ArrayList<GeoPoint> geoPoints = new ArrayList<GeoPoint>();
 	final Handler mHandler = new Handler();
 	boolean isCheckDistance = true;
 	static int id_Popup, id_btn;
-
+	private int page = 1, totalPage = 0; 
+	Overlay tempOverlay;
+	GeoPoint tempGeopoint ;
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_search);
@@ -102,7 +107,15 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 		progressDialog.setMessage("Loading. Please wait...");
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setCancelable(false);
+		progressDialogReloading = new ProgressDialog(getParent());
+		progressDialogReloading.setMessage("Reloading. Please wait...");
+		progressDialogReloading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialogReloading.setCancelable(false);
+		MyApplication.btn_Login = (Button) findViewById(R.id.bt_login);
+		if(MyApplication.USER_CURRENT!=null)MyApplication.btn_Login.setVisibility(View.GONE);
+		else MyApplication.btn_Login.setVisibility(View.VISIBLE);
 		lvSearch = (ListView) findViewById(R.id.lvSearch);
+		tvSeeMore = (TextView) findViewById(R.id.tvSeeMore);
 		places = new ArrayList<Place>();
 		placeAdapter = new SearchResultAdapter(this, R.layout.list_item_search,
 				places);
@@ -132,6 +145,8 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 							return false;
 						}
 						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+							placeAdapter.clear();
+							page = 1;
 							((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 									.hideSoftInputFromWindow(getCurrentFocus()
 											.getWindowToken(),
@@ -145,9 +160,8 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 						return false;
 					}
 				});
-
-		WSLoader ws = new WSLoader();
-		ws.execute();
+		
+		
 
 		// Show Map
 		mapView = (MapView) findViewById(R.id.mapview);
@@ -183,8 +197,37 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 			}
 		};
 		t.start();
+		WSLoader ws = new WSLoader();
+		ws.execute();
+		BroadcastReceiver receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				// TODO Auto-generated method stub
+				placeAdapter.clear();
+				placeAdapter.notifyDataSetChanged();
+				page = 1 ;
+				progressDialog.setMessage("Reloading. Please wait...");
+				WSLoader ws = new WSLoader();
+				ws.execute();
+			}   
+			};
+			IntentFilter filter = new IntentFilter();
+			filter.addAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
+			registerReceiver(receiver, filter);
 	}
-
+	
+	public void onClickLogin(View v){
+		MyApplication.isSwitchTabLogin = true;
+		MyApplication.tabCurrent = 0;
+		Intent intent = new Intent();
+		intent.setClass(this, LoginActivity.class);
+		getParent().startActivity(intent);
+		
+	}
+	public void onClickSeeMore(View view){
+		WSLoader ws = new WSLoader();
+		ws.execute();
+	}
 	public int getIdPopup() {
 		return R.layout.popup;
 
@@ -255,7 +298,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 
 	}
 
-	@SuppressLint({ "ParserError", "NewApi", "NewApi", "NewApi" })
+	
 	public void onClickListOrMap(View v) {
 		AnimationFactory.flipTransition(flipper, FlipDirection.RIGHT_LEFT);
 		ImageButton btnListMap = (ImageButton) v.findViewById(R.id.bt_listmap);
@@ -268,10 +311,6 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 			btnListMap.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.button_map));
 		}
-	}
-
-	public void onClickLogin(View v) {
-
 	}
 
 	public void onClickFilter(View v) {
@@ -363,6 +402,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Place place = places.get(arg2);
+		Log.d("isFavoritedSearch", String.valueOf(place.isFavorited()));
 		SearchTabGroupActivity parent = (SearchTabGroupActivity) getParent();
 		Intent intent = new Intent(parent, SearchItemActivity.class);
 		Bundle bundle = new Bundle();
@@ -421,6 +461,8 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					"Please enter information to search.", Toast.LENGTH_SHORT)
 					.show();
 		} else {
+			placeAdapter.clear();
+			page = 1;
 			((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 					.hideSoftInputFromWindow(
 							getCurrentFocus().getWindowToken(),
@@ -443,6 +485,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 			GetPlaceHander handler = new GetPlaceHander();
 			xr.setContentHandler(handler);
 			xr.parse(new InputSource(byteArrayInputStream));
+			totalPage = handler.getTotalPage();
 			return handler.getResult();
 
 		} catch (ParserConfigurationException ex) {
@@ -464,17 +507,20 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 		@Override
 		protected Object doInBackground(String... params) {
 			double distance_ = MyApplication.distance;
+			long id_user = -1;
 			if (!ed_distance.getText().toString().trim().equals(""))
 				Double.parseDouble(ed_distance.getText().toString().trim());
 			if (MyApplication.distanceByKms == 1) {
 				distance_ *= 1.60934;
 			}
-			String request = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+			if(MyApplication.USER_CURRENT!=null)id_user = MyApplication.USER_CURRENT.getId();
+			String request = (String) ("<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
 					+ "<soapenv:Header/>"
 					+ "<soapenv:Body>"
 					+ "<getPlaces soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
 					+ "<GetPlacesRequest xsi:type=\"sfo:GetPlacesRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
 					+ "<!--You may enter the following 9 items in any order-->"
+					+ "<id_user xsi:type=\"xsd:int\">" +  id_user + "</id_user>"
 					+ "<latitude xsi:type=\"xsd:double\">108</latitude>"
 					+ "<longitude xsi:type=\"xsd:double\">16</longitude>"
 					+ "<filter_distance xsi:type=\"xsd:boolean\">"
@@ -493,15 +539,16 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					+ String.valueOf(MyApplication.checkboxs.get(3).isChecked())
 					+ "</filter_dishes>"
 					+ "<key xsi:type=\"xsd:string\">"
-					+ ed_search.getText().toString().trim()
+					+ MyApplication.contentSearch //ed_search.getText().toString().trim()
 					+ "</key>"
 					+ "<page xsi:type=\"xsd:int\">"
-					+ Integer.parseInt("1")
+					+ page++
 					+ "</page>"
 					+ "</GetPlacesRequest>"
 					+ "</getPlaces>"
-					+ "</soapenv:Body>" + "</soapenv:Envelope>";
-			String soapAction = "http://nikmesoft.com/apis/SFoodServices/index.php/getCheckIns";
+					+ "</soapenv:Body>" 
+					+ "</soapenv:Envelope>");
+			String soapAction = "http://nikmesoft.com/apis/SFoodServices/index.php/getPlaces";
 			return xmlParser(Utilities.callWS(request, soapAction));
 		}
 
@@ -529,14 +576,16 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 			} else {
 				if (result.getClass().equals(ErrorCode.class)) {
 				} else {
-					placeAdapter.clear();
+					//placeAdapter.clear();
 					// get current location
-					Overlay tempOverlay = mapView.getOverlays().get(0);
+					if(page==2){
+					tempOverlay = mapView.getOverlays().get(0);
 					mapView.getOverlays().clear();
 					mapView.getOverlays().add(tempOverlay);
-					GeoPoint tempGeopoint = geoPoints.get(0);
+					tempGeopoint = geoPoints.get(0);
 					geoPoints.clear();
 					geoPoints.add(tempGeopoint);
+					}
 					if (((ArrayList<Place>) result).size() > 0) {
 						lvSearch.setVisibility(View.VISIBLE);
 						tvNoResult.setVisibility(View.GONE);
@@ -549,6 +598,10 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 							addOverlay(item, place);
 						}
 						placeAdapter.notifyDataSetChanged();
+						if(page>totalPage){tvSeeMore.setVisibility(View.GONE);
+											page = 1;
+											}
+						else			   tvSeeMore.setVisibility(View.VISIBLE);
 					} else {
 						lvSearch.setVisibility(View.GONE);
 						tvNoResult.setVisibility(View.VISIBLE);
@@ -560,6 +613,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 				
 			}
 			progressDialog.dismiss();
+			progressDialog.setMessage("Loading. Please wait...");
 		}
 
 		@Override
