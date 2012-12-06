@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -33,10 +34,9 @@ public class LoginActivity extends BaseActivity {
 	private EditText edtEmail, edtPassword;
 	private ProgressDialog dialog;
 	private WSLoader loader;
-	
+
 	private static final int REQUEST_REGISTER = 101;
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,82 +45,95 @@ public class LoginActivity extends BaseActivity {
 	}
 
 	private void init() {
-		
+
 		edtEmail = (EditText) findViewById(R.id.edtEmail);
 		edtPassword = (EditText) findViewById(R.id.edtPassword);
-		dialog = new ProgressDialog(this);
+		if (MyApplication.isSwitchTabLogin)
+			//dialog = new ProgressDialog(getParent());
+			dialog = new ProgressDialog(this);
+		else
+			dialog = new ProgressDialog(this);
 		dialog.setMessage("Loading...Please wait!");
 		dialog.setCancelable(false);
+
 	}
-	
+
 	public void onClickBack(View v) {
 		setResult(RESULT_CANCELED);
 		finish();
 	}
-	
+
 	public void onClickForgotPassword(View v) {
 		Intent intent = new Intent(this, ForgotPasswordActivity.class);
 		startActivity(intent);
 	}
-	
+
 	public void onClickRegister(View v) {
-//		Intent intent = new Intent(this, RegisterActivity.class);
-//		startActivity(intent);
-		
+		// Intent intent = new Intent(this, RegisterActivity.class);
+		// startActivity(intent);
+
 		Intent intent = new Intent();
 		intent.setClass(this, RegisterActivity.class);
 		intent.putExtra("FromActivity", "Settings");
 		startActivityForResult(intent, REQUEST_REGISTER);
 	}
-	
+
 	public void onClickLogin(View v) {
-		if("".equals(edtEmail.getText().toString().trim()) || "".equals(edtPassword.getText().toString().trim())) {
-			Toast.makeText(getApplicationContext(), "Please fill all fields!", Toast.LENGTH_LONG).show();
-		} else if(!checkValidateEmail(edtEmail.getText().toString())) {
-			Toast.makeText(getApplicationContext(), "Wrong email address format!", Toast.LENGTH_LONG).show();
+		if ("".equals(edtEmail.getText().toString().trim())
+				|| "".equals(edtPassword.getText().toString().trim())) {
+			Toast.makeText(getApplicationContext(), "Please fill all fields!",
+					Toast.LENGTH_LONG).show();
+		} else if (!checkValidateEmail(edtEmail.getText().toString())) {
+			Toast.makeText(getApplicationContext(),
+					"Wrong email address format!", Toast.LENGTH_LONG).show();
 		} else {
-			//TODO ok nef
+			// TODO ok nef
 			if (loader == null || loader.isCancelled()
 					|| loader.getStatus() == Status.FINISHED) {
 				loader = new WSLoader();
-				loader.execute(edtEmail.getText().toString().trim(), CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
-				
+				loader.execute(
+						edtEmail.getText().toString().trim(),
+						CommonUtil.convertToMD5(edtPassword.getText()
+								.toString().trim()));
+
 			}
 		}
 	}
-	
+
 	public void onClickCancel(View v) {
-		//TODO vo main ma ko login
+		// TODO vo main ma ko login
 		setResult(RESULT_CANCELED);
 		finish();
 	}
-	
+
 	/**
 	 * check validate email address format
+	 * 
 	 * @param email_address
 	 * @return true if valid, false if invalid
 	 */
-	public boolean checkValidateEmail(String email_address){
+	public boolean checkValidateEmail(String email_address) {
 		return email_address.matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
+				+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	}
-	
-	
+
 	/**
 	 * goi WS
+	 * 
 	 * @param name1
 	 * @param name2
 	 * @return
 	 */
-	
+
 	/**
 	 * phan tich xml WS tra ve
+	 * 
 	 * @param strXml
 	 * @return
 	 */
-	
+
 	private Object xmlParser(String strXml) {
-		if(strXml == null || strXml.length()==0) {
+		if (strXml == null || strXml.length() == 0) {
 			ErrorCode err = new ErrorCode();
 			err.setErrorID("errorID");
 			err.setErrorMsg("Can't connect to server!");
@@ -148,28 +161,27 @@ public class LoginActivity extends BaseActivity {
 		}
 		return null;
 	}
-	
+
 	private class WSLoader extends AsyncTask<String, Integer, Object> {
 
 		@Override
 		protected Object doInBackground(String... params) {
-			String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">" +
-					"<soapenv:Header/>" +
-					"<soapenv:Body>" +
-					"<login soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">" +
-					"<LoginRequest xsi:type=\"sfo:LoginRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">" +
-					"<!--You may enter the following 2 items in any order-->" +
-					"<email xsi:type=\"xsd:string\">" +
-					params[0]+
-					"</email>" +
-					"<password xsi:type=\"xsd:string\">" +
-					params[1] +
-					"</password>" +
-					"</LoginRequest>" +
-					"</login>" +
-					"</soapenv:Body>" +
-					"</soapenv:Envelope>";
-			return xmlParser(Utilities.callWS(body, "http://nikmesoft.com/apis/SFoodServices/index.php/login"));
+			String body = "<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"
+					+ "<soapenv:Header/>"
+					+ "<soapenv:Body>"
+					+ "<login soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"
+					+ "<LoginRequest xsi:type=\"sfo:LoginRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
+					+ "<!--You may enter the following 2 items in any order-->"
+					+ "<email xsi:type=\"xsd:string\">"
+					+ params[0]
+					+ "</email>"
+					+ "<password xsi:type=\"xsd:string\">"
+					+ params[1]
+					+ "</password>"
+					+ "</LoginRequest>"
+					+ "</login>" + "</soapenv:Body>" + "</soapenv:Envelope>";
+			return xmlParser(Utilities.callWS(body,
+					"http://nikmesoft.com/apis/SFoodServices/index.php/login"));
 		}
 
 		@Override
@@ -181,21 +193,51 @@ public class LoginActivity extends BaseActivity {
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
 			dialog.dismiss();
-			if(result!=null&&result.getClass().equals(ErrorCode.class)){
-				
-				CommonUtil.dialogNotify(LoginActivity.this, ((ErrorCode)result).getErrorMsg());
-				
-			}else if(result!=null&&result.getClass().equals(User.class)){
+			if (result != null && result.getClass().equals(ErrorCode.class)) {
+				if (MyApplication.isSwitchTabLogin)
+					CommonUtil.dialogNotify(getParent(),
+							((ErrorCode) result).getErrorMsg());
+				else
+					CommonUtil.dialogNotify(LoginActivity.this,
+							((ErrorCode) result).getErrorMsg());
+
+			} else if (result != null && result.getClass().equals(User.class)) {
 				MyApplication.USER_CURRENT = new User();
-				MyApplication.USER_CURRENT = (User)result;
-				MyApplication.USER_CURRENT.setPassword(CommonUtil.convertToMD5(edtPassword.getText().toString().trim()));
-				
-				Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_LONG).show();
-				
-				Intent intent = new Intent();
-				setResult(RESULT_OK,intent);
-				finish();
-				
+				MyApplication.USER_CURRENT = (User) result;
+				MyApplication.USER_CURRENT.setPassword(CommonUtil
+						.convertToMD5(edtPassword.getText().toString().trim()));
+				MyApplication.btn_Login.setVisibility(View.GONE);
+				Toast.makeText(getApplicationContext(), "Login successfully!",
+						Toast.LENGTH_LONG).show();
+				if (MyApplication.isSwitchTabLoginChild) {
+					MyApplication.isSwitchTabLoginChild = false;
+					MyApplication.tabHost
+							.setCurrentTab(MyApplication.tabCurrent);
+					Intent intentLogin = new Intent();
+					intentLogin
+							.setAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
+					sendBroadcast(intentLogin);
+					finish();
+				} else {
+					if (MyApplication.isSwitchTabLogin) {
+						MyApplication.isSwitchTabLogin = false;
+						MyApplication.tabHost
+								.setCurrentTab(MyApplication.tabCurrent);
+						Intent intentLogin = new Intent();
+						intentLogin
+								.setAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
+						sendBroadcast(intentLogin);
+						finish();
+					} else {
+						Intent intentLogin = new Intent();
+						intentLogin
+								.setAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
+						sendBroadcast(intentLogin);
+						Intent intent = new Intent();
+						setResult(RESULT_OK, intent);
+						finish();
+					}
+				}
 			}
 		}
 
