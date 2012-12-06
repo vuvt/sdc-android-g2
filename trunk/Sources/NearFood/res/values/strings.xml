@@ -97,4 +97,5 @@
     <string name="crop_image_dialog_title">Choose Crop Image App</string>
     <string name="error_network_connection">Cannot connect to server! Please check network connection!</string>
     <string name="title_activity_search_map">SearchMapActivity</string>
+    <string name="title_connection_timeout">Connection time out. Please check internet connection!</string>
 </resources>
