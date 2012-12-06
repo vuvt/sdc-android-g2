@@ -353,7 +353,7 @@ public class CKICheckInActivity extends BaseActivity {
 			Toast.makeText(this, "Please enter description!", Toast.LENGTH_LONG).show();
 			return false;
 		}
-		if (photoShareOnFb!=null){
+		if (photoShareOnFb==null){
 			Toast.makeText(this, "Please set image!", Toast.LENGTH_LONG).show();
 			return false;
 		}
