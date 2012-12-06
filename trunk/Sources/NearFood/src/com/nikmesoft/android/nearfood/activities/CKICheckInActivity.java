@@ -148,9 +148,9 @@ public class CKICheckInActivity extends BaseActivity {
 
 	public void checkIn(View v) {
 		if (checkConditionCheckIn()) {
-			if (loader == null || loader.isCancelled()) {
-				loader = new AddCheckInLoadder();
-			}
+			if(loader!=null&&!loader.isCancelled())
+				loader.cancel(true);
+			loader = new AddCheckInLoadder();
 			loader.execute(
 					/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
 					place.getReferenceKey(),
@@ -284,7 +284,7 @@ public class CKICheckInActivity extends BaseActivity {
 			} else {
 				dialog.dismiss();
 				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
-						"Result is null!");
+						CKICheckInActivity.this.getResources().getString(R.string.title_connection_timeout));
 			}
 		}
 
@@ -390,7 +390,7 @@ public class CKICheckInActivity extends BaseActivity {
 		namePlace = (TextView) dialog_share.findViewById(R.id.namePlace);
 		namePlace.setText(place.getName());
 		link = (TextView) dialog_share.findViewById(R.id.link);
-		link.setText("Address: "+place.getAddress());
+		link.setText(place.getAddress());
 		description = (TextView) dialog_share.findViewById(R.id.description);
 		description.setText(edt_description.getText().toString().trim());
 		btnShareOnFacebook = (Button) dialog_share
