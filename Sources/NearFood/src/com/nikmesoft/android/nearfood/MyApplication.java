@@ -11,6 +11,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
@@ -36,6 +37,9 @@ public class MyApplication extends Application {
 	public static int countCheckin = 0;
 	public static Button btn_Login;
 	public static int tabCurrent = 0;
+	
+	public static LinearLayout LOGIN, NOT_LOGIN;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
