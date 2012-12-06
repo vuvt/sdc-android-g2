@@ -1,5 +1,6 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 
 import android.app.TabActivity;
@@ -24,17 +25,18 @@ public class MainActivity extends TabActivity {
 				R.layout.tab_item);
 		addTab(R.drawable.ic_tab_checkin, CKIGroupActivity.class,
 				R.layout.tab_item);
-		addTab(R.drawable.ic_tab_favorites, FavoritesTabGroupActivity.class,
+		addTab(R.drawable.ic_tab_favorites, FavoritesActivity.class,
 				R.layout.tab_item);
 		addTab(R.drawable.ic_tab_settings, SettingsTabGroupActivity.class,
 				R.layout.tab_item);
+		
 	}
 
 	private void addTab(int drawableId, Class<?> c, int layoutID) {
 		TabHost tabHost = getTabHost();
+		MyApplication.tabHost = tabHost;
 		Intent intent = new Intent(this, c);
 		TabHost.TabSpec spec = tabHost.newTabSpec("tab" + drawableId);
-
 		View tabIndicator = LayoutInflater.from(this).inflate(layoutID,
 				getTabWidget(), false);
 		ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
