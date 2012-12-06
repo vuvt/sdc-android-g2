@@ -40,6 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dip"
+                    android:layout_marginLeft="10dp"
                     android:text="http://www.ranhroisinhnongnoi.net"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -60,6 +61,7 @@
                 android:background="@drawable/bg_message"
                 android:padding="20dip"
                 android:text="Món ăn cực kỳ rẻ tiền và dễ làm nhưng lại có thể làm vừa lòng cả người lớn lẫn trẻ con. Su su xào trứng đủ dinh dưỡng để bạn bổ sung..."
+                android:minHeight="150dp"
                 android:textSize="13sp" />
 			
             <ProgressBar
