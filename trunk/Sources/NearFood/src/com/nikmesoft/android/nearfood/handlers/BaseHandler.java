@@ -11,6 +11,7 @@ public abstract class BaseHandler extends DefaultHandler{
 	protected final static String ERRORCODE_MSG_XML = "errorMsg";
 	protected StringBuilder builder;
 	protected ErrorCode errorCode;
+	protected int toTalPage = 0;
 	
 	@Override
 	public void characters(char[] ch, int start, int length)
@@ -62,6 +63,9 @@ public abstract class BaseHandler extends DefaultHandler{
 		} else {
 			return returnNotErrorCode();
 		}
+	}
+	public int getTotalPage(){
+		return toTalPage;
 	}
 	protected abstract Object returnNotErrorCode();
 	
