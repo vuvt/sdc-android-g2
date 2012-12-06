@@ -30,6 +30,9 @@ public class SettingsActivity extends BaseActivity {
 		setContentView(R.layout.activity_settings);
 		login=(LinearLayout) findViewById(R.id.layout_Login);
 		not_login = (LinearLayout) findViewById(R.id.layout_notLogin);
+		
+		MyApplication.LOGIN = login;
+		MyApplication.NOT_LOGIN = not_login;
 
 		checkLoginedOrNotLogin();
 	}
