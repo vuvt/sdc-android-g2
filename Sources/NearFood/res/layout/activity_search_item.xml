@@ -23,7 +23,7 @@
             android:contentDescription="@string/app_name"
             android:onClick="onClickFacebook" />
 
-        <ImageView
+        <ImageButton
             style="@style/TitleBarFavorite"
             android:contentDescription="@string/app_name"
             android:onClick="onClickFavorite" 
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:background="@color/titlebar_separator"
             android:contentDescription="@string/app_name" />
-        <ImageView
+        <ImageButton
             style="@style/TitleBarLike"
             android:contentDescription="@string/app_name"
             android:onClick="onClickLike" />
