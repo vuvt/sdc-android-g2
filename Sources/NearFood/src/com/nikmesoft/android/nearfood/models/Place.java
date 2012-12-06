@@ -16,6 +16,7 @@ public class Place implements Serializable {
 	private String imagePath;
 	private String referenceKey;
 	private String distance;
+	private boolean isLiked, isFavorited;
 	public String getDistance() {
 		return distance;
 	}
@@ -53,7 +54,7 @@ public class Place implements Serializable {
 		this.imagePath = imagePath;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -132,4 +133,21 @@ public class Place implements Serializable {
 		this.phoneNumber = phoneNumber;
 		return this;
 	}
+
+	public boolean isLiked() {
+		return isLiked;
+	}
+
+	public void setLiked(boolean isLiked) {
+		this.isLiked = isLiked;
+	}
+
+	public boolean isFavorited() {
+		return isFavorited;
+	}
+
+	public void setFavorited(boolean isFavorited) {
+		this.isFavorited = isFavorited;
+	}
+	
 }
