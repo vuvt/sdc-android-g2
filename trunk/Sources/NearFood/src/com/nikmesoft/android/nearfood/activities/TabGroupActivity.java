@@ -2,6 +2,8 @@ package com.nikmesoft.android.nearfood.activities;
 
 import java.util.ArrayList;
 
+import com.nikmesoft.android.nearfood.MyApplication;
+
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -73,10 +75,40 @@ public class TabGroupActivity extends ActivityGroup {
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		if (nameActivitys.size() > 1) {
-			Log.d("Indexxxxxxx", String.valueOf(nameActivitys.size()));
+			int i ;
+			String str1=null,str2=null;
+			boolean istrue = false;
+			for(i = 0;i< nameActivitys.size()-1; i++){
+				 str1 = (nameActivitys.get(i).trim()).substring(0, 10);
+				 str2 = (nameActivitys.get(i+1).trim()).substring(0, 10);
+				 Log.d("2 em  : ", str1 + " and " + str2);
+				if(str1.equals(str2)){istrue = true; break;}
+			}
+			if(istrue){
+				
+				ArrayList<String> tmp = new ArrayList<String>(nameActivitys);
+				Log.d("2 em 1 : ", str1 + " and " + str2 + " + " + tmp.get(0));
+				nameActivitys = new ArrayList<String>();
+				for(int j=0;j<(i+1); j++)nameActivitys.add(tmp.get(j));
+				Log.d("length", String.valueOf(nameActivitys.size()));
+			if(i>0){
+				Activity topActivity = getLocalActivityManager().getActivity(
+						nameActivitys.get(i));
+				
+				topActivity.finish();
+			}
+			else{
+				Activity topActivity = getLocalActivityManager().getActivity(
+						nameActivitys.get(nameActivitys.size() - 1));
+				topActivity.finish();
+				}
+			}
+			
+			else{
 			Activity topActivity = getLocalActivityManager().getActivity(
 					nameActivitys.get(nameActivitys.size() - 1));
 			topActivity.finish();
+			}
 		} else
 			super.onBackPressed();
 	}
