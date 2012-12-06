@@ -60,6 +60,7 @@ public class SettingsActivity extends BaseActivity {
         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
             	MyApplication.USER_CURRENT = null;
+            	MyApplication.btn_Login.setVisibility(View.VISIBLE);
         		Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_LONG).show();
         		checkLoginedOrNotLogin();
             }
