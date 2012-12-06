@@ -388,7 +388,9 @@ public class CKICheckInActivity extends BaseActivity {
 		});
 		contentShare = (EditText) dialog_share.findViewById(R.id.contentShare);
 		namePlace = (TextView) dialog_share.findViewById(R.id.namePlace);
+		namePlace.setText(place.getName());
 		link = (TextView) dialog_share.findViewById(R.id.link);
+		link.setText("Address: "+place.getAddress());
 		description = (TextView) dialog_share.findViewById(R.id.description);
 		description.setText(edt_description.getText().toString().trim());
 		btnShareOnFacebook = (Button) dialog_share
