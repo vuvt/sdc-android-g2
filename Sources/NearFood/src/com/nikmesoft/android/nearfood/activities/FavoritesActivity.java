@@ -1,18 +1,40 @@
 package com.nikmesoft.android.nearfood.activities;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.OverlayItem;
+import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.FavoriteResultAdapter;
 import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
+import com.nikmesoft.android.nearfood.handlers.ErrorCode;
+import com.nikmesoft.android.nearfood.handlers.GetPlaceHander;
+import com.nikmesoft.android.nearfood.models.CheckIn;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory;
+import com.nikmesoft.android.nearfood.utils.Utilities;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,35 +57,33 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 	protected FavoriteResultAdapter placeAdapter;
 	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
-	private int imgIndex = 1;
+	private int imgIndex = 1, distanceByKms = 0;
 	private EditText ed_distance, ed_search;
 	ArrayList<CheckBox> checkboxs;
+	private ProgressDialog progressDialog;
+	private double distance;
 	private Spinner spinner_distance;
 	String str_filter = "";
+	
+	private final static int REQUEST_LOGIN = 100;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.activity_favorites);
 		init();
+		//checklogin();
 	}
-
+	
 	private void init() {
-
+		distance = 8235;
+		progressDialog = new ProgressDialog(getParent());
+		progressDialog.setMessage("Loading. Please wait...");
+		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		progressDialog.setCancelable(false);
+		checklogin();
 		lvSearch = (ListView) findViewById(R.id.lvSearch);
 		places = new ArrayList<Place>();
-		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "cung kha la do", 100));
-		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
-		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
-		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
-		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
-		places.add(new Place("Quán Thanh Trúc",
-				"958 Nguyễn Lương Bằng - Quan Lien chieu - da nang", "", 100));
 		placeAdapter = new FavoriteResultAdapter(this, R.layout.list_item_search,places);
 		lvSearch.setAdapter(placeAdapter);
 		lvSearch.setOnItemClickListener(this);
@@ -77,6 +97,8 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 				ed_search.setFocusableInTouchMode(true);
 			}
 		});
+		
+
 	}
 
 	public void onClickListOrMap(View v) {
@@ -91,10 +113,6 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 			btnListMap.setBackgroundDrawable(getResources().getDrawable(
 					R.drawable.button_map));
 		}
-	}
-
-	public void onClickLogin(View v) {
-
 	}
 
 	public void onClickFilter(View v) {
@@ -152,7 +170,6 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 				new DialogInterface.OnClickListener() {
 
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 
 					}
 				});
@@ -178,4 +195,167 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 
 		return false;
 	}
+	private Object xmlParser(String strXml) {
+		byte xmlBytes[] = strXml.getBytes();
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(
+				xmlBytes);
+		SAXParserFactory saxPF = SAXParserFactory.newInstance();
+		SAXParser saxParser;
+		try {
+			saxParser = saxPF.newSAXParser();
+			XMLReader xr = saxParser.getXMLReader();
+			GetPlaceHander handler = new GetPlaceHander();
+			xr.setContentHandler(handler);
+			xr.parse(new InputSource(byteArrayInputStream));
+			return handler.getResult();
+
+		} catch (ParserConfigurationException ex) {
+			ex.printStackTrace();
+		} catch (SAXException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
+	public String requests() {
+
+		return null;
+	}
+	@TargetApi(11)
+	private class WSLoader extends AsyncTask<String, Integer, Object> {
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+
+		@Override
+		protected void onCancelled(Object result) {
+			super.onCancelled(result);
+		}
+
+		@Override
+		protected void onPostExecute(Object result) {
+			super.onPostExecute(result);
+			if (result==null) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+				builder.setTitle("Connect to network.");
+				builder.setMessage("Error when connect to network. Please try again!");
+				builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				});
+				builder.show();
+			} else {
+				if (result.getClass().equals(ErrorCode.class)) {
+				} else {
+					placeAdapter.clear();
+					if (((ArrayList<Place>) result).size() > 0) {
+						lvSearch.setVisibility(View.VISIBLE);
+						for (Place place : ((ArrayList<Place>) result)) {
+							placeAdapter.add(place);
+						}
+						lvSearch.setAdapter(placeAdapter);
+						placeAdapter.notifyDataSetChanged();
+					} else {
+						lvSearch.setVisibility(View.GONE);
+					}
+
+				}
+			}
+			progressDialog.dismiss();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			progressDialog.show();
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			super.onProgressUpdate(values);
+			
+		}
+
+		@Override
+		protected Object doInBackground(String... arg0) {			
+		String request =
+				"<soapenv:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\">"+
+				   "<soapenv:Header/>"+
+				   "<soapenv:Body>"+
+				     " <getFavorites soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"+
+				      " <GetFavoritesRequest xsi:type=\"sfo:GetFavoritesRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"+
+				       "<!--You may enter the following 5 items in any order-->"+
+				        "<latitude xsi:type=\"xsd:double\">108.208611</latitude>"+
+				         "<longitude xsi:type=\"xsd:double\">16.071053</longitude>"+
+				          "<id_user xsi:type=\"xsd:int\">46</id_user>"+
+				           " <key xsi:type=\"xsd:string\"></key>"+
+				         "<page xsi:type=\"xsd:int\">1</page>"+
+				       "</GetFavoritesRequest>"+
+				      "</getFavorites>"+
+				   "</soapenv:Body> "+
+			"</soapenv:Envelope>";
+		String soapAction = " http://nikmesoft.com/apis/SFoodServices/index.php/getFavorites";
+		return xmlParser(Utilities.callWS(request, soapAction));
+		}
+	}
+	private void checklogin(){
+		if(MyApplication.USER_CURRENT==null){
+			AlertDialog.Builder builder = new AlertDialog.Builder(getParent());		
+	        builder.setMessage("You need to be logged in to use this function"+"\n Would you like to login !")
+	               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id){
+	                		Intent intent = new Intent();
+	                		intent.setClass(getParent(), LoginActivity.class);
+	                		getParent().startActivityForResult(intent, REQUEST_LOGIN);
+	                		BroadcastReceiver receiver = new BroadcastReceiver() {
+	                			@Override
+	                			public void onReceive(Context arg0, Intent arg1) {
+	                				//placeAdapter.clear();
+	                				//placeAdapter.notifyDataSetChanged();
+	                				//page = 1 ;
+	                				//progressDialog.setMessage("Reloading. Please wait...");
+	                				WSLoader ws = new WSLoader();
+	                				ws.execute();
+	                			}   
+	                			};
+	                			IntentFilter filter = new IntentFilter();
+	                			filter.addAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
+	                			registerReceiver(receiver, filter);
+	                   }
+	               })
+	               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	                   public void onClick(DialogInterface dialog, int id) {
+	                   }
+	               });
+	        builder.show();
+	        
+		}
+		else{
+			//Log.d("daddaaaaaaaaaaaaaaaaaaaaaaaaaaaad", "dddddddddddddddddddddddddddddddddddddddddddddddda");
+		WSLoader ws = new WSLoader();
+		ws.execute();
+		}
+	}
+	
+	protected void onGroupActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(requestCode==REQUEST_LOGIN){
+			if(resultCode==RESULT_OK){
+				checklogin();
+				Log.d("adadadaddaddadad", "dada");
+			}
+			
+		}
+		
+	}
+	
+
+	
 }
