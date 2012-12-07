@@ -37,6 +37,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.binding.ExtraBinding;
 import com.nikmesoft.android.nearfood.handlers.CheckInHandler;
@@ -337,6 +338,8 @@ public class CKICheckInActivity extends BaseActivity {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			dialog.dismiss();
+			MyApplication.tabHost.setCurrentTab(0);
+			
 			CKIGroupActivity parent = (CKIGroupActivity) getParent();
 			Intent intent = new Intent(parent, CKIViewCheckInActivity.class);
 			Bundle bundle = new Bundle();
