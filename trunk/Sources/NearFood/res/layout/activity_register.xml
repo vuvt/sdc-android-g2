@@ -226,6 +226,7 @@
                 android:orientation="horizontal" >
 
                 <Button
+            		style="@style/BlueButton"
                     android:id="@+id/btnRegister"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -233,6 +234,7 @@
                     android:text="@string/activity_register_btnRegister" />
 
                 <Button
+            		style="@style/BlueButton"
                     android:id="@+id/btnReset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

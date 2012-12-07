@@ -85,6 +85,7 @@
             android:orientation="horizontal" >
 
             <Button
+            	style="@style/BlueButton"
                 android:id="@+id/btnLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +94,7 @@
                 android:onClick="onClickLogin" />
 
             <Button
+            	style="@style/BlueButton"
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
