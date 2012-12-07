@@ -214,6 +214,10 @@ public class LoginActivity extends BaseActivity {
 					MyApplication.tabHost
 							.setCurrentTab(MyApplication.tabCurrent);
 					Intent intentLogin = new Intent();
+					if(MyApplication.LOGIN!=null || MyApplication.NOT_LOGIN!=null){
+						MyApplication.LOGIN.setVisibility(View.VISIBLE);
+						MyApplication.NOT_LOGIN.setVisibility(View.GONE);
+					}
 					intentLogin
 							.setAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
 					sendBroadcast(intentLogin);
@@ -221,6 +225,10 @@ public class LoginActivity extends BaseActivity {
 				} else {
 					if (MyApplication.isSwitchTabLogin) {
 						MyApplication.isSwitchTabLogin = false;
+						if(MyApplication.LOGIN!=null || MyApplication.NOT_LOGIN!=null){
+							MyApplication.LOGIN.setVisibility(View.VISIBLE);
+							MyApplication.NOT_LOGIN.setVisibility(View.GONE);
+						}
 						MyApplication.tabHost
 								.setCurrentTab(MyApplication.tabCurrent);
 						Intent intentLogin = new Intent();
