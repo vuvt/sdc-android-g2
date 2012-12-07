@@ -26,6 +26,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -55,6 +56,7 @@ import com.nikmesoft.android.nearfood.components.CustomItemizedOverlay;
 import com.nikmesoft.android.nearfood.components.GetPlacesAutoComplete;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.CommonUtil;
+import com.nikmesoft.android.nearfood.utils.Utilities;
 
 public class CKIMainActivity extends BaseMapsActivity implements
 		LocationListener, AdapterView.OnItemClickListener {
@@ -79,6 +81,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 	private SearchHandle handle = new SearchHandle(this);
 	private ProgressDialog loading;
 	private TextView txt_no_results;
+	Thread search,checktimeout;
 
 	// private TextView txtNoResult;
 
@@ -214,6 +217,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
 		txt_no_results = (TextView) findViewById(R.id.txt_no_results);
+		CommonUtil.toastNotify(this.getParent(), MyApplication.tabHost.getTabContentView().getChildAt(0).getClass().getSimpleName());
 
 	}
 
@@ -355,8 +359,22 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			layout_list.setVisibility(View.INVISIBLE);
 		}
 	}
+	private Runnable countTimeOut=new Runnable() {
+		
+		@Override
+		public void run() {
+			for(int i=0;i<15;i++){
+				SystemClock.sleep(1000);
+			}
+			Message msg = new Message();
+			Bundle b = new Bundle();
+			b.putSerializable("ERROR", CKIMainActivity.this.getResources().getString(R.string.title_connection_timeout));
+			msg.setData(b);
+			handle.sendMessage(msg);
+		}
+	};
 
-	private Runnable run = new Runnable() {
+	private Runnable loader = new Runnable() {
 
 		public void run() {
 			MyArrayList places = new MyArrayList();
@@ -440,11 +458,11 @@ public class CKIMainActivity extends BaseMapsActivity implements
 						InputMethodManager.HIDE_NOT_ALWAYS);
 
 		loading.show();
-
-		Thread search;
-
-		search = new Thread(run);
+		search = new Thread(loader);
+		
+		checktimeout=new Thread(countTimeOut);
 		search.start();
+		checktimeout.start();
 	}
 
 	static class SearchHandle extends Handler {
@@ -461,10 +479,14 @@ public class CKIMainActivity extends BaseMapsActivity implements
 			// msg.getData().getString("RESPONE"));
 			String error = msg.getData().getString("ERROR");
 			if (error != null) {
+				if(activity.checktimeout!=null&&!activity.checktimeout.isInterrupted())
+					activity.checktimeout.interrupt();
 				CommonUtil.dialogNotify(activity.getParent(), error);
 			}
 
 			else {
+				if(activity.checktimeout!=null&&!activity.checktimeout.isInterrupted())
+					activity.checktimeout.interrupt();
 				MyArrayList results = (MyArrayList) msg.getData()
 						.getSerializable("RESULT");
 				activity.checkinResultAdapter.clear();
