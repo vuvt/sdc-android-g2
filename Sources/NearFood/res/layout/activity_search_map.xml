@@ -29,7 +29,7 @@
             android:id="@+id/mapview"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:apiKey="0sMGVA8-_D69gXCJtdsjSByEWZaiYYdeVFTBjNw"
+            android:apiKey="0xJoNANm4oi-lJFrm5ou0iZwKMVv7L3UtZ8V_XA"
             android:clickable="true" />
     </RelativeLayout>
 

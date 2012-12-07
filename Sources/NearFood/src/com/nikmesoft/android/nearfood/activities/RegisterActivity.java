@@ -197,9 +197,19 @@ public class RegisterActivity extends BaseActivity {
 					.setNegativeButton("No", dialogClickListener).show();
 		} else {
 			//setResult(RESULT_CANCELED);
-			finish();
-			Intent intentMain = new Intent(this, MainActivity.class);
-			startActivity(intentMain);
+//			finish();
+//			Intent intentMain = new Intent(this, MainActivity.class);
+//			startActivity(intentMain);
+			Bundle bundle = getIntent().getExtras();
+	        if(bundle.getString("FromActivity").equals("FirstUse")) {
+	        	setResult(RESULT_CANCELED);
+				finish();
+				Intent intentLogin = new Intent(RegisterActivity.this, MainActivity.class);
+				startActivity(intentLogin); 
+	        } else if(bundle.getString("FromActivity").equals("Settings")) {
+				setResult(RESULT_CANCELED);
+				finish();
+	        }
 		}
 	}
 
