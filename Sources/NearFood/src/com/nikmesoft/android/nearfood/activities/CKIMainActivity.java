@@ -217,7 +217,7 @@ public class CKIMainActivity extends BaseMapsActivity implements
 		loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loading.setCancelable(false);
 		txt_no_results = (TextView) findViewById(R.id.txt_no_results);
-		CommonUtil.toastNotify(this.getParent(), MyApplication.tabHost.getTabContentView().getChildAt(0).getClass().getSimpleName());
+		
 
 	}
 
