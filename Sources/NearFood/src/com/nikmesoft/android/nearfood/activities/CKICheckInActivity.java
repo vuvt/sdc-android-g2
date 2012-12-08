@@ -149,20 +149,28 @@ public class CKICheckInActivity extends BaseActivity {
 
 	public void checkIn(View v) {
 		if (checkConditionCheckIn()) {
-			if(loader!=null&&!loader.isCancelled())
-				loader.cancel(true);
-			loader = new AddCheckInLoadder();
-			loader.execute(
-					/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
-					place.getReferenceKey(),
-					place.getName(),
-					place.getPhoneNumber() == null ? "" : place
-							.getPhoneNumber(),
-					place.getAddress(),
-					"",
-					edt_description.getText().toString(),
-					String.valueOf(place.getMapPoint().getLongitudeE6() / 1000000.0),
-					String.valueOf(place.getMapPoint().getLatitudeE6() / 1000000.0));
+			if (MyApplication.USER_CURRENT == null) {
+				CommonUtil.dialogNotify(this.getParent(),
+						"You must login to use this feature!");
+				Intent intent = new Intent(this.getParent(),
+						LoginActivity.class);
+				this.getParent().startActivity(intent);
+			} else {
+				if (loader != null && !loader.isCancelled())
+					loader.cancel(true);
+				loader = new AddCheckInLoadder();
+				loader.execute(
+						/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
+						place.getReferenceKey(),
+						place.getName(),
+						place.getPhoneNumber() == null ? "" : place
+								.getPhoneNumber(),
+						place.getAddress(),
+						"",
+						edt_description.getText().toString(),
+						String.valueOf(place.getMapPoint().getLongitudeE6() / 1000000.0),
+						String.valueOf(place.getMapPoint().getLatitudeE6() / 1000000.0));
+			}
 		}
 	}
 
@@ -284,8 +292,10 @@ public class CKICheckInActivity extends BaseActivity {
 				upload();
 			} else {
 				dialog.dismiss();
-				CommonUtil.dialogNotify(CKICheckInActivity.this.getParent(),
-						CKICheckInActivity.this.getResources().getString(R.string.title_connection_timeout));
+				CommonUtil.dialogNotify(
+						CKICheckInActivity.this.getParent(),
+						CKICheckInActivity.this.getResources().getString(
+								R.string.title_connection_timeout));
 			}
 		}
 
@@ -339,7 +349,7 @@ public class CKICheckInActivity extends BaseActivity {
 			super.onPostExecute(result);
 			dialog.dismiss();
 			MyApplication.tabHost.setCurrentTab(0);
-			
+
 			CKIGroupActivity parent = (CKIGroupActivity) getParent();
 			Intent intent = new Intent(parent, CKIViewCheckInActivity.class);
 			Bundle bundle = new Bundle();
@@ -353,10 +363,11 @@ public class CKICheckInActivity extends BaseActivity {
 
 	private boolean checkConditionCheckIn() {
 		if (edt_description.getText().toString().trim().length() == 0) {
-			Toast.makeText(this, "Please enter description!", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "Please enter description!", Toast.LENGTH_LONG)
+					.show();
 			return false;
 		}
-		if (photoShareOnFb==null){
+		if (photoShareOnFb == null) {
 			Toast.makeText(this, "Please set image!", Toast.LENGTH_LONG).show();
 			return false;
 		}
