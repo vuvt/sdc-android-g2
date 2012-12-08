@@ -3,13 +3,18 @@ package com.nikmesoft.android.nearfood.activities;
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 
+import android.app.AlertDialog;
 import android.app.TabActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.Toast;
+import android.widget.TabHost.OnTabChangeListener;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends TabActivity {
@@ -18,6 +23,32 @@ public class MainActivity extends TabActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initTabs();
+		
+		getTabHost().setOnTabChangedListener(new OnTabChangeListener() {
+			
+			@Override
+			public void onTabChanged(String tabId) {
+				Log.d("Tabid", tabId);
+				if(tabId.equals("tab2130837604")) {
+					if(MyApplication.USER_CURRENT == null) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);		
+				        builder.setMessage("You need to be logged in to use this function"+"\n Would you like to login !")
+				               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				                   public void onClick(DialogInterface dialog, int id){
+				                	   Intent intent = new Intent();
+				                		intent.setClass(MainActivity.this, LoginActivity.class);
+				                		startActivity(intent);//ForResult(intent, REQUEST_LOGIN);
+				                   }
+				               })
+				               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				                   public void onClick(DialogInterface dialog, int id) {
+				                   }
+				               });
+				        builder.create().show();
+					}
+				}
+			}
+		});
 	}
 
 	private void initTabs() {
