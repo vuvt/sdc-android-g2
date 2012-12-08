@@ -29,8 +29,7 @@ public class SettingsActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_settings);
 		login=(LinearLayout) findViewById(R.id.layout_Login);
-		not_login = (LinearLayout) findViewById(R.id.layout_notLogin);
-		
+		not_login = (LinearLayout) findViewById(R.id.layout_notLogin);		
 		MyApplication.LOGIN = login;
 		MyApplication.NOT_LOGIN = not_login;
 
@@ -66,11 +65,15 @@ public class SettingsActivity extends BaseActivity {
             	MyApplication.btn_Login.setVisibility(View.VISIBLE);
         		Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_LONG).show();
         		checkLoginedOrNotLogin();
+				Intent intentLogin = new Intent();
+				intentLogin
+						.setAction("com.nikmesoft.android.nearfood.activities.NOT_LOGIN_BROADCAST");
+				sendBroadcast(intentLogin);
             }
+            
         })
         .setNegativeButton("No", null)
         .show();
-		
 	}
 	public void OnClickFeedback(View v){
 		try {
@@ -83,7 +86,6 @@ public class SettingsActivity extends BaseActivity {
 	        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "");
 	        emailIntent.setType("text/plain");
 	        startActivity(Intent.createChooser(emailIntent,"send mail..."));
-	        finish();
         } catch (Exception e) {
         }		
 	}
