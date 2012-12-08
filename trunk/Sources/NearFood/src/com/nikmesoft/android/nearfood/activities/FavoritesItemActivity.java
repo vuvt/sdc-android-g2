@@ -1,6 +1,7 @@
 package com.nikmesoft.android.nearfood.activities;
 
 import com.google.android.maps.MapActivity;
+import com.google.android.maps.MapView;
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.models.Place;
@@ -24,6 +25,7 @@ public class FavoritesItemActivity extends MapActivity {
 	private ViewFlipper flipper,map;
 	private TextView name,address,description;
 	private Place place;
+	private MapView mapview;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -35,6 +37,7 @@ public class FavoritesItemActivity extends MapActivity {
 		name = (TextView) findViewById(R.id.favorites_name_item);
 		address = (TextView) findViewById(R.id.address_information);
 		description = (TextView) findViewById(R.id.description_information);
+		mapview = (MapView) findViewById(R.id.mapviewfavorites_item);
 		init();
 		
 	}
