@@ -331,13 +331,13 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 	}
 	private void checklogin(){
 		if(MyApplication.USER_CURRENT==null){
-			AlertDialog.Builder builder = new AlertDialog.Builder(getParent());		
-	        builder.setMessage("You need to be logged in to use this function"+"\n Would you like to login !")
-	               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id){
-	                		Intent intent = new Intent();
-	                		intent.setClass(getParent(), LoginActivity.class);
-	                		getParent().startActivityForResult(intent, REQUEST_LOGIN);
+//			AlertDialog.Builder builder = new AlertDialog.Builder(getParent());		
+//	        builder.setMessage("You need to be logged in to use this function"+"\n Would you like to login !")
+//	               .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//	                   public void onClick(DialogInterface dialog, int id){
+//	                		Intent intent = new Intent();
+//	                		intent.setClass(getParent(), LoginActivity.class);
+//	                		getParent().startActivityForResult(intent, REQUEST_LOGIN);
 	                		BroadcastReceiver receiver = new BroadcastReceiver() {
 	                			@Override
 	                			public void onReceive(Context arg0, Intent arg1) {
@@ -352,20 +352,20 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 	                			IntentFilter filter = new IntentFilter();
 	                			filter.addAction("com.nikmesoft.android.nearfood.activities.LATER_LOGIN_BROADCAST");
 	                			registerReceiver(receiver, filter);
-	                   }
-	               })
-	               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-	                   public void onClick(DialogInterface dialog, int id) {
-	                   }
-	               });
-	        builder.show();
+//	                   }
+//	               })
+//	               .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//	                   public void onClick(DialogInterface dialog, int id) {
+//	                   }
+//	               });
+//	        builder.show();
 	        
 		}
-		else{
-			//Log.d("daddaaaaaaaaaaaaaaaaaaaaaaaaaaaad", "dddddddddddddddddddddddddddddddddddddddddddddddda");
-		WSLoader ws = new WSLoader();
-		ws.execute();
-		}
+//		else{
+//			//Log.d("daddaaaaaaaaaaaaaaaaaaaaaaaaaaaad", "dddddddddddddddddddddddddddddddddddddddddddddddda");
+//		WSLoader ws = new WSLoader();
+//		ws.execute();
+//		}
 	}
 	
 /*	protected void onGroupActivityResult(int requestCode, int resultCode, Intent data) {
