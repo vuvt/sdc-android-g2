@@ -27,14 +27,14 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" >
 
-            <Button
+            <!-- <Button
                 android:id="@+id/bt_filter"
                 style="@style/SearchButton"
                 android:layout_height="30dp"
                 android:layout_gravity="left|center_vertical"
                 android:layout_margin="5dp"
                 android:onClick="onClickFilter"
-                android:text="@string/text_btn_filter" />
+                android:text="@string/text_btn_filter" /> -->
 
             <FrameLayout
                 android:id="@+id/frame_search"
