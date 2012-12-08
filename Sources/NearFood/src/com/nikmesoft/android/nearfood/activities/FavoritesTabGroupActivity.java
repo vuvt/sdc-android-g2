@@ -17,8 +17,7 @@ public class FavoritesTabGroupActivity extends TabGroupActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Log.d("dadadsdasdsdasddasd", "dad");
-		startNewActivity(FavoritesActivity.class.getSimpleName(), new Intent(this, FavoritesActivity.class));
+		startNewActivity(FavoritesActivity.class.getSimpleName(), new Intent(this, FavoritesActivity.class));		
 	}
-
 
 }

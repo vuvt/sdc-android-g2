@@ -18,7 +18,6 @@ import com.google.android.maps.OverlayItem;
 import com.nikmesoft.android.nearfood.MyApplication;
 import com.nikmesoft.android.nearfood.R;
 import com.nikmesoft.android.nearfood.adapters.FavoriteResultAdapter;
-import com.nikmesoft.android.nearfood.adapters.SearchResultAdapter;
 import com.nikmesoft.android.nearfood.handlers.ErrorCode;
 import com.nikmesoft.android.nearfood.handlers.GetPlaceHander;
 import com.nikmesoft.android.nearfood.models.CheckIn;
@@ -46,6 +45,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -60,8 +60,8 @@ import android.widget.AdapterView.OnItemClickListener;
 public class FavoritesActivity extends MapActivity implements OnItemClickListener {
 
 	private ListView lvSearch;
-	protected FavoriteResultAdapter placeAdapter;
-	protected ArrayList<Place> places;
+	protected FavoriteResultAdapter placeAdapter,placeAdapter2;
+	protected ArrayList<Place> places,places1;
 	private ViewFlipper flipper;
 	private int imgIndex = 1, distanceByKms = 0;
 	private EditText ed_distance, ed_search;
@@ -70,7 +70,8 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 	private double distance;
 	private Spinner spinner_distance;
 	String str_filter = "";
-	
+	private Button bt_favorites_search;
+	private static int bt_search=1;
 	private final static int REQUEST_LOGIN = 100;
 
 	@Override
@@ -88,14 +89,16 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		progressDialog.setCancelable(false);
 		checklogin();
-		lvSearch = (ListView) findViewById(R.id.lvSearch);
+		lvSearch = (ListView) findViewById(R.id.lvFavorites);
+		bt_favorites_search = (Button)findViewById(R.id.bt_favorites_search);
 		places = new ArrayList<Place>();
+		places1 = new ArrayList<Place>();
 		placeAdapter = new FavoriteResultAdapter(this, R.layout.list_item_search,places);
 		lvSearch.setAdapter(placeAdapter);
 		lvSearch.setOnItemClickListener(this);
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		checkboxs = new ArrayList<CheckBox>();
-		ed_search = (EditText) findViewById(R.id.edt_search);
+		ed_search = (EditText) findViewById(R.id.edt_favorites);
 		ed_search.setText(MyApplication.contentSearch);
 		ed_search.setOnClickListener(new View.OnClickListener() {
 
@@ -116,16 +119,20 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 							return false;
 						}
 						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+							bt_search = 0;
 							placeAdapter.clear();
 							((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
 									.hideSoftInputFromWindow(getCurrentFocus()
 											.getWindowToken(),
 											InputMethodManager.HIDE_NOT_ALWAYS);
 							//MyApplication.contentSearch = ed_search.getText().toString().trim();
-							WSLoader ws = new WSLoader();
-							ws.execute();
-							for (Place plac : places) {
-								if(plac.getName().equals(ed_search.getText())){
+							//WSLoader ws = new WSLoader();
+							//ws.execute();
+							placeAdapter.clear();
+							placeAdapter.notifyDataSetChanged();
+							for (Place plac : places1) {
+								Log.d("Test"+plac.getName(), "Test");
+								if(plac.getName().toString().trim().equals(ed_search.getText().toString().trim())){
 									placeAdapter.add(plac);
 								}
 							}
@@ -157,6 +164,9 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 			Toast.makeText(getApplicationContext(),
 					"Please enter information to search.", Toast.LENGTH_SHORT)
 					.show();
+			WSLoader ws = new WSLoader();
+			ws.execute();
+			
 		} else {
 			placeAdapter.clear();
 			((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
@@ -164,10 +174,11 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 							getCurrentFocus().getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
 			//MyApplication.contentSearch = ed_search.getText().toString().trim();
-			WSLoader ws = new WSLoader();
-			ws.execute();
-			for (Place plac : places) {
-				if(plac.getName().equals(ed_search.getText())){
+			placeAdapter.clear();
+			placeAdapter.notifyDataSetChanged();
+			for (Place plac : places1) {
+				Log.d("Test"+plac.getName(), "Test");
+				if(plac.getName().toString().trim().equals(ed_search.getText().toString().trim())){
 					placeAdapter.add(plac);
 				}
 			}
@@ -187,68 +198,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		}
 	}
 
-	/*public void onClickFilter(View v) {
-		AlertDialog.Builder alert = new AlertDialog.Builder(getParent());
-		View view = LayoutInflater.from(this).inflate(
-				R.layout.menu_filter, null);
-		Log.d("Viewwwwwwww", String.valueOf(view.getId()));
-		final CheckBox check_distance = (CheckBox) view
-				.findViewById(R.id.check_distance);
-		final CheckBox check_location = (CheckBox) view
-				.findViewById(R.id.check_location);
-		final CheckBox check_place = (CheckBox) view
-				.findViewById(R.id.check_place);
-		final CheckBox check_dishes = (CheckBox) view
-				.findViewById(R.id.check_dishes);
-		ed_distance = (EditText) view.findViewById(R.id.ed_distance);
-		spinner_distance = (Spinner) view.findViewById(R.id.spinner);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.distance_array,
-				android.R.layout.simple_spinner_item);
-		spinner_distance.setAdapter(adapter);
-		alert.setTitle("Serach Filter");
-		alert.setView(view);
-		alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				checkboxs.clear();
-				str_filter = "";
-				if (check_distance.isChecked()) {
-					checkboxs.add(check_distance);
-					str_filter += ed_distance.getText().toString()
-							+ (String) spinner_distance.getSelectedItem()
-									.toString() + " of "
-							+ check_distance.getText().toString() + " - ";
-				}
-				if (check_location.isChecked()) {
-					checkboxs.add(check_location);
-					str_filter += check_location.getText().toString() + " - ";
-				}
-				if (check_place.isChecked()) {
-					checkboxs.add(check_place);
-					str_filter += check_place.getText().toString() + " - ";
-				}
-				if (check_dishes.isChecked()) {
-					checkboxs.add(check_dishes);
-					str_filter += check_dishes.getText().toString();
-				}
-				Toast.makeText(getApplicationContext(), str_filter,
-						Toast.LENGTH_SHORT).show();
-
-			}
-		});
-		alert.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-
-					public void onClick(DialogInterface dialog, int which) {
-
-					}
-				});
-		AlertDialog dialog = alert.create();
-		dialog.show();
-	}
-*/
+	
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Place place = places.get(arg2);
@@ -329,9 +279,11 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 					placeAdapter.clear();
 					if (((ArrayList<Place>) result).size() > 0) {
 						lvSearch.setVisibility(View.VISIBLE);
-						for (Place place : ((ArrayList<Place>) result)) {
-							placeAdapter.add(place);
-						}
+							for (Place place : ((ArrayList<Place>) result)) {
+								placeAdapter.add(place);
+								places1.add(place);
+							}
+						
 						lvSearch.setAdapter(placeAdapter);
 						placeAdapter.notifyDataSetChanged();
 					} else {
