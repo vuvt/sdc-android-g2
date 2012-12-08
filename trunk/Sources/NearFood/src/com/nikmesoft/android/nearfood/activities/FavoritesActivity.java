@@ -12,6 +12,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import com.facebook.PlacePickerFragment;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.OverlayItem;
 import com.nikmesoft.android.nearfood.MyApplication;
@@ -37,9 +38,12 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -48,6 +52,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 import android.widget.AdapterView.OnItemClickListener;
@@ -59,7 +64,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
 	private int imgIndex = 1, distanceByKms = 0;
-	//private EditText ed_distance, ed_search;
+	private EditText ed_distance, ed_search;
 	ArrayList<CheckBox> checkboxs;
 	private ProgressDialog progressDialog;
 	private double distance;
@@ -90,14 +95,46 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		lvSearch.setOnItemClickListener(this);
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		checkboxs = new ArrayList<CheckBox>();
-		/*ed_search = (EditText) findViewById(R.id.edt_search);
+		ed_search = (EditText) findViewById(R.id.edt_search);
+		ed_search.setText(MyApplication.contentSearch);
 		ed_search.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				ed_search.setFocusableInTouchMode(true);
 			}
-		});*/
+		});
+		ed_search
+				.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (ed_search.getText().toString().trim().equals("")) {
+							Toast.makeText(getApplicationContext(),
+									"Please enter information to search.",
+									Toast.LENGTH_SHORT).show();
+							return false;
+						}
+						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+							placeAdapter.clear();
+							((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+									.hideSoftInputFromWindow(getCurrentFocus()
+											.getWindowToken(),
+											InputMethodManager.HIDE_NOT_ALWAYS);
+							//MyApplication.contentSearch = ed_search.getText().toString().trim();
+							WSLoader ws = new WSLoader();
+							ws.execute();
+							for (Place plac : places) {
+								if(plac.getName().equals(ed_search.getText())){
+									placeAdapter.add(plac);
+								}
+							}
+							return true;
+
+						}
+						return false;
+					}
+				});
 		BroadcastReceiver receiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context arg0, Intent arg1) {
@@ -115,7 +152,27 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 			filter.addAction("com.nikmesoft.android.nearfood.activities.NOT_LOGIN_BROADCAST");
 			registerReceiver(receiver, filter);
 	}
-
+	public void actionSearch(View v) {
+		if (ed_search.getText().toString().trim().equals("")) {
+			Toast.makeText(getApplicationContext(),
+					"Please enter information to search.", Toast.LENGTH_SHORT)
+					.show();
+		} else {
+			placeAdapter.clear();
+			((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE))
+					.hideSoftInputFromWindow(
+							getCurrentFocus().getWindowToken(),
+							InputMethodManager.HIDE_NOT_ALWAYS);
+			//MyApplication.contentSearch = ed_search.getText().toString().trim();
+			WSLoader ws = new WSLoader();
+			ws.execute();
+			for (Place plac : places) {
+				if(plac.getName().equals(ed_search.getText())){
+					placeAdapter.add(plac);
+				}
+			}
+		}
+	}
 	public void onClickListOrMap(View v) {
 		AnimationFactory.flipTransition(flipper, FlipDirection.RIGHT_LEFT);
 		ImageButton btnListMap = (ImageButton) v.findViewById(R.id.bt_listmap);
