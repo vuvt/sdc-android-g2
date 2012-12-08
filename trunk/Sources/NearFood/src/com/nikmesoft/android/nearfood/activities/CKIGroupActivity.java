@@ -53,19 +53,5 @@ public class CKIGroupActivity extends TabGroupActivity{
 			filter.addAction("com.nikmesoft.android.nearfood.activities.DATA_BROADCAST");
 			registerReceiver(receiver, filter);
 	}
-	@Override
-	protected void onRestart() {
-		// TODO Auto-generated method stub
-		super.onRestart();
-		startNewActivity(CKIMainActivity.class.getSimpleName(), new Intent(this,
-				CKIMainActivity.class));
-	}
-	@Override
-	protected void onStart() {
-		// TODO Auto-generated method stub
-		super.onStart();
-		startNewActivity(CKIMainActivity.class.getSimpleName(), new Intent(this,
-				CKIMainActivity.class));
-	}
 	
 }
