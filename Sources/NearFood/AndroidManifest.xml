@@ -186,6 +186,9 @@
             android:permission="android.permission.CAMERA"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
+            <intent-filter>
+            <action android:name="com.nikmesoft.android.nearfood.activities.NOT_LOGIN_BROADCAST"></action>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activities.FavoritesItemActivity"
@@ -193,7 +196,14 @@
             android:permission="android.permission.CAMERA"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Basic" >
-         </activity>   
+         </activity>
+         <activity
+            android:name=".activities.LogoutActivity"
+            android:label="@string/activity_profile_title"
+            android:permission="android.permission.CAMERA"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Basic" >
+         </activity>    
     </application>
 
 </manifest>
