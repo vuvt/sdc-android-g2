@@ -45,6 +45,7 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -58,7 +59,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 	protected ArrayList<Place> places;
 	private ViewFlipper flipper;
 	private int imgIndex = 1, distanceByKms = 0;
-	private EditText ed_distance, ed_search;
+	//private EditText ed_distance, ed_search;
 	ArrayList<CheckBox> checkboxs;
 	private ProgressDialog progressDialog;
 	private double distance;
@@ -89,16 +90,30 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		lvSearch.setOnItemClickListener(this);
 		flipper = (ViewFlipper) findViewById(R.id.details);
 		checkboxs = new ArrayList<CheckBox>();
-		ed_search = (EditText) findViewById(R.id.edt_search);
+		/*ed_search = (EditText) findViewById(R.id.edt_search);
 		ed_search.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				ed_search.setFocusableInTouchMode(true);
 			}
-		});
-		
-
+		});*/
+		BroadcastReceiver receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context arg0, Intent arg1) {
+				// TODO Auto-generated method stub
+				placeAdapter.clear();
+				placeAdapter.notifyDataSetChanged();
+				//page = 1 ;
+				progressDialog.setMessage("Reloading. Please wait...");
+				//WSLoader ws = new WSLoader();
+				//ws.execute();
+				Log.d("Favorites check test", "Test"+ placeAdapter);
+			}   
+			};
+			IntentFilter filter = new IntentFilter();
+			filter.addAction("com.nikmesoft.android.nearfood.activities.NOT_LOGIN_BROADCAST");
+			registerReceiver(receiver, filter);
 	}
 
 	public void onClickListOrMap(View v) {
@@ -115,7 +130,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		}
 	}
 
-	public void onClickFilter(View v) {
+	/*public void onClickFilter(View v) {
 		AlertDialog.Builder alert = new AlertDialog.Builder(getParent());
 		View view = LayoutInflater.from(this).inflate(
 				R.layout.menu_filter, null);
@@ -176,7 +191,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		AlertDialog dialog = alert.create();
 		dialog.show();
 	}
-
+*/
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		Place place = places.get(arg2);
@@ -294,7 +309,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 				       "<!--You may enter the following 5 items in any order-->"+
 				        "<latitude xsi:type=\"xsd:double\">108.208611</latitude>"+
 				         "<longitude xsi:type=\"xsd:double\">16.071053</longitude>"+
-				          "<id_user xsi:type=\"xsd:int\">46</id_user>"+
+				          "<id_user xsi:type=\"xsd:int\">"+46+"</id_user>"+
 				           " <key xsi:type=\"xsd:string\"></key>"+
 				         "<page xsi:type=\"xsd:int\">1</page>"+
 				       "</GetFavoritesRequest>"+
@@ -344,7 +359,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 		}
 	}
 	
-	protected void onGroupActivityResult(int requestCode, int resultCode, Intent data) {
+/*	protected void onGroupActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if(requestCode==REQUEST_LOGIN){
 			if(resultCode==RESULT_OK){
@@ -354,7 +369,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 			
 		}
 		
-	}
+	}*/
 	
 
 	
