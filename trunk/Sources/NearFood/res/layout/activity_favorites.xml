@@ -44,7 +44,7 @@
                 android:layout_weight="1" >
 
                 <EditText
-                    android:id="@+id/edt_search"
+                    android:id="@+id/edt_favorites"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="left|center_vertical"
@@ -74,7 +74,7 @@
                         android:contentDescription="@string/app_name" />
 
                     <Button
-                        android:id="@+id/bt_search"
+                        android:id="@+id/bt_favorites_search"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -102,7 +102,7 @@
             android:layout_margin="5dp" >
 
             <ListView
-                android:id="@+id/lvSearch"
+                android:id="@+id/lvFavorites"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="10dip"
