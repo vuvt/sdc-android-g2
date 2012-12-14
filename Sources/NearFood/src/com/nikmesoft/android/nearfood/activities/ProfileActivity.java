@@ -9,7 +9,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -481,8 +480,20 @@ public class ProfileActivity extends BaseActivity {
 			@Override
 			protected void onPostExecute(Object result) {
 				super.onPostExecute(result);
-				
-				if(result!=null&&result.getClass().equals(ErrorCode.class)){
+
+				if (result==null) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+					builder.setTitle("Connect to network.");
+					builder.setMessage("Error when connect to network. Please try again!");
+					builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+					builder.show();
+				} else if(result!=null&&result.getClass().equals(ErrorCode.class)){
 					//truong hop co loi
 					dialog.dismiss();
 					CommonUtil.dialogNotify(ProfileActivity.this, ((ErrorCode)result).getErrorMsg());
@@ -576,8 +587,20 @@ public class ProfileActivity extends BaseActivity {
 			protected void onPostExecute(Object result) {
 				super.onPostExecute(result);
 				dialog.dismiss();
-
-				if (result!=null&&result.getClass().equals(ErrorCode.class)){
+				
+				if (result==null) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+					builder.setTitle("Connect to network.");
+					builder.setMessage("Error when connect to network. Please try again!");
+					builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+						}
+					});
+					builder.show();
+				} else if (result!=null&&result.getClass().equals(ErrorCode.class)){
 					//truong hop co loi
 					dialog.dismiss();
 					CommonUtil.dialogNotify(ProfileActivity.this, ((ErrorCode)result).getErrorMsg());

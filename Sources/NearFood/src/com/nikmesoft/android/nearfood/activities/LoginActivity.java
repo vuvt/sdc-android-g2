@@ -11,7 +11,9 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.AsyncTask.Status;
@@ -193,7 +195,19 @@ public class LoginActivity extends BaseActivity {
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
 			dialog.dismiss();
-			if (result != null && result.getClass().equals(ErrorCode.class)) {
+			if (result==null) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(getParent());
+				builder.setTitle("Connect to network.");
+				builder.setMessage("Error when connect to network. Please try again!");
+				builder.setNegativeButton("Yes", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						finish();
+					}
+				});
+				builder.show();
+			} else if (result != null && result.getClass().equals(ErrorCode.class)) {
 				if (MyApplication.isSwitchTabLogin)
 					CommonUtil.dialogNotify(getParent(),
 							((ErrorCode) result).getErrorMsg());

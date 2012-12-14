@@ -12,20 +12,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import com.facebook.PlacePickerFragment;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.OverlayItem;
-import com.nikmesoft.android.nearfood.MyApplication;
-import com.nikmesoft.android.nearfood.R;
-import com.nikmesoft.android.nearfood.adapters.FavoriteResultAdapter;
-import com.nikmesoft.android.nearfood.handlers.ErrorCode;
-import com.nikmesoft.android.nearfood.handlers.GetPlaceHander;
-import com.nikmesoft.android.nearfood.models.CheckIn;
-import com.nikmesoft.android.nearfood.models.Place;
-import com.nikmesoft.android.nearfood.utils.AnimationFactory;
-import com.nikmesoft.android.nearfood.utils.Utilities;
-import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
-
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -38,24 +24,31 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.google.android.maps.MapActivity;
+import com.nikmesoft.android.nearfood.MyApplication;
+import com.nikmesoft.android.nearfood.R;
+import com.nikmesoft.android.nearfood.adapters.FavoriteResultAdapter;
+import com.nikmesoft.android.nearfood.handlers.ErrorCode;
+import com.nikmesoft.android.nearfood.handlers.GetPlaceHander;
+import com.nikmesoft.android.nearfood.models.Place;
+import com.nikmesoft.android.nearfood.utils.AnimationFactory;
+import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
+import com.nikmesoft.android.nearfood.utils.Utilities;
 
 public class FavoritesActivity extends MapActivity implements OnItemClickListener {
 
@@ -125,7 +118,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 									.hideSoftInputFromWindow(getCurrentFocus()
 											.getWindowToken(),
 											InputMethodManager.HIDE_NOT_ALWAYS);
-							//MyApplication.contentSearch = ed_search.getText().toString().trim();
+							MyApplication.contentSearch = ed_search.getText().toString().trim();
 							//WSLoader ws = new WSLoader();
 							//ws.execute();
 							placeAdapter.clear();
@@ -173,7 +166,7 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 					.hideSoftInputFromWindow(
 							getCurrentFocus().getWindowToken(),
 							InputMethodManager.HIDE_NOT_ALWAYS);
-			//MyApplication.contentSearch = ed_search.getText().toString().trim();
+			MyApplication.contentSearch = ed_search.getText().toString().trim();
 			placeAdapter.clear();
 			placeAdapter.notifyDataSetChanged();
 			for (Place plac : places1) {
@@ -316,10 +309,18 @@ public class FavoritesActivity extends MapActivity implements OnItemClickListene
 				     " <getFavorites soapenv:encodingStyle=\"http://schemas.xmlsoap.org/soap/encoding/\">"+
 				      " <GetFavoritesRequest xsi:type=\"sfo:GetFavoritesRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"+
 				       "<!--You may enter the following 5 items in any order-->"+
-				        "<latitude xsi:type=\"xsd:double\">108.208611</latitude>"+
-				         "<longitude xsi:type=\"xsd:double\">16.071053</longitude>"+
-				          "<id_user xsi:type=\"xsd:int\">"+46+"</id_user>"+
-				           " <key xsi:type=\"xsd:string\"></key>"+
+				        "<latitude xsi:type=\"xsd:double\">" +
+				        MyApplication.LATITUDE +
+				        "</latitude>"+
+				         "<longitude xsi:type=\"xsd:double\">" +
+				         MyApplication.LONGITUDE +
+				         "</longitude>"+
+				          "<id_user xsi:type=\"xsd:int\">" +
+				          String.valueOf(MyApplication.USER_CURRENT.getId()) +
+				          "</id_user>"+
+				           "<key xsi:type=\"xsd:string\">" +
+				           MyApplication.contentSearch +
+				           "</key>"+
 				         "<page xsi:type=\"xsd:int\">1</page>"+
 				       "</GetFavoritesRequest>"+
 				      "</getFavorites>"+
