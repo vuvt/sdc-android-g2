@@ -12,12 +12,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
-import android.R.id;
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ActivityGroup;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -50,7 +46,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
-import com.facebook.android.Util;
+
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
@@ -65,8 +61,8 @@ import com.nikmesoft.android.nearfood.handlers.ErrorCode;
 import com.nikmesoft.android.nearfood.handlers.GetPlaceHander;
 import com.nikmesoft.android.nearfood.models.Place;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory;
-import com.nikmesoft.android.nearfood.utils.CommonUtil;
 import com.nikmesoft.android.nearfood.utils.AnimationFactory.FlipDirection;
+import com.nikmesoft.android.nearfood.utils.CommonUtil;
 import com.nikmesoft.android.nearfood.utils.Utilities;
 
 @SuppressWarnings("deprecation")
@@ -521,8 +517,12 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					+ "<GetPlacesRequest xsi:type=\"sfo:GetPlacesRequest\" xmlns:sfo=\"http://nikmesoft.com/apis/SFoodServices/\">"
 					+ "<!--You may enter the following 9 items in any order-->"
 					+ "<id_user xsi:type=\"xsd:int\">" +  id_user + "</id_user>"
-					+ "<latitude xsi:type=\"xsd:double\">108</latitude>"
-					+ "<longitude xsi:type=\"xsd:double\">16</longitude>"
+					+ "<latitude xsi:type=\"xsd:double\">" +
+					MyApplication.LATITUDE +
+					"</latitude>"
+					+ "<longitude xsi:type=\"xsd:double\">" +
+					MyApplication.LONGITUDE +
+					"</longitude>"
 					+ "<filter_distance xsi:type=\"xsd:boolean\">"
 					+ String.valueOf(MyApplication.checkboxs.get(0).isChecked())
 					+ "</filter_distance>"
@@ -542,7 +542,7 @@ public class SearchActivity extends MapActivity implements OnItemClickListener,
 					+ MyApplication.contentSearch //ed_search.getText().toString().trim()
 					+ "</key>"
 					+ "<page xsi:type=\"xsd:int\">"
-					+ page++
+					+ page
 					+ "</page>"
 					+ "</GetPlacesRequest>"
 					+ "</getPlaces>"

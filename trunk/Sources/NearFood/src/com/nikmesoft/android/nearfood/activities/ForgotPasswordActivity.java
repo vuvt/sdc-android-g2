@@ -26,14 +26,14 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.nikmesoft.android.nearfood.forgotpassword.*;
 import com.nikmesoft.android.nearfood.R;
+import com.nikmesoft.android.nearfood.forgotpassword.GetLoveHandler;
+import com.nikmesoft.android.nearfood.utils.CommonUtil;
 
 public class ForgotPasswordActivity extends BaseActivity {
 	
@@ -107,8 +107,9 @@ public class ForgotPasswordActivity extends BaseActivity {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			try{
-			if(result.equals("")){
+
+			if("".equals(result)){
+				CommonUtil.dialogNotify(getParent().getApplicationContext(), result);
 				Toast.makeText(getApplicationContext(), "Email the instructions to retrieve your password be sent to "+edtEmail.getText().toString().trim()+", please check your email for instructions to retrieve your password!", Toast.LENGTH_LONG).show();
 				setResult(RESULT_CANCELED);
 				dialog.dismiss();
@@ -118,11 +119,6 @@ public class ForgotPasswordActivity extends BaseActivity {
 				setResult(RESULT_CANCELED);
 				dialog.dismiss();
 			    }
-			}
-			catch(Exception e)
-			{
-				
-			}
 			
 				
 		}

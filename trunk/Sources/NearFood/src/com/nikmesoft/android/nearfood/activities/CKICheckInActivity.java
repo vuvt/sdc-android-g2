@@ -160,7 +160,7 @@ public class CKICheckInActivity extends BaseActivity {
 					loader.cancel(true);
 				loader = new AddCheckInLoadder();
 				loader.execute(
-						/* String.valueOf(MyApplication.USER_CURRENT.getId()) */"44",
+						String.valueOf(MyApplication.USER_CURRENT.getId()),
 						place.getReferenceKey(),
 						place.getName(),
 						place.getPhoneNumber() == null ? "" : place
